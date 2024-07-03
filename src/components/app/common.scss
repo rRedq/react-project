@@ -1,0 +1,31 @@
+@mixin baseFlex(
+  $content: false,
+  $gap: 0,
+  $direction: row,
+  $wrap: nowrap,
+  $borderRadius: false
+) {
+  display: flex;
+
+  @if $content {
+    justify-content: $content;
+  }
+
+  @if $direction != row {
+    flex-direction: $direction;
+  }
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+
+  @if $wrap != nowrap {
+    flex-wrap: $wrap;
+  }
+
+  @if $borderRadius {
+    border-radius: $border-radius;
+  }
+}
+
+$border-radius: 4px;
