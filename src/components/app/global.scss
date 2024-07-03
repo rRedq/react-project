@@ -1,3 +1,10 @@
+@import './common.scss';
+
+@include google-font('Droid Sans');
+@include google-font('Gorditas');
+@include google-font('Permanent Marker');
+@include google-font('Alfa Slab One');
+
 :root {
   --main-color-0: #f6f2f6;
   --main-color-1: #dee2e6;
@@ -22,4 +29,5 @@
   display: flex;
   flex-direction: column;
   background-color: var(--main-color-3);
+  font-family: 'Droid Sans';
 }

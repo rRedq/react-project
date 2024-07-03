@@ -28,4 +28,8 @@
   }
 }
 
+@mixin google-font($family) {
+  @import url('http://fonts.googleapis.com/css?family=#{$family}');
+}
+
 $border-radius: 4px;
