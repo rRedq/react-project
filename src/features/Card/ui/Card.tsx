@@ -1,20 +1,20 @@
 import { Component, ReactNode, SyntheticEvent } from 'react';
-import { RacesResponse } from '../../shared/types';
-import { getImageUrl } from '../../shared/lib/api';
+import {
+  PlanetsResponse,
+  SpeciesResponse,
+  StarshipsResponse,
+} from 'shared/types';
+import { getImageUrl } from '../../../shared/lib/api';
 import style from './Card.module.scss';
 import planet from 'shared/assets/images/filters/planets.jpg';
 
-export class Card extends Component<RacesResponse> {
+export class Card extends Component<
+  SpeciesResponse | StarshipsResponse | PlanetsResponse
+> {
   render(): ReactNode {
-    const {
-      url,
-      name,
-      language,
-      average_lifespan,
-      eye_colors,
-      hair_colors,
-      skin_colors,
-    }: Readonly<RacesResponse> = this.props;
+    const { name, url, ...rest } = this.props;
+    const keys: string[] = Object.keys(rest);
+    const value: string[] = Object.values(rest);
 
     return (
       <div className={style.card}>
@@ -32,22 +32,12 @@ export class Card extends Component<RacesResponse> {
             />
           </div>
           <div className={style.rightSide}>
-            <p>
-              <span>language: </span>
-              {language}
-            </p>
-            <p>
-              <span>avrage lifespan: </span> {average_lifespan}
-            </p>
-            <p>
-              <span>eye color: </span> {eye_colors}
-            </p>
-            <p>
-              <span>hair color: </span> {hair_colors}
-            </p>
-            <p>
-              <span>skin color: </span> {skin_colors}
-            </p>
+            {keys.map((key, index) => (
+              <p key={index}>
+                <span>{key}: </span>
+                {value[index]}
+              </p>
+            ))}
           </div>
         </div>
       </div>

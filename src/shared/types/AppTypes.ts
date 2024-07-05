@@ -1,7 +1,7 @@
-import { CategoriesType, RacesResponse } from './ResponseTypes';
+import { CategoriesType, CombinedType } from './ResponseTypes';
 
 interface AppProps {
-  data: RacesResponse[] | null;
+  data: CombinedType | null;
   isLoading: boolean;
   category: CategoriesType;
   search?: string;

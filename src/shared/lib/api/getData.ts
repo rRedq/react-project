@@ -1,10 +1,11 @@
 import { DEFAULT_URL } from 'shared/consts';
-import { BaseResponse, CategoriesType } from 'shared/types';
+import { BaseResponse, CategoriesType, CombinedType } from 'shared/types';
+import { baseDataConverter } from '../dataConverters';
 
 export const getData = async (
-  search: string = '',
+  search: string | undefined,
   category: CategoriesType
-): Promise<BaseResponse> => {
+): Promise<CombinedType> => {
   const searchUrl = search ? `?search=${search}` : '';
   const result = await fetch(`${DEFAULT_URL}${category}${searchUrl}`);
 
@@ -14,5 +15,5 @@ export const getData = async (
 
   const data: BaseResponse = await result.json();
 
-  return data;
+  return baseDataConverter(data, category);
 };

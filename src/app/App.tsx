@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { AppProps, CategoriesType, RacesResponse } from 'shared/types';
+import { AppProps, CategoriesType, CombinedType } from 'shared/types';
 import { getData } from 'shared/lib/api';
 import './styles/global.scss';
 import { CategoriesList } from 'features/CategoriesList';
@@ -18,7 +18,7 @@ export class App extends Component {
 
   updateData = async (): Promise<void> => {
     const { search, category } = this.state;
-    const data: RacesResponse[] = (await getData(search, category)).results;
+    const data: CombinedType = await getData(search, category);
     this.setState({ data, isLoading: false });
   };
 

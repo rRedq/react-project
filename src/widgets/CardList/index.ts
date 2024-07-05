@@ -1,1 +1,1 @@
-export { CardList } from './CardList';
+export { CardList } from './ui/CardList';

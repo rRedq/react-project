@@ -1,10 +1,10 @@
 import { Component, ReactNode } from 'react';
-import { RacesResponse } from 'shared/types';
+import { CombinedType } from 'shared/types';
 import style from './CardList.module.scss';
 import { Card } from 'features/Card';
 
 interface CardListProps {
-  data: RacesResponse[];
+  data: CombinedType;
 }
 
 export class CardList extends Component<CardListProps> {
@@ -12,7 +12,7 @@ export class CardList extends Component<CardListProps> {
     return (
       <div className={style.wrapper}>
         <div className={style.container}>
-          {this.props.data.map((item: RacesResponse, index: number) => (
+          {this.props.data.map((item, index: number) => (
             <Card {...item} key={index} />
           ))}
         </div>
