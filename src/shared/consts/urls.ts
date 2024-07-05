@@ -1,5 +1,5 @@
-export const DEFAULT_URL = 'https://swapi.dev/api/planets';
-// export const DEFAULT_URL = 'https://swapi.dev/api/species';
+const DEFAULT_URL = 'https://swapi.dev/api/';
 
-export const IMAGE_URL = 'https://starwars-visualguide.com/assets/img/planets/';
-// export const IMAGE_URL = 'https://starwars-visualguide.com/assets/img/species/';
+const IMAGE_URL = 'https://starwars-visualguide.com/assets/img/';
+
+export { IMAGE_URL, DEFAULT_URL };

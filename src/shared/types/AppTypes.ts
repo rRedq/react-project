@@ -1,9 +1,10 @@
-import { RacesResponse } from './ResponseTypes';
+import { CategoriesType, RacesResponse } from './ResponseTypes';
 
 interface AppProps {
   data: RacesResponse[] | null;
   isLoading: boolean;
-  updateValue?: (value: RacesResponse[] | null) => void;
+  category: CategoriesType;
+  search?: string;
 }
 
 export { type AppProps };

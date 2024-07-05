@@ -18,4 +18,6 @@ interface RacesResponse extends CommonResultResponse {
   skin_colors: string;
 }
 
-export { type BaseResponse, type RacesResponse };
+type CategoriesType = 'planets' | 'species' | 'starships';
+
+export { type BaseResponse, type RacesResponse, type CategoriesType };

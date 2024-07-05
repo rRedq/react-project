@@ -4,7 +4,8 @@
   $direction: row,
   $wrap: nowrap,
   $borderRadius: false,
-  $alignItems: false
+  $alignItems: false,
+  $grow: false
 ) {
   display: flex;
 
@@ -30,6 +31,10 @@
 
   @if $alignItems {
     align-items: $alignItems;
+  }
+
+  @if $grow {
+    flex-grow: $grow;
   }
 }
 

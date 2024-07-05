@@ -6,7 +6,7 @@
   background: var(--main-color-4);
   border: 1px solid var(--main-color-0);
   width: 350px;
-  height: 200px;
+  min-height: 200px;
 
   &:hover {
     cursor: pointer;
