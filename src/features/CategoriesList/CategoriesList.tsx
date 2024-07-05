@@ -27,8 +27,8 @@ export class CategoriesList extends Component<
     activeCategory: this.props.activeCategory,
   };
 
-  componentDidUpdate(nextProps: CategoriesListProps): void {
-    if (nextProps.activeCategory === this.state.activeCategory) return;
+  componentDidUpdate(prevProps: CategoriesListProps): void {
+    if (prevProps.activeCategory === this.props.activeCategory) return;
     this.setState({ activeCategory: this.props.activeCategory });
   }
 

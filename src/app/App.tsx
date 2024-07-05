@@ -7,6 +7,7 @@ import { Header } from 'widgets/Header';
 import { Search } from 'features/Search';
 import { CardList } from 'widgets/CardList';
 import style from './styles/App.module.scss';
+import { getLocalState, setLocalState } from 'shared/lib/localState';
 
 export class App extends Component {
   state: AppProps = {
@@ -15,26 +16,28 @@ export class App extends Component {
     category: 'species',
   };
 
-  updateCategory = async (category: CategoriesType): Promise<void> => {
-    if (this.state.category === category) return;
-    this.setState({ category });
-    const data: RacesResponse[] = (await getData(this.state.search, category))
-      .results;
-    this.setState({ data });
-  };
-
-  updateSearch = async (search: string): Promise<void> => {
-    if (this.state.search === search) return;
-    this.setState({ search });
-    const data: RacesResponse[] = (await getData(search, this.state.category))
-      .results;
-    this.setState({ data });
-  };
-
-  async componentDidMount(): Promise<void> {
+  updateData = async (): Promise<void> => {
     const { search, category } = this.state;
     const data: RacesResponse[] = (await getData(search, category)).results;
-    this.setState({ data });
+    this.setState({ data, isLoading: false });
+  };
+
+  updateCategory = (category: CategoriesType): void => {
+    if (this.state.category === category || this.state.isLoading) return;
+    setLocalState('category', category);
+    this.setState({ isLoading: true, category }, () => this.updateData());
+  };
+
+  updateSearch = (search: string): void => {
+    if (this.state.search === search || this.state.isLoading) return;
+    setLocalState('search', search);
+    this.setState({ isLoading: true, search }, () => this.updateData());
+  };
+
+  componentDidMount(): void {
+    const search: string | void = getLocalState('search');
+    const category: string | void = getLocalState('category');
+    this.setState({ search, category }, () => this.updateData());
   }
 
   render(): ReactNode {
