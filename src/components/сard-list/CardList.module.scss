@@ -1,9 +1,0 @@
-@import '../app/common.scss';
-
-.wrapper {
-  padding: 10px;
-}
-
-.container {
-  @include baseFlex(center, 20px, $wrap: wrap);
-}

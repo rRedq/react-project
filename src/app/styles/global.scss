@@ -26,8 +26,9 @@
 
 #root {
   min-height: 100vh;
+  font-family: 'Droid Sans';
   display: flex;
   flex-direction: column;
-  background-color: var(--main-color-3);
-  font-family: 'Droid Sans';
+  background: url('../../shared/assets/images/background/species.jpg');
+  @include imgBackground;
 }

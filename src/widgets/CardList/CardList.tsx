@@ -1,11 +1,11 @@
-import React from 'react';
-import { Context } from '../../shared/lib/context/context';
-import { AppProps, RacesResponse } from '../../shared/types';
-import { Card } from '../сard/Card';
+import { Component, ReactNode } from 'react';
+import { Context } from 'shared/lib/context/context';
+import { AppProps, RacesResponse } from 'shared/types';
 import style from './CardList.module.scss';
+import { Card } from 'features/Card';
 
-export class CardList extends React.Component {
-  render(): React.ReactNode {
+export class CardList extends Component {
+  render(): ReactNode {
     return (
       <div className={style.wrapper}>
         <Context.Consumer>
@@ -13,9 +13,7 @@ export class CardList extends React.Component {
             data && (
               <div className={style.container}>
                 {data.map((item: RacesResponse, index: number) => (
-                  <div key={index}>
-                    <Card {...item} />
-                  </div>
+                  <Card {...item} key={index} />
                 ))}
               </div>
             )

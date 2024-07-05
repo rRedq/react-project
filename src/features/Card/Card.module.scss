@@ -1,0 +1,54 @@
+@import '../../app/styles/common.scss';
+
+.card {
+  @include flex($borderRadius: true, $direction: column);
+  padding: 7px;
+  background: var(--main-color-4);
+  border: 1px solid var(--main-color-0);
+  width: 350px;
+  height: 200px;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid var(--red);
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Permanent Marker';
+    color: var(--main-color-1);
+  }
+}
+
+.content {
+  @include flex($gap: 10px);
+  font-size: 14px;
+  color: var(--main-color-1);
+  height: 100%;
+}
+
+.leftSide,
+.rightSide {
+  max-width: 50%;
+}
+
+.rightSide {
+  span {
+    color: var(--red);
+  }
+
+  p:not(p:first-child) {
+    padding: 3px 0;
+  }
+
+  p:first-child {
+    padding-bottom: 3px;
+  }
+}
+
+.img {
+  width: 130px;
+  height: 100%;
+  border-radius: $border-radius;
+}

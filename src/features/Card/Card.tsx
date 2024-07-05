@@ -1,10 +1,11 @@
-import React from 'react';
+import { Component, ReactNode, SyntheticEvent } from 'react';
 import { RacesResponse } from '../../shared/types';
 import { getImageUrl } from '../../shared/lib/api';
 import style from './Card.module.scss';
+import planet from 'shared/assets/images/filters/planets.jpg';
 
-export class Card extends React.Component<RacesResponse> {
-  render(): React.ReactNode {
+export class Card extends Component<RacesResponse> {
+  render(): ReactNode {
     const {
       url,
       name,
@@ -20,7 +21,15 @@ export class Card extends React.Component<RacesResponse> {
         <h2>{name}</h2>
         <div className={style.content}>
           <div className={style.leftSide}>
-            <img className={style.img} src={getImageUrl(url)} />
+            <img
+              className={style.img}
+              src={getImageUrl(url)}
+              onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = planet;
+              }}
+            />
           </div>
           <div className={style.rightSide}>
             <p>

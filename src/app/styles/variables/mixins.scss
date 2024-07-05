@@ -1,9 +1,10 @@
-@mixin baseFlex(
+@mixin flex(
   $content: false,
   $gap: 0,
   $direction: row,
   $wrap: nowrap,
-  $borderRadius: false
+  $borderRadius: false,
+  $alignItems: false
 ) {
   display: flex;
 
@@ -26,10 +27,26 @@
   @if $borderRadius {
     border-radius: $border-radius;
   }
+
+  @if $alignItems {
+    align-items: $alignItems;
+  }
 }
 
 @mixin google-font($family) {
   @import url('http://fonts.googleapis.com/css?family=#{$family}');
 }
 
-$border-radius: 4px;
+@mixin text-shadow($color) {
+  text-shadow:
+    -1px -1px 0 var($color),
+    1px -1px 0 var($color),
+    -1px 1px 0 var($color),
+    1px 1px 0 var($color);
+}
+
+@mixin imgBackground {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}

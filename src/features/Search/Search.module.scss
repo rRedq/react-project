@@ -1,0 +1,16 @@
+@import '../../app/styles/common.scss';
+
+.searchForm {
+  height: 150px;
+  @include flex(center, $alignItems: center);
+}
+
+.search {
+  min-height: 25px;
+  border-radius: $border-radius;
+  font-size: 20px;
+  font-family: 'Droid Sans';
+  font-weight: bold;
+  padding: 2px;
+  background: var(--main-color-1);
+}
