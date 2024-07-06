@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { AppProps, CategoriesType, CombinedType } from 'shared/types';
+import { AppState, CategoriesType, CombinedType } from 'shared/types';
 import { getData } from 'shared/lib/api';
 import './styles/global.scss';
 import { CategoriesList } from 'features/CategoriesList';
@@ -10,8 +10,8 @@ import style from './styles/App.module.scss';
 import { getLocalState, setLocalState } from 'shared/lib/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
 
-export class App extends Component {
-  state: AppProps = {
+export class App extends Component<null, AppState> {
+  state: AppState = {
     data: null,
     isLoading: false,
     category: 'species',
@@ -36,9 +36,11 @@ export class App extends Component {
   };
 
   componentDidMount(): void {
-    const search: string | void = getLocalState('search');
-    const category: string | void = getLocalState('category');
-    this.setState({ search, category }, () => this.updateData());
+    const search: string | undefined = getLocalState('search');
+    const category: CategoriesType = getLocalState('category') || 'species';
+    this.setState({ isLoading: true, search, category }, () =>
+      this.updateData()
+    );
   }
 
   render(): ReactNode {

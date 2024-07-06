@@ -1,10 +1,10 @@
 import { CategoriesType, CombinedType } from './ResponseTypes';
 
-interface AppProps {
+interface AppState {
   data: CombinedType | null;
   isLoading: boolean;
   category: CategoriesType;
   search?: string;
 }
 
-export { type AppProps };
+export { type AppState };

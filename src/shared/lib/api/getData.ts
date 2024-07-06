@@ -4,7 +4,7 @@ import { baseDataConverter } from '../dataConverters';
 
 export const getData = async (
   search: string | undefined,
-  category: CategoriesType
+  category: CategoriesType = 'species'
 ): Promise<CombinedType> => {
   const searchUrl = search ? `?search=${search}` : '';
   const result = await fetch(`${DEFAULT_URL}${category}${searchUrl}`);
