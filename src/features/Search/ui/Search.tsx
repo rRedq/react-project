@@ -9,7 +9,7 @@ interface SearchProps {
   updateSearch: (search: string) => void;
 }
 
-export class Search extends Component<SearchProps> {
+export class Search extends Component<SearchProps, SearchState> {
   updateSearch = this.props.updateSearch;
   state: SearchState = { value: '' };
 

@@ -34,7 +34,7 @@ export class Card extends Component<
           <div className={style.rightSide}>
             {keys.map((key, index) => (
               <p key={index}>
-                <span>{key}: </span>
+                <span>{key.split('_').join(' ')}: </span>
                 {value[index]}
               </p>
             ))}

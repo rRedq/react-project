@@ -6,16 +6,20 @@
   background: var(--main-color-4);
   border: 1px solid var(--main-color-0);
   width: 350px;
-  min-height: 200px;
+  height: 250px;
 
   &:hover {
     cursor: pointer;
     border: 1px solid var(--red);
+
+    .img {
+      transform: scale(1.1);
+    }
   }
 
   h2 {
     text-align: center;
-    font-size: 30px;
+    font-size: 23px;
     font-family: 'Permanent Marker';
     color: var(--main-color-1);
   }
@@ -28,27 +32,30 @@
   height: 100%;
 }
 
-.leftSide,
-.rightSide {
-  max-width: 50%;
+.leftSide {
+  width: 40%;
+  max-height: 100%;
+  @include flex(center, $alignItems: center);
+  position: relative;
+  overflow: hidden;
 }
 
 .rightSide {
+  width: 55%;
+  @include flex(center, $direction: column);
+
   span {
     color: var(--red);
   }
 
-  p:not(p:first-child) {
+  p {
     padding: 3px 0;
-  }
-
-  p:first-child {
-    padding-bottom: 3px;
   }
 }
 
 .img {
   width: 130px;
-  height: 100%;
   border-radius: $border-radius;
+  position: absolute;
+  transition: transform 0.3s ease;
 }

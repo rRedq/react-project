@@ -8,6 +8,7 @@ import { Search } from 'features/Search';
 import { CardList } from 'widgets/CardList';
 import style from './styles/App.module.scss';
 import { getLocalState, setLocalState } from 'shared/lib/localState';
+import { Spinner } from 'shared/lib/ui/Spinner';
 
 export class App extends Component {
   state: AppProps = {
@@ -41,15 +42,16 @@ export class App extends Component {
   }
 
   render(): ReactNode {
+    const { data, isLoading, category } = this.state;
     return (
-      <div className={`${style.app} ${style[this.state.category]}`}>
+      <div className={`${style.app} ${style[category]}`}>
         <Header />
         <CategoriesList
           updateCategory={this.updateCategory}
-          activeCategory={this.state.category}
+          activeCategory={category}
         />
         <Search updateSearch={this.updateSearch} />
-        {this.state.data && <CardList data={this.state.data} />}
+        {isLoading ? <Spinner /> : <> {data && <CardList data={data} />}</>}
       </div>
     );
   }
