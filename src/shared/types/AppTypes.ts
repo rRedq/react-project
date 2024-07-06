@@ -7,4 +7,10 @@ interface AppState {
   search?: string;
 }
 
-export { type AppState };
+interface ErrorState {
+  hasError: boolean;
+}
+
+interface VoidType {}
+
+export { type AppState, type ErrorState, type VoidType };

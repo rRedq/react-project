@@ -1,5 +1,6 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
 import style from './Search.module.scss';
+import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 
 interface SearchState {
   value: string;
@@ -21,6 +22,7 @@ export class Search extends Component<SearchProps, SearchState> {
   render(): ReactNode {
     return (
       <form className={style.searchForm} onSubmit={this.onSubmit}>
+        <ErrorButton />
         <input
           className={style.search}
           type="text"

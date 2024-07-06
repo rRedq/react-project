@@ -1,0 +1,13 @@
+@import '../../../../app/styles/common.scss';
+
+.btn {
+  @include flex($borderRadius: true);
+  min-height: 25px;
+  padding: 5px;
+  background: var(--red);
+
+  &:hover {
+    cursor: pointer;
+    color: var(--main-color-0);
+  }
+}

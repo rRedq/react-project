@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { AppState, CategoriesType, CombinedType } from 'shared/types';
+import { AppState, CategoriesType, CombinedType, VoidType } from 'shared/types';
 import { getData } from 'shared/lib/api';
 import './styles/global.scss';
 import { CategoriesList } from 'features/CategoriesList';
@@ -9,8 +9,9 @@ import { CardList } from 'widgets/CardList';
 import style from './styles/App.module.scss';
 import { getLocalState, setLocalState } from 'shared/lib/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
+import { ErrorBoundary } from 'shared/lib/ui/ErrorBoundary';
 
-export class App extends Component<null, AppState> {
+export class App extends Component<VoidType, AppState> {
   state: AppState = {
     data: null,
     isLoading: false,
@@ -46,15 +47,17 @@ export class App extends Component<null, AppState> {
   render(): ReactNode {
     const { data, isLoading, category } = this.state;
     return (
-      <div className={`${style.app} ${style[category]}`}>
-        <Header />
-        <CategoriesList
-          updateCategory={this.updateCategory}
-          activeCategory={category}
-        />
-        <Search updateSearch={this.updateSearch} />
-        {isLoading ? <Spinner /> : <> {data && <CardList data={data} />}</>}
-      </div>
+      <ErrorBoundary>
+        <div className={`${style.app} ${style[category]}`}>
+          <Header />
+          <CategoriesList
+            updateCategory={this.updateCategory}
+            activeCategory={category}
+          />
+          <Search updateSearch={this.updateSearch} />
+          {isLoading ? <Spinner /> : <> {data && <CardList data={data} />}</>}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

@@ -7,4 +7,4 @@ export {
   type PlanetsResponse,
 } from './ResponseTypes';
 
-export { type AppState } from './AppTypes';
+export { type AppState, type ErrorState, type VoidType } from './AppTypes';

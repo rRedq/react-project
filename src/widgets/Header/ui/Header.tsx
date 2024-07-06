@@ -5,7 +5,7 @@ export class Header extends Component {
   render(): ReactNode {
     return (
       <div className={style.header}>
-        <div className={style.logo}>Star Wars DB</div>
+        <h1 className={style.logo}>Star Wars DB</h1>
       </div>
     );
   }
