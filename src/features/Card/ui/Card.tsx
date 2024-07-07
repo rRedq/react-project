@@ -1,4 +1,4 @@
-import { Component, ReactNode, SyntheticEvent } from 'react';
+import { Component, ReactNode } from 'react';
 import {
   PlanetsResponse,
   SpeciesResponse,
@@ -8,11 +8,25 @@ import { getImageUrl } from 'shared/lib/api';
 import style from './Card.module.scss';
 import placeholder from 'shared/assets/images/images/placeholder.jpg';
 
-export class Card extends Component<
-  SpeciesResponse | StarshipsResponse | PlanetsResponse
-> {
+type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
+
+interface CardState {
+  imgSrc: string;
+}
+
+export class Card extends Component<CardProps, CardState> {
+  constructor(props: CardProps) {
+    super(props);
+    this.state = { imgSrc: getImageUrl(props.url) };
+  }
+
+  handleError = (): void => {
+    this.setState({ imgSrc: placeholder });
+  };
+
   render(): ReactNode {
     const { name, url, ...rest } = this.props;
+    const { imgSrc } = this.state;
     const keys: string[] = Object.keys(rest);
     const value: string[] = Object.values(rest);
 
@@ -23,12 +37,9 @@ export class Card extends Component<
           <div className={style.leftSide}>
             <img
               className={style.img}
-              src={getImageUrl(url)}
-              onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-                const target = e.target as HTMLImageElement;
-                target.onerror = null;
-                target.src = placeholder;
-              }}
+              src={imgSrc}
+              onError={this.handleError}
+              alt={url}
             />
           </div>
           <div className={style.rightSide}>
