@@ -1,4 +1,4 @@
-import { IMAGE_URL } from 'shared/consts/Urls';
+import { IMAGE_URL } from 'shared/consts';
 
 export const getImageUrl = (value: string): string => {
   const param: string[] = value.split('/');
