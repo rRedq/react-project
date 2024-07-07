@@ -9,13 +9,20 @@ interface CardListProps {
 
 export class CardList extends Component<CardListProps> {
   render(): ReactNode {
+    const { data } = this.props;
     return (
       <div className={style.wrapper}>
-        <div className={style.container}>
-          {this.props.data.map((item, index: number) => (
-            <Card {...item} key={index} />
-          ))}
-        </div>
+        {data.length > 0 ? (
+          <div className={style.container}>
+            {data.map((item, index) => (
+              <Card {...item} key={index} />
+            ))}
+          </div>
+        ) : (
+          <div className={style.emptyList}>
+            We have been able to found nothing
+          </div>
+        )}
       </div>
     );
   }

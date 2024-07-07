@@ -6,7 +6,7 @@ import {
 } from 'shared/types';
 import { getImageUrl } from '../../../shared/lib/api';
 import style from './Card.module.scss';
-import planet from 'shared/assets/images/filters/planets.jpg';
+import placeholder from 'shared/assets/images/images/placeholder.jpg';
 
 export class Card extends Component<
   SpeciesResponse | StarshipsResponse | PlanetsResponse
@@ -27,7 +27,7 @@ export class Card extends Component<
               onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
                 const target = e.target as HTMLImageElement;
                 target.onerror = null;
-                target.src = planet;
+                target.src = placeholder;
               }}
             />
           </div>
