@@ -2,15 +2,48 @@
 
 .searchForm {
   height: 150px;
-  @include flex(center, $alignItems: center);
+  @include flex(center, $gap: 5px, $alignItems: center);
 }
 
 .search {
-  min-height: 25px;
+  min-height: 30px;
   border-radius: $border-radius;
   font-size: 20px;
   font-family: 'Droid Sans';
   font-weight: bold;
   padding: 2px;
   background: var(--main-color-1);
+  border: none;
+}
+
+.btn {
+  width: 30px;
+  height: 30px;
+  background: var(--main-color-1);
+  border-radius: $border-radius;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+    background: var(--border-color);
+  }
+}
+
+.cover {
+  @include flex($alignItems: center);
+  position: relative;
+}
+
+.cross {
+  position: absolute;
+  left: 92%;
+  font-size: 16px;
+  color: var(--blue);
+  border: none;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--red);
+  }
 }

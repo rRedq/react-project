@@ -2,7 +2,7 @@
 
 .btn {
   @include flex($borderRadius: true);
-  min-height: 25px;
+  min-height: 30px;
   padding: 5px;
   background: var(--red);
 
