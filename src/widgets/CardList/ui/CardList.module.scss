@@ -1,0 +1,19 @@
+@import '../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex($grow: 1);
+  padding: 10px;
+}
+
+.container {
+  width: 100%;
+  @include flex(center, $gap: 20px, $wrap: wrap);
+}
+
+.emptyList {
+  @include flex(center, $alignItems: center, $grow: 1);
+  font-size: 33px;
+  font-weight: bold;
+  color: var(--main-color-4);
+  @include text-shadow(--main-color-1);
+}

@@ -1,0 +1,68 @@
+@import '../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex(center, 20px);
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+.active {
+  border: 1px solid var(--main-color-1);
+
+  .text {
+    @include text-shadow(--main-color-1);
+  }
+}
+
+.common {
+  border: 1px solid var(--red);
+
+  .text {
+    @include text-shadow(--red);
+  }
+  &:hover {
+    border: 1px solid var(--blue);
+  }
+}
+
+.imgContainer {
+  width: 250px;
+  height: 150px;
+  position: relative;
+  @include flex(center, $alignItems: end, $borderRadius: true);
+  user-select: none;
+  overflow: hidden;
+
+  &:hover:not(.active) {
+    cursor: pointer;
+
+    .img {
+      transform: scale(1.15);
+    }
+    .text {
+      @include text-shadow(--blue);
+    }
+  }
+}
+
+.text {
+  position: absolute;
+  color: var(--main-color-4);
+  font-size: 45px;
+  font-family: 'Permanent Marker';
+}
+
+.img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  @include imgBackground;
+  border-radius: $border-radius;
+  transition: transform 0.3s ease;
+}
+
+@media (width <= 860px) {
+  .wrapper {
+    @include flex(10px, $wrap: wrap);
+  }
+}
