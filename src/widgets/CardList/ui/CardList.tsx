@@ -20,7 +20,7 @@ export class CardList extends Component<CardListProps> {
           </div>
         ) : (
           <div className={style.emptyList}>
-            We have been able to found nothing
+            We have been able to find nothing
           </div>
         )}
       </div>
