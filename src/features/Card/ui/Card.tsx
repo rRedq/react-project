@@ -4,7 +4,7 @@ import {
   SpeciesResponse,
   StarshipsResponse,
 } from 'shared/types';
-import { getImageUrl } from '../../../shared/lib/api';
+import { getImageUrl } from 'shared/lib/api';
 import style from './Card.module.scss';
 import placeholder from 'shared/assets/images/images/placeholder.jpg';
 
