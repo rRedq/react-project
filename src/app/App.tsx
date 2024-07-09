@@ -1,5 +1,5 @@
-import { Component, ReactNode } from 'react';
-import { AppState, CategoriesType, CombinedType, VoidType } from 'shared/types';
+import { FC, useEffect, useState } from 'react';
+import { CategoriesType, CombinedType } from 'shared/types';
 import { getData } from 'shared/lib/api';
 import './styles/global.scss';
 import { CategoriesList } from 'features/CategoriesList';
@@ -11,53 +11,62 @@ import { getLocalState, setLocalState } from 'shared/lib/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
 import { ErrorBoundary } from 'shared/lib/ui/ErrorBoundary';
 
-export class App extends Component<VoidType, AppState> {
-  state: AppState = {
-    data: null,
-    isLoading: false,
-    category: 'species',
-  };
+export const App: FC = () => {
+  const [data, setData] = useState<CombinedType>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [category, setCategory] = useState<CategoriesType>();
+  const [search, setSearch] = useState<string>();
 
-  updateData = async (): Promise<void> => {
-    const { search, category } = this.state;
+  const updateData = async (): Promise<void> => {
+    setIsLoading(true);
     const data: CombinedType = await getData(search, category);
-    this.setState({ data, isLoading: false });
+    setData(data);
+    setIsLoading(false);
   };
 
-  updateCategory = (category: CategoriesType): void => {
-    if (this.state.category === category || this.state.isLoading) return;
-    setLocalState('category', category);
-    this.setState({ isLoading: true, category }, () => this.updateData());
+  const updateCategory = (value: CategoriesType): void => {
+    if (category === value || isLoading) return;
+    setCategory(value);
   };
 
-  updateSearch = (search: string): void => {
-    if (this.state.search === search || this.state.isLoading) return;
-    setLocalState('search', search);
-    this.setState({ isLoading: true, search }, () => this.updateData());
+  const updateSearch = (value: string): void => {
+    if (search === value || isLoading) return;
+    setSearch(value);
   };
 
-  componentDidMount(): void {
-    const search: string | undefined = getLocalState('search');
-    const category: CategoriesType = getLocalState('category') || 'species';
-    this.setState({ isLoading: true, search, category }, () =>
-      this.updateData()
-    );
-  }
+  useEffect(() => {
+    const storedSearch: string | undefined = getLocalState('search');
+    const storedCategory: CategoriesType | undefined =
+      getLocalState('category');
+    category ? setCategory(storedCategory) : setCategory('species');
+    if (storedSearch) setSearch(storedSearch);
+  }, []);
 
-  render(): ReactNode {
-    const { data, isLoading, category } = this.state;
-    return (
-      <ErrorBoundary>
+  useEffect(() => {
+    if (!category) return;
+    updateData();
+
+    return () => {
+      if (search) setLocalState('search', search);
+      if (category) setLocalState('category', category);
+    };
+  }, [category, search]);
+
+  return (
+    <ErrorBoundary>
+      {category ? (
         <div className={`${style.app} ${style[category]}`}>
           <Header />
           <CategoriesList
-            updateCategory={this.updateCategory}
+            updateCategory={updateCategory}
             activeCategory={category}
           />
-          <Search updateSearch={this.updateSearch} />
+          <Search updateSearch={updateSearch} />
           {isLoading ? <Spinner /> : <> {data && <CardList data={data} />}</>}
         </div>
-      </ErrorBoundary>
-    );
-  }
-}
+      ) : (
+        <Spinner />
+      )}
+    </ErrorBoundary>
+  );
+};

@@ -6,7 +6,10 @@ type StorageKeys = 'category' | 'search';
 
 type StorageTypeValue<T> = T extends 'category' ? CategoriesType : string;
 
-const setLocalState = (key: StorageKeys, value: string): void => {
+const setLocalState = <T extends StorageKeys>(
+  key: T,
+  value: StorageTypeValue<T>
+): void => {
   let storage: Map<StorageKeys, string> | undefined = getLocalParseState();
   if (!storage) storage = new Map<StorageKeys, string>();
   storage.set(key, value);

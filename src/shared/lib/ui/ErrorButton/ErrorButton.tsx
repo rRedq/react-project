@@ -1,25 +1,14 @@
-import { Component, ReactNode } from 'react';
-import { ErrorState, VoidType } from 'shared/types';
+import { FC, useState } from 'react';
 import style from './ErrorButton.module.scss';
 
-export class ErrorButton extends Component<VoidType, ErrorState> {
-  state = {
-    hasError: false,
-  };
+export const ErrorButton: FC = () => {
+  const [hasError, setError] = useState(false);
 
-  onError = (): void => {
-    this.setState({ hasError: true });
-  };
+  if (hasError) throw new Error('Something has gone wrong');
 
-  render(): ReactNode {
-    if (this.state.hasError) {
-      throw new Error('Something has gone wrong');
-    }
-
-    return (
-      <div className={style.btn} onClick={this.onError}>
-        throw error
-      </div>
-    );
-  }
-}
+  return (
+    <div className={style.btn} onClick={() => setError(true)}>
+      throw error
+    </div>
+  );
+};

@@ -1,60 +1,53 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import style from './Search.module.scss';
 import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState } from 'shared/lib/localState';
-interface SearchState {
-  value: string;
-}
 
 interface SearchProps {
-  updateSearch: (search: string) => void;
+  updateSearch: (value: string) => void;
 }
 
-export class Search extends Component<SearchProps, SearchState> {
-  updateSearch = this.props.updateSearch;
-  state: SearchState = { value: '' };
+export const Search: FC<SearchProps> = ({ updateSearch }) => {
+  const [value, setValue] = useState<string>('');
 
-  componentDidMount(): void {
-    const value: string = getLocalState('search') || '';
-    this.setState({ value });
-  }
-
-  onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    this.updateSearch(this.state.value);
+    updateSearch(value);
   };
 
-  crossClick = (): void => {
-    this.setState({ value: '' }, () => this.updateSearch(this.state.value));
+  const crossClick = (): void => {
+    setValue('');
+    updateSearch('');
   };
 
-  render(): ReactNode {
-    const { value } = this.state;
-    return (
-      <form className={style.searchForm} onSubmit={this.onSubmit}>
-        <ErrorButton />
-        <div className={style.cover}>
-          <input
-            className={style.search}
-            type="text"
-            placeholder="search"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              this.setState({ value: e.target.value })
-            }
-            value={this.state.value}
-          />
-          {value && (
-            <div className={style.cross} onClick={this.crossClick}>
-              X
-            </div>
-          )}
-        </div>
+  useEffect(() => {
+    const storedValue: string | undefined = getLocalState('search');
+    if (storedValue) setValue(storedValue);
+  }, []);
 
-        <button className={style.btn} type="submit">
-          <img src={searchIcon} />
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className={style.searchForm} onSubmit={onSubmit}>
+      <ErrorButton />
+      <div className={style.cover}>
+        <input
+          className={style.search}
+          type="text"
+          placeholder="search"
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue(e.target.value)
+          }
+          value={value}
+        />
+        {value && (
+          <div className={style.cross} onClick={crossClick}>
+            X
+          </div>
+        )}
+      </div>
+      <button className={style.btn} type="submit">
+        <img src={searchIcon} />
+      </button>
+    </form>
+  );
+};

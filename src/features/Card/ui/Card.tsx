@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { FC, useState } from 'react';
 import {
   PlanetsResponse,
   SpeciesResponse,
@@ -10,48 +10,32 @@ import placeholder from 'shared/assets/images/images/placeholder.jpg';
 
 type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
 
-interface CardState {
-  imgSrc: string;
-}
+export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
+  const [imgSrc, setImgSrc] = useState<string>(getImageUrl(url));
+  const keys: string[] = Object.keys(rest);
+  const value: string[] = Object.values(rest);
 
-export class Card extends Component<CardProps, CardState> {
-  constructor(props: CardProps) {
-    super(props);
-    this.state = { imgSrc: getImageUrl(props.url) };
-  }
-
-  handleError = (): void => {
-    this.setState({ imgSrc: placeholder });
-  };
-
-  render(): ReactNode {
-    const { name, url, ...rest } = this.props;
-    const { imgSrc } = this.state;
-    const keys: string[] = Object.keys(rest);
-    const value: string[] = Object.values(rest);
-
-    return (
-      <div className={style.card}>
-        <h2>{name}</h2>
-        <div className={style.content}>
-          <div className={style.leftSide}>
-            <img
-              className={style.img}
-              src={imgSrc}
-              onError={this.handleError}
-              alt={url}
-            />
-          </div>
-          <div className={style.rightSide}>
-            {keys.map((key, index) => (
-              <p key={index}>
-                <span>{key.split('_').join(' ')}: </span>
-                {value[index]}
-              </p>
-            ))}
-          </div>
+  return (
+    <div className={style.card}>
+      <h2>{name}</h2>
+      <div className={style.content}>
+        <div className={style.leftSide}>
+          <img
+            className={style.img}
+            src={imgSrc}
+            onError={() => setImgSrc(placeholder)}
+            alt={url}
+          />
+        </div>
+        <div className={style.rightSide}>
+          {keys.map((key, index) => (
+            <p key={index}>
+              <span>{key.split('_').join(' ')}: </span>
+              {value[index]}
+            </p>
+          ))}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
