@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import style from './Search.module.scss';
 import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState } from 'shared/lib/localState';
+import { useMount } from 'shared/lib/hooks';
 
 interface SearchProps {
   updateSearch: (value: string) => void;
@@ -21,10 +22,10 @@ export const Search: FC<SearchProps> = ({ updateSearch }) => {
     updateSearch('');
   };
 
-  useEffect(() => {
+  useMount(() => {
     const storedValue: string | undefined = getLocalState('search');
     if (storedValue) setValue(storedValue);
-  }, []);
+  });
 
   return (
     <form className={style.searchForm} onSubmit={onSubmit}>

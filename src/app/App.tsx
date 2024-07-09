@@ -10,6 +10,7 @@ import style from './styles/App.module.scss';
 import { getLocalState, setLocalState } from 'shared/lib/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
 import { ErrorBoundary } from 'shared/lib/ui/ErrorBoundary';
+import { useMount, useUnmount } from 'shared/lib/hooks';
 
 export const App: FC = () => {
   const [data, setData] = useState<CombinedType>();
@@ -35,22 +36,23 @@ export const App: FC = () => {
   };
 
   useEffect(() => {
+    if (!category) return;
+    updateData();
+  }, [category, search]);
+
+  useMount(() => {
     const storedSearch: string | undefined = getLocalState('search');
     const storedCategory: CategoriesType | undefined =
       getLocalState('category');
-    category ? setCategory(storedCategory) : setCategory('species');
+
+    storedCategory ? setCategory(storedCategory) : setCategory('species');
     if (storedSearch) setSearch(storedSearch);
-  }, []);
+  });
 
-  useEffect(() => {
-    if (!category) return;
-    updateData();
-
-    return () => {
-      if (search) setLocalState('search', search);
-      if (category) setLocalState('category', category);
-    };
-  }, [category, search]);
+  useUnmount(() => {
+    if (category) setLocalState('category', category);
+    if (search !== undefined) setLocalState('search', search);
+  });
 
   return (
     <ErrorBoundary>
