@@ -1,3 +1,5 @@
+export { Paths } from './routerTypes';
+
 export {
   type BaseResponse,
   type SpeciesResponse,
