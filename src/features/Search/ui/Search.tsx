@@ -2,7 +2,7 @@ import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import style from './Search.module.scss';
 import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
-import { getLocalState } from 'shared/lib/localState';
+import { getLocalState } from 'shared/utils/localState';
 import { useMount } from 'shared/lib/hooks';
 
 interface SearchProps {

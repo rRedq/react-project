@@ -1,0 +1,29 @@
+@import '../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex(center, $gap: 10px);
+  font-size: 25px;
+  color: var(--main-color-1);
+  padding: 10px;
+  user-select: none;
+}
+
+.cell {
+  @include flex(center, $alignItems: center, $borderRadius: true);
+  min-width: 10px;
+  min-height: 10px;
+  border: 1px solid var(--main-color-1);
+  padding: 0 5px;
+
+  &:hover:not(.active) {
+    cursor: pointer;
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+}
+
+.active {
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  pointer-events: none;
+}

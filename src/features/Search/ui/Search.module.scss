@@ -1,7 +1,7 @@
 @import '../../../app/styles/common.scss';
 
 .searchForm {
-  height: 150px;
+  height: 120px;
   @include flex(center, $gap: 5px, $alignItems: center);
 }
 

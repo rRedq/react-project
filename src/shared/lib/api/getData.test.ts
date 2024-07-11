@@ -1,7 +1,7 @@
 import createFetchMock from 'vitest-fetch-mock';
 import { vi } from 'vitest';
 import { getData } from './getData';
-import { BaseResponse, CategoriesType, CombinedType } from 'shared/types';
+import { BaseDataType, BaseResponse, CategoriesType } from 'shared/types';
 import { DEFAULT_URL } from 'shared/consts';
 
 const fetchMock = createFetchMock(vi);
@@ -21,9 +21,11 @@ test('testing getData', async () => {
 
   fetchMock.mockResponseOnce(JSON.stringify(testData));
 
-  const result: CombinedType = await getData(search, category);
+  const result: BaseDataType = await getData({ search, category });
+  const { data, count } = result;
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(expectedUrl);
-  expect(result).toEqual([]);
+  expect(data).toEqual([]);
+  expect(count).toBe(0);
 });

@@ -1,19 +1,27 @@
 import { DEFAULT_URL } from 'shared/consts';
-import { BaseResponse, CategoriesType, CombinedType } from 'shared/types';
+import { BaseResponse, CategoriesType, BaseDataType } from 'shared/types';
 import { baseDataConverter } from '../dataConverters';
 
-export const getData = async (
-  search: string | undefined,
-  category: CategoriesType = 'species'
-): Promise<CombinedType> => {
+type getDataType = {
+  search?: string | undefined;
+  category?: CategoriesType;
+  page?: string;
+};
+
+export const getData = async (props: getDataType): Promise<BaseDataType> => {
+  const { search, category, page } = props;
+  const propsUrl = page ? `/?page=${page}` : '';
   const searchUrl = search ? `?search=${search}` : '';
-  const result = await fetch(`${DEFAULT_URL}${category}${searchUrl}`);
+  const categoryUrl: CategoriesType = category || 'species';
+  const result = await fetch(
+    `${DEFAULT_URL}${categoryUrl}${searchUrl}${propsUrl}`
+  );
 
   if (!result.ok) {
-    throw new Error('something went wrong during getting planets');
+    throw new Error('something went wrong during getting data');
   }
 
   const data: BaseResponse = await result.json();
 
-  return baseDataConverter(data, category);
+  return baseDataConverter(data, categoryUrl);
 };

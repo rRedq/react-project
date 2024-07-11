@@ -1,3 +1,5 @@
+export { SearchParams } from './searchParams';
+
 export { Paths } from './routerTypes';
 
 export {
@@ -9,4 +11,4 @@ export {
   type PlanetsResponse,
 } from './ResponseTypes';
 
-export { type AppState, type ErrorState, type VoidType } from './AppTypes';
+export { type ErrorState, type BaseDataType } from './AppTypes';

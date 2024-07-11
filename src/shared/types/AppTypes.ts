@@ -1,16 +1,12 @@
-import { CategoriesType, CombinedType } from './ResponseTypes';
-
-interface AppState {
-  data: CombinedType | null;
-  isLoading: boolean;
-  category: CategoriesType;
-  search?: string;
-}
+import { CombinedType } from './ResponseTypes';
 
 interface ErrorState {
   hasError: boolean;
 }
 
-interface VoidType {}
+interface BaseDataType {
+  count?: number;
+  data: CombinedType;
+}
 
-export { type AppState, type ErrorState, type VoidType };
+export { type ErrorState, type BaseDataType };

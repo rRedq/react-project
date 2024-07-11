@@ -5,6 +5,7 @@ import {
   PlanetsResponse,
   BaseResponse,
   CategoriesType,
+  BaseDataType,
 } from 'shared/types';
 import { planetsDataConverter } from './planetsDataConverter';
 import { speciesDataConverter } from './speciesDataConverter';
@@ -13,7 +14,7 @@ import { starshipsDataConverter } from './starshipsDataConverter';
 export const baseDataConverter = (
   data: BaseResponse,
   category: CategoriesType
-): CombinedType => {
+): BaseDataType => {
   let formatedData: CombinedType;
 
   switch (category) {
@@ -32,5 +33,7 @@ export const baseDataConverter = (
       formatedData = speciesDataConverter(data.results as SpeciesResponse[]);
   }
 
-  return formatedData;
+  const result: BaseDataType = { count: data.count || 0, data: formatedData };
+
+  return result;
 };
