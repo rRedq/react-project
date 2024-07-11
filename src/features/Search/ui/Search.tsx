@@ -47,7 +47,7 @@ export const Search: FC<SearchProps> = ({ updateSearch }) => {
         )}
       </div>
       <button className={style.btn} type="submit">
-        <img src={searchIcon} />
+        <img src={searchIcon} alt="search" />
       </button>
     </form>
   );
