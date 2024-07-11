@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import { Search } from './Search';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('testing Search component', () => {
@@ -15,8 +15,8 @@ describe('testing Search component', () => {
       <Search updateSearch={mockUpdateSearch} />
     );
 
-    const searchImput: HTMLElement = getByPlaceholderText('search');
-    const searchBtn: HTMLElement = getByAltText('search');
+    const searchImput: HTMLElement = getByPlaceholderText(/search/i);
+    const searchBtn: HTMLElement = getByAltText(/search/i);
 
     const testStr = 'test';
     const anotherStr = 'cr';
@@ -25,22 +25,27 @@ describe('testing Search component', () => {
     expect(searchImput).toBeInTheDocument();
     expect(searchImput).toBeEmptyDOMElement();
 
-    await userEvent.type(searchImput, `${testStr}{enter}`);
+    await act(
+      async () => await userEvent.type(searchImput, `${testStr}{enter}`)
+    );
     expect(searchImput).toHaveValue(testStr);
     expect(mockUpdateSearch).toHaveBeenCalledTimes(1);
     expect(mockUpdateSearch).toHaveBeenCalledWith(testStr);
-    await userEvent.type(searchImput, anotherStr);
+    await act(async () => {
+      await userEvent.type(searchImput, anotherStr);
+    });
 
-    const cancelBtn: HTMLElement = getByText('X');
+    const cancelBtn: HTMLElement = getByText(/X/i);
 
     expect(cancelBtn).toBeDefined();
-    await cancelBtn.click();
+    await act(async () => await cancelBtn.click());
+
     expect(mockUpdateSearch).toHaveBeenCalledTimes(2);
     expect(mockUpdateSearch).toHaveBeenCalledWith(emptyStr);
     expect(searchImput).toHaveValue(emptyStr);
 
     expect(searchBtn).toBeDefined();
-    await userEvent.type(searchImput, anotherStr);
+    await act(async () => await userEvent.type(searchImput, anotherStr));
     searchBtn.click();
     expect(mockUpdateSearch).toHaveBeenCalledTimes(3);
     expect(mockUpdateSearch).toHaveBeenCalledWith(anotherStr);
@@ -50,8 +55,8 @@ describe('testing Search component', () => {
       <Search updateSearch={mockUpdateSearch} />
     );
 
-    const searchImput: HTMLElement = getByPlaceholderText('search');
-    const searchBtn: HTMLElement = getByAltText('search');
+    const searchImput: HTMLElement = getByPlaceholderText(/search/i);
+    const searchBtn: HTMLElement = getByAltText(/search/i);
 
     const testStr = 'test';
     const anotherStr = 'another test';
@@ -59,12 +64,14 @@ describe('testing Search component', () => {
     expect(searchBtn).toBeDefined();
     expect(searchImput).toBeInTheDocument();
     expect(searchImput).toBeEmptyDOMElement();
-    await userEvent.type(searchImput, `${testStr}{enter}`);
+    await act(
+      async () => await userEvent.type(searchImput, `${testStr}{enter}`)
+    );
     expect(searchImput).toHaveValue(testStr);
     expect(mockUpdateSearch).toHaveBeenCalledTimes(1);
     expect(mockUpdateSearch).toHaveBeenCalledWith(testStr);
 
-    await userEvent.type(searchImput, anotherStr);
+    await act(async () => await userEvent.type(searchImput, anotherStr));
     searchBtn.click();
     expect(mockUpdateSearch).toHaveBeenCalledTimes(2);
     expect(mockUpdateSearch).toHaveBeenCalledWith(`${testStr}${anotherStr}`);

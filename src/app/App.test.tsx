@@ -8,6 +8,7 @@ test('testing App', async () => {
       <App />
     </BrowserRouter>
   );
-  const h1Text = getByText('Star Wars DB');
+
+  const h1Text = getByText(/Star Wars DB/i);
   expect(h1Text).toBeInTheDocument();
 });

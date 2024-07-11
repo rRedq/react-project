@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { CategoriesList } from './CategoriesList';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -25,15 +25,15 @@ describe('testing CategoriesList', () => {
 
     expect(getByText(planetsTest)).toBeInTheDocument();
 
-    await userEvent.click(getByAltText(speciesTest));
+    await act(async () => await userEvent.click(getByAltText(speciesTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(speciesTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(1);
 
-    await userEvent.click(getByAltText(planetsTest));
+    await act(async () => await userEvent.click(getByAltText(planetsTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(planetsTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(2);
 
-    await userEvent.click(getByAltText(starshipsTest));
+    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(3);
   });
@@ -50,19 +50,19 @@ describe('testing CategoriesList', () => {
 
     expect(getByText(speciesTest)).toBeInTheDocument();
 
-    await userEvent.click(getByAltText(starshipsTest));
+    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(1);
 
-    await userEvent.click(getByAltText(starshipsTest));
+    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(2);
 
-    await userEvent.click(getByAltText(starshipsTest));
+    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(3);
 
-    await userEvent.click(getByAltText(starshipsTest));
+    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
     expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
     expect(mockUpdateCategory).toHaveBeenCalledTimes(4);
   });
