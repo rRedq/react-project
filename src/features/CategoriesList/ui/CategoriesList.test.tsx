@@ -4,6 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { CategoriesType } from 'shared/types';
 
+const speciesTest: CategoriesType = 'species';
+const planetsTest: CategoriesType = 'planets';
+const starshipsTest: CategoriesType = 'starships';
+
 describe('testing CategoriesList', () => {
   const mockUpdateCategory = vi.fn();
 
@@ -11,11 +15,18 @@ describe('testing CategoriesList', () => {
     vi.clearAllMocks();
   });
 
-  it('testing consecutive different requests', async () => {
-    const speciesTest: CategoriesType = 'species';
-    const planetsTest: CategoriesType = 'planets';
-    const starshipsTest: CategoriesType = 'starships';
+  it('testing count of image for categories to equal 3', () => {
+    const { getAllByRole } = render(
+      <CategoriesList
+        activeCategory={planetsTest}
+        updateCategory={mockUpdateCategory}
+      />
+    );
 
+    const imgCount = getAllByRole('img');
+    expect(imgCount).toHaveLength(3);
+  });
+  it('testing consecutive different requests', async () => {
     const { getByAltText, getByText } = render(
       <CategoriesList
         activeCategory={planetsTest}
@@ -38,9 +49,6 @@ describe('testing CategoriesList', () => {
     expect(mockUpdateCategory).toHaveBeenCalledTimes(3);
   });
   it('testing consecutive identical requests', async () => {
-    const speciesTest: CategoriesType = 'species';
-    const starshipsTest: CategoriesType = 'starships';
-
     const { getByAltText, getByText } = render(
       <CategoriesList
         activeCategory={speciesTest}
