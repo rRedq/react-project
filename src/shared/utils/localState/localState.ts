@@ -2,7 +2,7 @@ import { CategoriesType } from 'shared/types';
 
 const STORE_KEY = 'redq-store';
 
-type StorageKeys = 'category' | 'search';
+export type StorageKeys = 'category' | 'search';
 
 type StorageTypeValue<T> = T extends 'category' ? CategoriesType : string;
 
