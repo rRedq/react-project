@@ -11,4 +11,8 @@ export {
   type PlanetsResponse,
 } from './ResponseTypes';
 
-export { type ErrorState, type BaseDataType } from './AppTypes';
+export {
+  type ErrorState,
+  type BaseDataType,
+  type SearchProps,
+} from './AppTypes';

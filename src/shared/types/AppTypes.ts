@@ -1,4 +1,4 @@
-import { CombinedType } from './ResponseTypes';
+import { CategoriesType, CombinedType } from './ResponseTypes';
 
 interface ErrorState {
   hasError: boolean;
@@ -9,4 +9,9 @@ interface BaseDataType {
   data: CombinedType;
 }
 
-export { type ErrorState, type BaseDataType };
+type SearchProps = {
+  search?: string;
+  category?: CategoriesType;
+};
+
+export { type ErrorState, type BaseDataType, type SearchProps };

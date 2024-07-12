@@ -2,6 +2,7 @@ import { vi } from 'vitest';
 import { Search } from './Search';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import style from './Search.module.scss';
 
 describe('testing Search component', () => {
   const mockUpdateSearch = vi.fn();
@@ -24,6 +25,7 @@ describe('testing Search component', () => {
 
     expect(searchImput).toBeInTheDocument();
     expect(searchImput).toBeEmptyDOMElement();
+    expect(searchImput).toHaveClass(style.search);
 
     await act(
       async () => await userEvent.type(searchImput, `${testStr}{enter}`)
