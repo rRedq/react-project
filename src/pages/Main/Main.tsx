@@ -1,46 +1,44 @@
 import { CategoriesList } from 'features/CategoriesList';
 import { Search } from 'features/Search';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { getData } from 'shared/lib/api';
-import { useMount, useUnmount } from 'shared/lib/hooks';
+import { useMount } from 'shared/lib/hooks';
 import { getLocalState } from 'shared/utils/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
-import { CategoriesType, BaseDataType, SearchProps } from 'shared/types';
+import {
+  CategoriesType,
+  BaseDataType,
+  SearchProps,
+  SearchParams,
+} from 'shared/types';
 import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Main.module.scss';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'features/Pagination';
-import { getSearchParamsByKey } from 'shared/utils/searchParams';
+import {
+  getSearchParamsByKey,
+  setSearchParamsObj,
+} from 'shared/utils/searchParams';
+import { DEFAULT_PAGE } from 'shared/consts';
 
 export const Main: FC = () => {
   const [data, setData] = useState<BaseDataType>();
   const [isLoading, setIsLoading] = useState(true);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchProps, setSearchProps] = useState<SearchProps>();
-  const isUnMount = useRef(false);
 
-  const updateData = async (page?: string): Promise<void> => {
+  const updateData = async (): Promise<void> => {
     setIsLoading(true);
 
     const data: BaseDataType = await getData({
       search: searchProps?.search,
       category: searchProps?.category,
-      page,
+      page: searchProps?.page === DEFAULT_PAGE ? undefined : searchProps?.page,
     });
 
     setData(data);
     setIsLoading(false);
-  };
-
-  const updateCategory = (value: CategoriesType): void => {
-    if (searchProps?.category === value || isLoading) return;
-    setSearchProps({ ...searchProps, category: value });
-  };
-
-  const updateSearch = (value: string): void => {
-    if (searchProps?.search === value || isLoading) return;
-    setSearchProps({ ...searchProps, search: value });
   };
 
   useEffect(() => {
@@ -49,38 +47,41 @@ export const Main: FC = () => {
   }, [searchProps]);
 
   useEffect(() => {
-    if (!searchParams.size) return;
     const pageNumber = getSearchParamsByKey('PAGE', searchParams);
-    if (pageNumber) updateData(pageNumber);
-  }, [searchParams]);
+    const newSearch = getSearchParamsByKey('SEARCH', searchParams);
+    const category = getSearchParamsByKey(
+      'CATEGORY',
+      searchParams
+    ) as CategoriesType;
 
-  useEffect(() => {
-    if (!searchProps?.category) return;
-    return () => {
-      isUnMount.current = true;
-    };
-  }, []);
+    setSearchProps({
+      ...searchProps,
+      category,
+      search: newSearch || '',
+      page: pageNumber || DEFAULT_PAGE,
+    });
+  }, [searchParams]);
 
   useMount(() => {
     const storedSearch: string | undefined = getLocalState('search');
     const storedCategory: CategoriesType =
       getLocalState('category') || 'species';
 
-    setSearchProps({ search: storedSearch || '', category: storedCategory });
+    const newState = new Map<keyof typeof SearchParams, string | number>();
+    newState.set('PAGE', DEFAULT_PAGE);
+    newState.set('SEARCH', storedSearch || '');
+    newState.set('CATEGORY', storedCategory);
+    const result = setSearchParamsObj(newState, searchParams);
+    setSearchParams(result);
   });
-
-  useUnmount(isUnMount.current, searchProps);
 
   return (
     <>
       {searchProps && searchProps.category ? (
         <div className={`${style.app} ${style[searchProps.category]}`}>
           <Header />
-          <CategoriesList
-            updateCategory={updateCategory}
-            activeCategory={searchProps.category}
-          />
-          <Search updateSearch={updateSearch} />
+          <CategoriesList activeCategory={searchProps.category} />
+          <Search />
           {isLoading ? (
             <Spinner />
           ) : (

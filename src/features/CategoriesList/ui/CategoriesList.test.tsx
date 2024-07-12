@@ -3,24 +3,24 @@ import { CategoriesList } from './CategoriesList';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { CategoriesType } from 'shared/types';
+import { BrowserRouter } from 'react-router-dom';
+import { getLocalState } from 'shared/utils/localState';
 
 const speciesTest: CategoriesType = 'species';
 const planetsTest: CategoriesType = 'planets';
 const starshipsTest: CategoriesType = 'starships';
+const searchParam = '?category=';
 
 describe('testing CategoriesList', () => {
-  const mockUpdateCategory = vi.fn();
-
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it('testing count of image for categories to equal 3', () => {
     const { getAllByRole } = render(
-      <CategoriesList
-        activeCategory={planetsTest}
-        updateCategory={mockUpdateCategory}
-      />
+      <BrowserRouter>
+        <CategoriesList activeCategory={planetsTest} />
+      </BrowserRouter>
     );
 
     const imgCount = getAllByRole('img');
@@ -28,50 +28,40 @@ describe('testing CategoriesList', () => {
   });
   it('testing consecutive different requests', async () => {
     const { getByAltText, getByText } = render(
-      <CategoriesList
-        activeCategory={planetsTest}
-        updateCategory={mockUpdateCategory}
-      />
+      <BrowserRouter>
+        <CategoriesList activeCategory={planetsTest} />
+      </BrowserRouter>
     );
 
     expect(getByText(planetsTest)).toBeInTheDocument();
 
     await act(async () => await userEvent.click(getByAltText(speciesTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(speciesTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(1);
+    expect(getLocalState('category')).toBe(speciesTest);
+    expect(location.search).toBe(`${searchParam}${speciesTest}`);
 
     await act(async () => await userEvent.click(getByAltText(planetsTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(planetsTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(2);
+    expect(getLocalState('category')).toBe(planetsTest);
+    expect(location.search).toBe(`${searchParam}${planetsTest}`);
 
     await act(async () => await userEvent.click(getByAltText(starshipsTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(3);
+    expect(getLocalState('category')).toBe(starshipsTest);
+    expect(location.search).toBe(`${searchParam}${starshipsTest}`);
   });
   it('testing consecutive identical requests', async () => {
     const { getByAltText, getByText } = render(
-      <CategoriesList
-        activeCategory={speciesTest}
-        updateCategory={mockUpdateCategory}
-      />
+      <BrowserRouter>
+        <CategoriesList activeCategory={planetsTest} />
+      </BrowserRouter>
     );
 
     expect(getByText(speciesTest)).toBeInTheDocument();
 
     await act(async () => await userEvent.click(getByAltText(starshipsTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(1);
+    expect(getLocalState('category')).toBe(starshipsTest);
+    expect(location.search).toBe(`${searchParam}${starshipsTest}`);
 
     await act(async () => await userEvent.click(getByAltText(starshipsTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(2);
-
-    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(3);
-
-    await act(async () => await userEvent.click(getByAltText(starshipsTest)));
-    expect(mockUpdateCategory).toHaveBeenCalledWith(starshipsTest);
-    expect(mockUpdateCategory).toHaveBeenCalledTimes(4);
+    expect(getLocalState('category')).toBe(starshipsTest);
+    expect(location.search).toBe(`${searchParam}${starshipsTest}`);
   });
 });

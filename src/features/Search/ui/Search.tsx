@@ -1,30 +1,48 @@
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from 'react';
 import style from './Search.module.scss';
 import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
-import { getLocalState } from 'shared/utils/localState';
-import { useMount } from 'shared/lib/hooks';
+import { getLocalState, setLocalState } from 'shared/utils/localState';
+import { useMount, useUnmount } from 'shared/lib/hooks';
+import { setSearchParamsByKey } from 'shared/utils/searchParams';
+import { useSearchParams } from 'react-router-dom';
 
-interface SearchProps {
-  updateSearch: (value: string) => void;
-}
-
-export const Search: FC<SearchProps> = ({ updateSearch }) => {
+export const Search: FC = () => {
   const [value, setValue] = useState<string>('');
+  const [submitValue, setSubmitValue] = useState<string>();
+  const storedValue = useRef<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateSearch(value);
+    setSubmitValue(value);
   };
 
-  const crossClick = (): void => {
+  useEffect(() => {
+    if (submitValue === undefined) return;
+    storedValue.current = submitValue;
+    const params = setSearchParamsByKey('SEARCH', value, searchParams);
+    setSearchParams(params);
+    saveValueToLS();
+  }, [submitValue]);
+
+  const crossClick = () => {
     setValue('');
-    updateSearch('');
+    setSubmitValue('');
   };
+
+  const saveValueToLS = () => {
+    setLocalState('search', storedValue.current);
+  };
+
+  useUnmount(() => {
+    saveValueToLS();
+  });
 
   useMount(() => {
-    const storedValue: string | undefined = getLocalState('search');
-    if (storedValue) setValue(storedValue);
+    const getValue: string | undefined = getLocalState('search');
+    if (getValue) setValue(getValue);
+    storedValue.current = getValue || '';
   });
 
   return (
