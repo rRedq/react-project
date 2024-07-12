@@ -14,7 +14,7 @@ import {
 import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Main.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import { Pagination } from 'features/Pagination';
 import {
   getSearchParamsByKey,
@@ -47,8 +47,8 @@ export const Main: FC = () => {
   }, [searchProps]);
 
   useEffect(() => {
-    const pageNumber = getSearchParamsByKey('PAGE', searchParams);
-    const newSearch = getSearchParamsByKey('SEARCH', searchParams);
+    const page = getSearchParamsByKey('PAGE', searchParams);
+    const search = getSearchParamsByKey('SEARCH', searchParams);
     const category = getSearchParamsByKey(
       'CATEGORY',
       searchParams
@@ -57,8 +57,8 @@ export const Main: FC = () => {
     setSearchProps({
       ...searchProps,
       category,
-      search: newSearch || '',
-      page: pageNumber || DEFAULT_PAGE,
+      search: search || '',
+      page: page || DEFAULT_PAGE,
     });
   }, [searchParams]);
 
@@ -80,6 +80,7 @@ export const Main: FC = () => {
       {searchProps && searchProps.category ? (
         <div className={`${style.app} ${style[searchProps.category]}`}>
           <Header />
+          <Outlet />
           <CategoriesList activeCategory={searchProps.category} />
           <Search />
           {isLoading ? (
