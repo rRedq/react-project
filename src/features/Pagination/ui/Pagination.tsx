@@ -20,7 +20,9 @@ export const Pagination: FC<PaginationProps> = ({ count }) => {
   );
 
   const onClick = (value: number): void => {
-    setSearchParams(setSearchParamsByKey('PAGE', value, searchParams));
+    setSearchParams(
+      setSearchParamsByKey('PAGE', value.toString(), searchParams)
+    );
   };
 
   return (
