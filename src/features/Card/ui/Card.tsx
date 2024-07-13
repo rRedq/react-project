@@ -35,7 +35,7 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   };
 
   return (
-    <div className={style.card} onClick={clickHandler}>
+    <div className={style.card} onClick={clickHandler} data-testid="card">
       <h2>{name}</h2>
       <div className={style.content}>
         <div className={style.leftSide}>

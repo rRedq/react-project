@@ -32,6 +32,7 @@ export const CategoriesList: FC<CategoriesListProps> = ({
         <div
           className={`${style.imgContainer} ${activeCategory === convertUrlToLabel(img) ? style.active : style.common}`}
           key={index}
+          data-testid="caregory"
           onClick={() => setCategory(convertUrlToLabel(img))}
         >
           <img className={style.img} src={img} alt={convertUrlToLabel(img)} />

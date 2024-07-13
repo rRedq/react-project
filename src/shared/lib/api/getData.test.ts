@@ -1,11 +1,9 @@
-import createFetchMock from 'vitest-fetch-mock';
-import { vi } from 'vitest';
 import { getData } from './getData';
 import { BaseDataType, BaseResponse, CategoriesType } from 'shared/types';
-import { DEFAULT_URL } from 'shared/consts';
+import axios from 'axios';
+import { vi } from 'vitest';
 
-const fetchMock = createFetchMock(vi);
-fetchMock.enableMocks();
+vi.mock('axios');
 
 const testData: BaseResponse = {
   count: 0,
@@ -17,15 +15,16 @@ const testData: BaseResponse = {
 test('testing getData', async () => {
   const search = 'test';
   const category: CategoriesType = 'starships';
-  const expectedUrl = `${DEFAULT_URL}${category}?search=${search}`;
 
-  fetchMock.mockResponseOnce(JSON.stringify(testData));
+  vi.mocked(axios.get).mockResolvedValue({
+    data: testData,
+    status: 200,
+  });
 
   const result: BaseDataType = await getData({ search, category });
   const { data, count } = result;
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(expectedUrl);
+  expect(axios.get).toHaveBeenCalledTimes(1);
   expect(data).toEqual([]);
   expect(count).toBe(0);
 });

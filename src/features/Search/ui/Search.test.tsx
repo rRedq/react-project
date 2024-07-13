@@ -19,7 +19,7 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-it('testing Search component', async () => {
+test('testing Search component', async () => {
   const { getByPlaceholderText, getByText, getByAltText } = render(
     <Search updateSearch={mockUpdateSearch} />
   );
