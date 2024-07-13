@@ -31,12 +31,17 @@ export const CardDetails: FC = () => {
   }, [getSearchParamsByKey('DETAILS', searchParams)]);
 
   const getDetails = async (data: CardDetailsProps) => {
-    setIsLoading(true);
-    const { card, category } = data;
+    try {
+      setIsLoading(true);
+      const { card, category } = data;
 
-    const result = await getDetailsData({ card, category });
-    setCurrentCard(result);
-    setIsLoading(false);
+      const result = await getDetailsData({ card, category });
+      setCurrentCard(result);
+    } catch {
+      closeDetails();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const memoDetails = useMemo(() => {
@@ -56,7 +61,7 @@ export const CardDetails: FC = () => {
     );
   }, [currentCard]);
 
-  const onClose = () => {
+  const closeDetails = () => {
     const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
     setSearchParams(props);
   };
@@ -67,7 +72,7 @@ export const CardDetails: FC = () => {
         <Spinner />
       ) : (
         <div className={style.wrapper}>
-          <div className={style.close} onClick={onClose}></div>
+          <div className={style.close} onClick={closeDetails}></div>
           {memoDetails}
         </div>
       )}

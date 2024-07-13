@@ -24,16 +24,22 @@ export const Main: FC = () => {
   const [searchProps, setSearchProps] = useState<SearchProps>();
 
   const updateData = async (): Promise<void> => {
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-    const data: BaseDataType = await getData({
-      search: searchProps?.search,
-      category: searchProps?.category,
-      page: searchProps?.page === DEFAULT_PAGE ? undefined : searchProps?.page,
-    });
+      const data: BaseDataType = await getData({
+        search: searchProps?.search,
+        category: searchProps?.category || 'species',
+        page:
+          searchProps?.page === DEFAULT_PAGE ? undefined : searchProps?.page,
+      });
 
-    setData(data);
-    setIsLoading(false);
+      setData(data);
+    } catch {
+      setData(undefined);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const updateCategory = (value: CategoriesType): void => {

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { DEFAULT_URL } from 'shared/consts';
 import { CategoriesType, CombinedTypeDetails } from 'shared/types';
 
@@ -10,14 +11,16 @@ export const getDetailsData = async (
   props: getDataType
 ): Promise<CombinedTypeDetails> => {
   const { category, card } = props;
-  const categoryUrl: CategoriesType = category || 'species';
-  const result = await fetch(`${DEFAULT_URL}${categoryUrl}/${card}`);
 
-  if (!result.ok) {
+  const res = await axios.get<CombinedTypeDetails>(card, {
+    baseURL: `${DEFAULT_URL}${category}`,
+  });
+
+  if (res.status !== 200) {
     throw new Error('something went wrong during getting data');
   }
 
-  const data: CombinedTypeDetails = await result.json();
+  const data: CombinedTypeDetails = res.data;
 
   return data;
 };
