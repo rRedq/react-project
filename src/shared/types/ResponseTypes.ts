@@ -38,6 +38,11 @@ type CategoriesType = 'planets' | 'species' | 'starships';
 
 type CombinedType = SpeciesResponse[] | StarshipsResponse[] | PlanetsResponse[];
 
+type CombinedTypeDetails =
+  | SpeciesResponse
+  | StarshipsResponse
+  | PlanetsResponse;
+
 export {
   type BaseResponse,
   type SpeciesResponse,
@@ -45,4 +50,5 @@ export {
   type CombinedType,
   type StarshipsResponse,
   type PlanetsResponse,
+  type CombinedTypeDetails,
 };

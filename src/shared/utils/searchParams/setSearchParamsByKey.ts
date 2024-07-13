@@ -2,11 +2,13 @@ import { SearchParams } from 'shared/types';
 
 export const setSearchParamsByKey = (
   key: keyof typeof SearchParams,
-  value: string | number,
+  value: string | undefined,
   prevSearch: URLSearchParams
 ): URLSearchParams => {
   const params = new URLSearchParams(prevSearch.toString());
-  params.set(SearchParams[key], value.toString());
+
+  if (value === undefined) params.delete(SearchParams[key]);
+  else params.set(SearchParams[key], value);
 
   return params;
 };

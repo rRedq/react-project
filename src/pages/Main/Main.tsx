@@ -5,12 +5,7 @@ import { getData } from 'shared/lib/api';
 import { useMount } from 'shared/lib/hooks';
 import { getLocalState } from 'shared/utils/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
-import {
-  CategoriesType,
-  BaseDataType,
-  SearchProps,
-  SearchParams,
-} from 'shared/types';
+import { CategoriesType, BaseDataType, SearchProps } from 'shared/types';
 import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Main.module.scss';
@@ -18,7 +13,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import { Pagination } from 'features/Pagination';
 import {
   getSearchParamsByKey,
-  setSearchParamsObj,
+  setSearchParamsByKey,
 } from 'shared/utils/searchParams';
 import { DEFAULT_PAGE } from 'shared/consts';
 
@@ -58,6 +53,7 @@ export const Main: FC = () => {
 
   useEffect(() => {
     const page = getSearchParamsByKey('PAGE', searchParams);
+    if (page === searchProps?.page) return;
 
     setSearchProps({
       ...searchProps,
@@ -70,12 +66,11 @@ export const Main: FC = () => {
     const category: CategoriesType = getLocalState('category') || 'species';
     const page = getSearchParamsByKey('PAGE', searchParams);
 
-    const newState = new Map<keyof typeof SearchParams, string | number>();
-    newState.set('PAGE', page || DEFAULT_PAGE);
+    if (!page) {
+      const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
+      setSearchParams(result);
+    }
 
-    const result = setSearchParamsObj(newState, searchParams);
-
-    setSearchParams(result);
     setSearchProps({
       ...searchProps,
       category: category,
@@ -89,7 +84,7 @@ export const Main: FC = () => {
       {searchProps && searchProps.category ? (
         <div className={`${style.app} ${style[searchProps.category]}`}>
           <Header />
-          <Outlet />
+          {getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}
           <CategoriesList
             activeCategory={searchProps.category}
             updateCategory={updateCategory}

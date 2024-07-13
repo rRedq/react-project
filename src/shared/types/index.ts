@@ -9,6 +9,7 @@ export {
   type CombinedType,
   type StarshipsResponse,
   type PlanetsResponse,
+  type CombinedTypeDetails,
 } from './ResponseTypes';
 
 export {

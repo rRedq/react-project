@@ -1,0 +1,17 @@
+@import '../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex(center, $alignItems: center, $direction: column, $gap: 10px);
+  background: var(--main-color-4);
+  color: var(--main-color-1);
+}
+
+.close {
+  @include flex(center, $alignItems: center, $borderRadius: true);
+  padding: 5px;
+  background: var(--red);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
