@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   PlanetsResponse,
   SpeciesResponse,
@@ -18,7 +18,8 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   const keys: string[] = Object.keys(rest);
   const value: string[] = Object.values(rest);
 
-  const clickHandler = () => {
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
     const parse = url.split('/');
     const categoryIndex = 3;
     const itemIndex = 2;

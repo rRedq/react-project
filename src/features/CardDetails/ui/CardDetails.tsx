@@ -7,6 +7,7 @@ import {
 } from 'shared/utils/searchParams';
 import { getDetailsData } from 'shared/lib/api';
 import { CategoriesType, CombinedTypeDetails } from 'shared/types';
+import { Spinner } from 'shared/lib/ui/Spinner';
 
 interface CardDetailsProps {
   card: string;
@@ -16,6 +17,7 @@ interface CardDetailsProps {
 export const CardDetails: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentCard, setCurrentCard] = useState<CombinedTypeDetails>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const params = getSearchParamsByKey('DETAILS', searchParams);
@@ -29,10 +31,12 @@ export const CardDetails: FC = () => {
   }, [getSearchParamsByKey('DETAILS', searchParams)]);
 
   const getDetails = async (data: CardDetailsProps) => {
+    setIsLoading(true);
     const { card, category } = data;
+
     const result = await getDetailsData({ card, category });
-    const firstItem = 0;
-    setCurrentCard(result[firstItem]);
+    setCurrentCard(result);
+    setIsLoading(false);
   };
 
   const memoDetails = useMemo(() => {
@@ -41,7 +45,7 @@ export const CardDetails: FC = () => {
     keys.splice(keys.indexOf('url'), 1);
     const value: string[] = Object.values(currentCard);
     return (
-      <div>
+      <div className={style.container}>
         {keys.map((key, index) => (
           <p key={index}>
             <span>{key.split('_').join(' ')}: </span>
@@ -58,11 +62,15 @@ export const CardDetails: FC = () => {
   };
 
   return (
-    <div className={style.wrapper}>
-      {memoDetails}
-      <div className={style.close} onClick={onClose}>
-        close
-      </div>
+    <div className={style.cover}>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className={style.wrapper}>
+          <div className={style.close} onClick={onClose}></div>
+          {memoDetails}
+        </div>
+      )}
     </div>
   );
 };

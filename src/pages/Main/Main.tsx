@@ -38,12 +38,16 @@ export const Main: FC = () => {
 
   const updateCategory = (value: CategoriesType): void => {
     if (searchProps?.category === value || isLoading) return;
-    setSearchProps({ ...searchProps, category: value });
+    setSearchProps({ ...searchProps, category: value, page: DEFAULT_PAGE });
+    const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
+    setSearchParams(result);
   };
 
   const updateSearch = (value: string): void => {
     if (searchProps?.search === value || isLoading) return;
-    setSearchProps({ ...searchProps, search: value });
+    setSearchProps({ ...searchProps, search: value, page: DEFAULT_PAGE });
+    const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
+    setSearchParams(result);
   };
 
   useEffect(() => {
@@ -79,22 +83,34 @@ export const Main: FC = () => {
     });
   });
 
+  const closeDetails = () => {
+    const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
+    setSearchParams(props);
+  };
+
   return (
     <>
       {searchProps && searchProps.category ? (
         <div className={`${style.app} ${style[searchProps.category]}`}>
           <Header />
-          {getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}
           <CategoriesList
             activeCategory={searchProps.category}
             updateCategory={updateCategory}
           />
           <Search updateSearch={updateSearch} />
+
           {isLoading ? (
             <Spinner />
           ) : (
             <>
-              {data && data.data && <CardList data={data.data} />}
+              <div className={style.container}>
+                <div onClick={closeDetails}>
+                  {data && data.data && <CardList data={data.data} />}
+                </div>
+                <div>
+                  {getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}
+                </div>
+              </div>
               {data && data.count && <Pagination count={data.count} />}
             </>
           )}

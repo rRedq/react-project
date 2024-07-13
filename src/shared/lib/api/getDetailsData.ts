@@ -1,15 +1,5 @@
 import { DEFAULT_URL } from 'shared/consts';
-import {
-  CategoriesType,
-  CombinedTypeDetails,
-  PlanetsResponse,
-  StarshipsResponse,
-  SpeciesResponse,
-  CombinedType,
-} from 'shared/types';
-import { planetsDataConverter } from '../dataConverters/planetsDataConverter';
-import { starshipsDataConverter } from '../dataConverters/starshipsDataConverter';
-import { speciesDataConverter } from '../dataConverters/speciesDataConverter';
+import { CategoriesType, CombinedTypeDetails } from 'shared/types';
 
 type getDataType = {
   category: CategoriesType;
@@ -18,7 +8,7 @@ type getDataType = {
 
 export const getDetailsData = async (
   props: getDataType
-): Promise<CombinedType> => {
+): Promise<CombinedTypeDetails> => {
   const { category, card } = props;
   const categoryUrl: CategoriesType = category || 'species';
   const result = await fetch(`${DEFAULT_URL}${categoryUrl}/${card}`);
@@ -29,15 +19,5 @@ export const getDetailsData = async (
 
   const data: CombinedTypeDetails = await result.json();
 
-  let formattedData: CombinedType;
-
-  if (categoryUrl === 'planets') {
-    formattedData = planetsDataConverter([data as PlanetsResponse]);
-  } else if (categoryUrl === 'starships') {
-    formattedData = starshipsDataConverter([data as StarshipsResponse]);
-  } else {
-    formattedData = speciesDataConverter([data as SpeciesResponse]);
-  }
-
-  return formattedData;
+  return data;
 };
