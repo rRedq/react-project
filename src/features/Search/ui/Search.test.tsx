@@ -1,58 +1,68 @@
+import { vi } from 'vitest';
 import { Search } from './Search';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
-import { BrowserRouter } from 'react-router-dom';
-import { getLocalState } from 'shared/utils/localState/localState';
+import { getLocalState, setLocalState } from 'shared/utils/localState';
 
-test('testing Search component', async () => {
+const mockUpdateSearch = vi.fn();
+
+const testStr = 'test';
+const anotherStr = 'cr';
+const emptyStr = '';
+
+beforeAll(() => {
+  setLocalState('search', anotherStr);
+});
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
+
+it('testing Search component', async () => {
   const { getByPlaceholderText, getByText, getByAltText } = render(
-    <BrowserRouter>
-      <Search />
-    </BrowserRouter>
+    <Search updateSearch={mockUpdateSearch} />
   );
 
   const searchImput: HTMLElement = getByPlaceholderText(/search/i);
   const searchBtn: HTMLElement = getByAltText(/search/i);
 
-  const testStr = 'test';
-  const anotherStr = 'cr';
-  const emptyStr = '';
-  const searchParam = '?search=';
-
   expect(searchImput).toBeInTheDocument();
-  expect(searchImput).toBeEmptyDOMElement();
+  expect(getLocalState('search')).toBe(anotherStr);
+  expect(searchImput).toHaveValue(anotherStr);
   expect(searchImput).toHaveClass(style.search);
-  expect(searchImput).toHaveValue(emptyStr);
-  expect(location.search).toBeFalsy();
 
   await act(async () => await userEvent.type(searchImput, `${testStr}{enter}`));
-
-  expect(searchImput).toHaveValue(testStr);
-  expect(getLocalState('search')).toBe(testStr);
-  expect(location.search).toBe(`${searchParam}${testStr}`);
+  expect(searchImput).toHaveValue(`${anotherStr}${testStr}`);
+  expect(mockUpdateSearch).toHaveBeenCalledTimes(1);
+  expect(mockUpdateSearch).toHaveBeenCalledWith(`${anotherStr}${testStr}`);
+  expect(getLocalState('search')).toBe(`${anotherStr}${testStr}`);
 
   await act(async () => {
     await userEvent.type(searchImput, anotherStr);
   });
 
+  expect(searchImput).toHaveValue(`${anotherStr}${testStr}${anotherStr}`);
   const cancelBtn: HTMLElement = getByText(/X/i);
 
   expect(cancelBtn).toBeDefined();
   await act(async () => await cancelBtn.click());
-  expect(getLocalState('search')).toBe(emptyStr);
+
+  expect(mockUpdateSearch).toHaveBeenCalledTimes(2);
+  expect(mockUpdateSearch).toHaveBeenCalledWith(emptyStr);
   expect(searchImput).toHaveValue(emptyStr);
-  expect(location.search).toBe(emptyStr);
+  expect(getLocalState('search')).toBe(emptyStr);
 
   expect(searchBtn).toBeDefined();
   await act(async () => await userEvent.type(searchImput, anotherStr));
   await act(async () => await searchBtn.click());
+  expect(mockUpdateSearch).toHaveBeenCalledTimes(3);
+  expect(mockUpdateSearch).toHaveBeenCalledWith(anotherStr);
   expect(getLocalState('search')).toBe(anotherStr);
-  expect(searchImput).toHaveValue(anotherStr);
-  expect(location.search).toBe(`${searchParam}${anotherStr}`);
 
-  await act(async () => await userEvent.type(searchImput, testStr));
-  await act(async () => searchBtn.click());
+  await act(async () => await userEvent.type(searchImput, `${testStr}{enter}`));
+  expect(mockUpdateSearch).toHaveBeenCalledTimes(4);
+  expect(mockUpdateSearch).toHaveBeenCalledWith(`${anotherStr}${testStr}`);
+  expect(searchImput).toHaveValue(`${anotherStr}${testStr}`);
   expect(getLocalState('search')).toBe(`${anotherStr}${testStr}`);
-  expect(location.search).toBe(`${searchParam}${anotherStr}${testStr}`);
 });

@@ -8,11 +8,5 @@ export const setSearchParamsByKey = (
   const params = new URLSearchParams(prevSearch.toString());
   params.set(SearchParams[key], value.toString());
 
-  if (key === 'SEARCH') {
-    if (!value) params.delete(SearchParams[key]);
-  }
-
-  console.log(params.get(SearchParams[key]));
-
   return params;
 };

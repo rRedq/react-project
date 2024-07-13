@@ -4,14 +4,15 @@ import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
 import { useMount, useUnmount } from 'shared/lib/hooks';
-import { setSearchParamsByKey } from 'shared/utils/searchParams';
-import { useSearchParams } from 'react-router-dom';
 
-export const Search: FC = () => {
+interface SearchProps {
+  updateSearch: (value: string) => void;
+}
+
+export const Search: FC<SearchProps> = ({ updateSearch }) => {
   const [value, setValue] = useState<string>('');
   const [submitValue, setSubmitValue] = useState<string>();
   const storedValue = useRef<string>('');
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,8 +22,7 @@ export const Search: FC = () => {
   useEffect(() => {
     if (submitValue === undefined) return;
     storedValue.current = submitValue;
-    const params = setSearchParamsByKey('SEARCH', value, searchParams);
-    setSearchParams(params);
+    updateSearch(submitValue);
     saveValueToLS();
   }, [submitValue]);
 

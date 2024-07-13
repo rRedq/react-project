@@ -41,6 +41,16 @@ export const Main: FC = () => {
     setIsLoading(false);
   };
 
+  const updateCategory = (value: CategoriesType): void => {
+    if (searchProps?.category === value || isLoading) return;
+    setSearchProps({ ...searchProps, category: value });
+  };
+
+  const updateSearch = (value: string): void => {
+    if (searchProps?.search === value || isLoading) return;
+    setSearchProps({ ...searchProps, search: value });
+  };
+
   useEffect(() => {
     if (!searchProps) return;
     updateData();
@@ -48,31 +58,30 @@ export const Main: FC = () => {
 
   useEffect(() => {
     const page = getSearchParamsByKey('PAGE', searchParams);
-    const search = getSearchParamsByKey('SEARCH', searchParams);
-    const category = getSearchParamsByKey(
-      'CATEGORY',
-      searchParams
-    ) as CategoriesType;
 
     setSearchProps({
       ...searchProps,
-      category,
-      search: search || '',
       page: page || DEFAULT_PAGE,
     });
   }, [searchParams]);
 
   useMount(() => {
-    const storedSearch: string | undefined = getLocalState('search');
-    const storedCategory: CategoriesType =
-      getLocalState('category') || 'species';
+    const search: string | undefined = getLocalState('search');
+    const category: CategoriesType = getLocalState('category') || 'species';
+    const page = getSearchParamsByKey('PAGE', searchParams);
 
     const newState = new Map<keyof typeof SearchParams, string | number>();
-    newState.set('PAGE', DEFAULT_PAGE);
-    newState.set('SEARCH', storedSearch || '');
-    newState.set('CATEGORY', storedCategory);
+    newState.set('PAGE', page || DEFAULT_PAGE);
+
     const result = setSearchParamsObj(newState, searchParams);
+
     setSearchParams(result);
+    setSearchProps({
+      ...searchProps,
+      category: category,
+      page: page || undefined,
+      search,
+    });
   });
 
   return (
@@ -81,8 +90,11 @@ export const Main: FC = () => {
         <div className={`${style.app} ${style[searchProps.category]}`}>
           <Header />
           <Outlet />
-          <CategoriesList activeCategory={searchProps.category} />
-          <Search />
+          <CategoriesList
+            activeCategory={searchProps.category}
+            updateCategory={updateCategory}
+          />
+          <Search updateSearch={updateSearch} />
           {isLoading ? (
             <Spinner />
           ) : (
