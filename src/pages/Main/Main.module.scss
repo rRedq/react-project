@@ -1,0 +1,27 @@
+@import '../../app/styles/common.scss';
+
+.species {
+  background: url('../../shared/assets/images/background/species.jpg');
+}
+
+.starships {
+  background: url('../../shared/assets/images/background/starships.jpg');
+}
+
+.planets {
+  background: url('../../shared/assets/images/background/planets.jpg');
+}
+
+.app {
+  @include flex($direction: column, $grow: 1);
+  @include imgBackground;
+}
+
+.container {
+  @include flex(center, $grow: 1);
+  width: 100%;
+}
+
+.cover {
+  @include flex(center, $alignItems: center);
+}

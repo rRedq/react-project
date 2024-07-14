@@ -1,0 +1,25 @@
+@import '../../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex($grow: 1);
+  background: var(--main-color-4);
+  color: var(--main-color-1);
+}
+
+.container {
+  @include flex(center, 10px, $alignItems: center, $direction: column);
+  text-align: center;
+  margin: auto;
+}
+
+.btn {
+  border-radius: $border-radius;
+  padding: 7px 10px;
+  background: var(--green);
+  color: var(--main-color-4);
+
+  &:hover {
+    cursor: pointer;
+    color: var(--main-color-1);
+  }
+}
