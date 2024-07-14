@@ -9,7 +9,7 @@ import { getDetailsData } from 'shared/lib/api';
 import { CategoriesType, CombinedTypeDetails } from 'shared/types';
 import { Spinner } from 'shared/lib/ui/Spinner';
 
-interface CardDetailsProps {
+export interface CardDetailsProps {
   card: string;
   category: CategoriesType;
 }
@@ -67,12 +67,16 @@ export const CardDetails: FC = () => {
   };
 
   return (
-    <div className={style.cover}>
+    <div className={style.cover} data-testid="details">
       {isLoading ? (
         <Spinner />
       ) : (
         <div className={style.wrapper}>
-          <div className={style.close} onClick={closeDetails}></div>
+          <div
+            className={style.close}
+            onClick={closeDetails}
+            data-testid="close"
+          ></div>
           {memoDetails}
         </div>
       )}

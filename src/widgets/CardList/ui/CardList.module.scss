@@ -11,7 +11,7 @@
 }
 
 .emptyList {
-  @include flex(center, $alignItems: center, $grow: 1);
+  @include flex(center, $alignItems: center);
   font-size: 33px;
   font-weight: bold;
   color: var(--main-color-4);

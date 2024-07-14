@@ -21,3 +21,7 @@
   @include flex(center, $grow: 1);
   width: 100%;
 }
+
+.cover {
+  @include flex(center, $alignItems: center);
+}

@@ -26,15 +26,13 @@ export const Main: FC = () => {
   const updateData = async (): Promise<void> => {
     try {
       setIsLoading(true);
-
-      const data: BaseDataType = await getData({
+      const response: BaseDataType = await getData({
         search: searchProps?.search,
         category: searchProps?.category || 'species',
         page:
           searchProps?.page === DEFAULT_PAGE ? undefined : searchProps?.page,
       });
-
-      setData(data);
+      setData(response);
     } catch {
       setData(undefined);
     } finally {
@@ -93,7 +91,6 @@ export const Main: FC = () => {
     const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
     setSearchParams(props);
   };
-
   return (
     <>
       {searchProps && searchProps.category ? (
@@ -109,8 +106,12 @@ export const Main: FC = () => {
             <Spinner />
           ) : (
             <>
-              <div className={style.container}>
-                <div onClick={closeDetails}>
+              <div className={style.container} data-testid="container">
+                <div
+                  className={style.cover}
+                  onClick={closeDetails}
+                  data-testid="cover"
+                >
                   {data && data.data && <CardList data={data.data} />}
                 </div>
                 <div>
