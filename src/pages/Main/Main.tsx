@@ -90,40 +90,36 @@ export const Main: FC = () => {
     const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
     setSearchParams(props);
   };
-  return (
-    <>
-      {searchProps && searchProps.category ? (
-        <div className={`${style.app} ${style[searchProps.category]}`}>
-          <Header />
-          <CategoriesList
-            activeCategory={searchProps.category}
-            updateCategory={updateCategory}
-          />
-          <Search updateSearch={updateSearch} />
 
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <>
-              <div className={style.container} data-testid="container">
-                <div
-                  className={style.cover}
-                  onClick={closeDetails}
-                  data-testid="cover"
-                >
-                  {data && data.data && <CardList data={data.data} />}
-                </div>
-                <div>
-                  {getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}
-                </div>
-              </div>
-              {data && data.count && <Pagination count={data.count} />}
-            </>
-          )}
-        </div>
-      ) : (
+  if (!searchProps?.category) return <Spinner />;
+
+  return (
+    <div
+      className={`${style.app} ${style[searchProps.category]}`}
+      onClick={closeDetails}
+    >
+      <Header />
+      <CategoriesList
+        activeCategory={searchProps.category}
+        updateCategory={updateCategory}
+      />
+      <Search updateSearch={updateSearch} />
+
+      {isLoading ? (
         <Spinner />
+      ) : (
+        <>
+          <div className={style.container} data-testid="container">
+            <div className={style.cover} data-testid="cover">
+              {data && data.data && <CardList data={data.data} />}
+            </div>
+            <div>
+              {getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}
+            </div>
+          </div>
+          {data && data.count && <Pagination count={data.count} />}
+        </>
       )}
-    </>
+    </div>
   );
 };
