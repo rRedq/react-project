@@ -2,7 +2,6 @@ import { CategoriesList } from 'features/CategoriesList';
 import { Search } from 'features/Search';
 import { FC, useEffect, useState } from 'react';
 import { getData } from 'shared/lib/api';
-import { useMount } from 'shared/lib/hooks';
 import { getLocalState } from 'shared/utils/localState';
 import { Spinner } from 'shared/lib/ui/Spinner';
 import { CategoriesType, BaseDataType, SearchProps } from 'shared/types';
@@ -69,7 +68,7 @@ export const Main: FC = () => {
     });
   }, [searchParams]);
 
-  useMount(() => {
+  useEffect(() => {
     const search: string | undefined = getLocalState('search');
     const category: CategoriesType = getLocalState('category') || 'species';
     const page = getSearchParamsByKey('PAGE', searchParams);
@@ -85,7 +84,7 @@ export const Main: FC = () => {
       page: page || undefined,
       search,
     });
-  });
+  }, []);
 
   const closeDetails = () => {
     const props = setSearchParamsByKey('DETAILS', undefined, searchParams);

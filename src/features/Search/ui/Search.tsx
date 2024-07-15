@@ -3,7 +3,6 @@ import style from './Search.module.scss';
 import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { useMount, useUnmount } from 'shared/lib/hooks';
 
 interface SearchProps {
   updateSearch: (value: string) => void;
@@ -23,7 +22,7 @@ export const Search: FC<SearchProps> = ({ updateSearch }) => {
     if (submitValue === undefined) return;
     storedValue.current = submitValue;
     updateSearch(submitValue);
-    saveValueToLS();
+    setLocalState('search', storedValue.current);
   }, [submitValue]);
 
   const crossClick = () => {
@@ -31,19 +30,11 @@ export const Search: FC<SearchProps> = ({ updateSearch }) => {
     setSubmitValue('');
   };
 
-  const saveValueToLS = () => {
-    setLocalState('search', storedValue.current);
-  };
-
-  useUnmount(() => {
-    saveValueToLS();
-  });
-
-  useMount(() => {
+  useEffect(() => {
     const getValue: string | undefined = getLocalState('search');
     if (getValue) setValue(getValue);
     storedValue.current = getValue || '';
-  });
+  }, []);
 
   return (
     <form className={style.searchForm} onSubmit={onSubmit}>
