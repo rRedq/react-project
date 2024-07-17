@@ -1,7 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { DEFAULT_PAGE, DEFAULT_URL } from 'shared/consts';
-import { BaseDataType, BaseResponse, SearchProps } from 'shared/types';
+import {
+  BaseDataType,
+  BaseResponse,
+  CategoriesType,
+  CombinedTypeDetails,
+  SearchProps,
+} from 'shared/types';
 import { baseDataConverter } from '../dataConverters';
+
+type getDataType = {
+  category: CategoriesType;
+  card: string;
+};
 
 export const swapi = createApi({
   reducerPath: 'swapi',
@@ -23,9 +34,12 @@ export const swapi = createApi({
         { category }: SearchProps
       ) => baseDataConverter(response, category),
     }),
+    getDetailsData: builder.query<CombinedTypeDetails, getDataType>({
+      query: ({ category, card }) => `${DEFAULT_URL}${category}/${card}`,
+    }),
   }),
 });
 
-export const { useGetDataQuery } = swapi;
+export const { useGetDataQuery, useGetDetailsDataQuery } = swapi;
 
 export const swapiReducer = swapi.reducer;

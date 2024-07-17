@@ -31,13 +31,15 @@ export const useSearchQuery = () => {
   }, [category, search]);
 
   useEffect(() => {
-    console.log('page = ', page);
     if (searchProps.page === page) return;
     setSearchProps({ ...searchProps, page });
   }, [page]);
 
   useEffect(() => {
-    if (!page) setSearchParams(page);
+    if (!page) {
+      const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
+      setSearchParams(result);
+    }
   }, []);
 
   return searchProps;

@@ -59,3 +59,16 @@
   position: absolute;
   transition: transform 0.3s ease;
 }
+
+.label {
+  padding: 0 7px;
+  @include flex(space-between);
+
+  input {
+    width: 18px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

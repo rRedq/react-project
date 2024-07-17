@@ -1,4 +1,4 @@
-export { swapiReducer, useGetDataQuery } from './swApi';
+export { swapiReducer, useGetDataQuery, useGetDetailsDataQuery } from './swApi';
 
 export { getDetailsData } from './getDetailsData';
 

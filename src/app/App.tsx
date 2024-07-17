@@ -3,7 +3,7 @@ import './styles/global.scss';
 import { ErrorBoundary } from 'shared/lib/ui/ErrorBoundary';
 import { RouteProvider } from './providers/routerProvider';
 import { Provider } from 'react-redux';
-import { store } from './providers/routerProvider/storeProvider/config/store';
+import { store } from './providers/storeProvider/config/store';
 
 export const App: FC = () => {
   return (

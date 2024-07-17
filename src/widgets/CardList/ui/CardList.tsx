@@ -8,13 +8,13 @@ import {
   setSearchParamsByKey,
 } from 'shared/utils/searchParams';
 import { Pagination } from 'features/Pagination';
-import { useSearchQuery } from '../hoook/useSearchQuery';
+import { useSearchQuery } from './hoook/useSearchQuery';
 import { useGetDataQuery } from 'shared/lib/api';
 
 export const CardList: FC = () => {
   const searchQuery = useSearchQuery();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading } = useGetDataQuery(searchQuery);
+  const { data, isFetching } = useGetDataQuery(searchQuery);
 
   const closeDetails = () => {
     const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
@@ -23,7 +23,7 @@ export const CardList: FC = () => {
 
   let content: ReactNode;
 
-  if (isLoading) {
+  if (isFetching) {
     content = <Spinner />;
   } else if (data && data.data.length > 0) {
     content = (
