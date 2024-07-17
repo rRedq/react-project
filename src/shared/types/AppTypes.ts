@@ -11,7 +11,7 @@ interface BaseDataType {
 
 type SearchProps = {
   search?: string;
-  category?: CategoriesType;
+  category: CategoriesType;
   page?: string;
 };
 

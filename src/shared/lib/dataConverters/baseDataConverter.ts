@@ -15,25 +15,25 @@ export const baseDataConverter = (
   data: BaseResponse,
   category: CategoriesType
 ): BaseDataType => {
-  let formatedData: CombinedType;
+  let formattedData: CombinedType;
 
   switch (category) {
     case 'species':
-      formatedData = speciesDataConverter(data.results as SpeciesResponse[]);
+      formattedData = speciesDataConverter(data.results as SpeciesResponse[]);
       break;
     case 'starships':
-      formatedData = starshipsDataConverter(
+      formattedData = starshipsDataConverter(
         data.results as StarshipsResponse[]
       );
       break;
     case 'planets':
-      formatedData = planetsDataConverter(data.results as PlanetsResponse[]);
+      formattedData = planetsDataConverter(data.results as PlanetsResponse[]);
       break;
     default:
-      formatedData = speciesDataConverter(data.results as SpeciesResponse[]);
+      formattedData = speciesDataConverter(data.results as SpeciesResponse[]);
   }
 
-  const result: BaseDataType = { count: data.count || 0, data: formatedData };
+  const result: BaseDataType = { count: data.count || 0, data: formattedData };
 
   return result;
 };

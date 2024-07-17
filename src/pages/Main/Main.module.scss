@@ -16,12 +16,3 @@
   @include flex($direction: column, $grow: 1);
   @include imgBackground;
 }
-
-.container {
-  @include flex(center, $grow: 1);
-  width: 100%;
-}
-
-.cover {
-  @include flex(center, $alignItems: center);
-}

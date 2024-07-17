@@ -20,9 +20,7 @@ afterEach(() => {
 });
 
 test('testing Search component', async () => {
-  const { getByPlaceholderText, getByText, getByAltText } = render(
-    <Search updateSearch={mockUpdateSearch} />
-  );
+  const { getByPlaceholderText, getByText, getByAltText } = render(<Search />);
 
   const searchImput: HTMLElement = getByPlaceholderText(/search/i);
   const searchBtn: HTMLElement = getByAltText(/search/i);

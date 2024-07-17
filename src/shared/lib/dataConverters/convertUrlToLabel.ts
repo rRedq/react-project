@@ -1,11 +1,12 @@
+import { DEFAULT_CATEGORY } from 'shared/consts';
 import { CategoriesType } from 'shared/types';
 
 export const convertUrlToLabel = (url: string): CategoriesType => {
   const firstParamIndex = 0;
   const lastParamIndex = 1;
   const validCategories: CategoriesType[] = ['planets', 'species', 'starships'];
-  const splitedUrl: string[] = url.split('/');
-  const lastElem: string = splitedUrl[splitedUrl.length - lastParamIndex];
+  const splittedUrl: string[] = url.split('/');
+  const lastElem: string = splittedUrl[splittedUrl.length - lastParamIndex];
   const resultWithExt: string = lastElem.split('?')[firstParamIndex];
   const resultWithoutExt: string = resultWithExt
     .split('.')
@@ -15,7 +16,7 @@ export const convertUrlToLabel = (url: string): CategoriesType => {
     resultWithoutExt as CategoriesType
   )
     ? (resultWithoutExt as CategoriesType)
-    : 'species';
+    : DEFAULT_CATEGORY;
 
   return result;
 };

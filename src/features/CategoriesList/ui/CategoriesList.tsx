@@ -6,34 +6,30 @@ import planets from 'shared/assets/images/filters/planets.jpg';
 import { convertUrlToLabel } from 'shared/lib/dataConverters';
 import { CategoriesType } from 'shared/types';
 import { setLocalState } from 'shared/utils/localState';
-
-interface CategoriesListProps {
-  activeCategory: CategoriesType;
-  updateCategory: (value: CategoriesType) => void;
-}
+import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
+import { getSearchProps, setCategory } from 'app/entities/Search';
 
 const categoriesImg: string[] = [species, starships, planets];
 
-export const CategoriesList: FC<CategoriesListProps> = ({
-  activeCategory,
-  updateCategory,
-}) => {
-  const [category, setCategory] = useState<CategoriesType>(activeCategory);
+export const CategoriesList: FC = () => {
+  const dispatch = useAppDispatch();
+  const { category } = useAppSelector(getSearchProps);
+  const [value, setValue] = useState<CategoriesType>(category);
 
   useEffect(() => {
-    if (category === activeCategory) return;
-    updateCategory(category);
-    setLocalState('category', category);
-  }, [category]);
+    if (value === category) return;
+    dispatch(setCategory(value));
+    setLocalState('category', value);
+  }, [value]);
 
   return (
     <div className={style.wrapper}>
       {categoriesImg.map((img, index) => (
         <div
-          className={`${style.imgContainer} ${activeCategory === convertUrlToLabel(img) ? style.active : style.common}`}
+          className={`${style.imgContainer} ${category === convertUrlToLabel(img) ? style.active : style.common}`}
           key={index}
-          data-testid="caregory"
-          onClick={() => setCategory(convertUrlToLabel(img))}
+          data-testid="category"
+          onClick={() => setValue(convertUrlToLabel(img))}
         >
           <img className={style.img} src={img} alt={convertUrlToLabel(img)} />
           <p className={style.text}>{convertUrlToLabel(img)}</p>

@@ -43,7 +43,7 @@ describe('testing Main', async () => {
     const logo = getByText(/Star Wars DB/i);
     expect(logo).toBeInTheDocument();
 
-    const categories = getAllByTestId(/caregory/i);
+    const categories = getAllByTestId(/category/i);
     expect(categories).toHaveLength(3);
 
     const search = getByAltText(/search/i);

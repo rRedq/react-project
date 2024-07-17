@@ -67,11 +67,7 @@ export const CardDetails: FC = () => {
   };
 
   return (
-    <div
-      className={style.cover}
-      data-testid="details"
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className={style.cover} data-testid="details">
       {isLoading ? (
         <Spinner />
       ) : (
