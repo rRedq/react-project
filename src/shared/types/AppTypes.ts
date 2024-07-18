@@ -1,4 +1,8 @@
-import { CategoriesType, CombinedType } from './ResponseTypes';
+import {
+  CategoriesType,
+  CombinedType,
+  CommonResultResponse,
+} from './ResponseTypes';
 
 interface ErrorState {
   hasError: boolean;
@@ -15,10 +19,20 @@ type SearchProps = {
   page?: string;
 };
 
-interface ItemsType {
-  species: string[];
-  planets: string[];
-  starships: string[];
+interface ItemType extends CommonResultResponse {
+  id: string;
 }
 
-export { type ErrorState, type BaseDataType, type SearchProps, type ItemsType };
+interface ItemsType {
+  species: ItemType[];
+  planets: ItemType[];
+  starships: ItemType[];
+}
+
+export {
+  type ErrorState,
+  type BaseDataType,
+  type SearchProps,
+  type ItemsType,
+  type ItemType,
+};

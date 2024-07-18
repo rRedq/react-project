@@ -10,7 +10,7 @@ import placeholder from 'shared/assets/images/images/placeholder.jpg';
 import { setSearchParamsByKey } from 'shared/utils/searchParams';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
-import { addItem, getSelectedItems, removeItem } from 'entities/Items';
+import { addItem, getOriginalItemsId, removeItem } from 'entities/Items';
 import { getSearchProps } from 'entities/Search';
 
 type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
@@ -24,7 +24,7 @@ const getId = (url: string) => {
 export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   const dispatch = useAppDispatch();
   const { category } = useAppSelector(getSearchProps);
-  const selectedItems = useAppSelector(getSelectedItems);
+  const selectedItems = useAppSelector(getOriginalItemsId);
   const [imgSrc, setImgSrc] = useState<string>(getImageUrl(url));
   const [searchParams, setSearchParams] = useSearchParams();
   const id = getId(url);
@@ -39,8 +39,8 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   };
 
   const toggleCheckbox = () => {
-    if (!isChecked) dispatch(addItem({ category, item: id }));
-    else dispatch(removeItem({ category, item: id }));
+    if (!isChecked) dispatch(addItem({ category, item: { id, name, url } }));
+    else dispatch(removeItem({ category, id }));
   };
 
   return (

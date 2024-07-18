@@ -51,4 +51,5 @@ export {
   type StarshipsResponse,
   type PlanetsResponse,
   type CombinedTypeDetails,
+  type CommonResultResponse,
 };

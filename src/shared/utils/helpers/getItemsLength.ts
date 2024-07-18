@@ -1,5 +1,9 @@
-import { ItemsType } from 'shared/types';
+import { CategoriesType, ItemsType } from 'shared/types';
 
 export const getItemsLength = (items: ItemsType) => {
-  return items.planets.length + items.species.length + items.starships.length;
+  const keys = Object.keys(items);
+  let count = 0;
+  keys.forEach((key) => (count += items[key as CategoriesType].length));
+
+  return count;
 };

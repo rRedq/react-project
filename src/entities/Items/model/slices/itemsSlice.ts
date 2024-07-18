@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ItemsSchema, PayloadType } from '../types/itemsTypes';
+import {
+  AddPayloadType,
+  ItemsSchema,
+  RemovePayloadType,
+} from '../types/itemsTypes';
 
 const initialState: ItemsSchema = {
   items: { species: [], starships: [], planets: [] },
@@ -9,17 +13,22 @@ export const itemsSlice = createSlice({
   name: 'items',
   initialState,
   reducers: {
-    addItem(state: ItemsSchema, { payload }: PayloadAction<PayloadType>) {
+    addItem(state: ItemsSchema, { payload }: PayloadAction<AddPayloadType>) {
       const { category, item } = payload;
-      if (!state.items[category].includes(item)) {
-        state.items[category].push(item);
-      }
+      state.items[category].push(item);
     },
-    removeItem(state: ItemsSchema, { payload }: PayloadAction<PayloadType>) {
-      const { category, item } = payload;
-      if (state.items[category].includes(item)) {
-        const index = state.items[category].indexOf(item);
-        state.items[category].splice(index, 1);
+    removeItem(
+      state: ItemsSchema,
+      { payload }: PayloadAction<RemovePayloadType>
+    ) {
+      const { category, id } = payload;
+      const current = state.items[category];
+
+      for (let i = 0; i < current.length; i++) {
+        if (current[i].id === id) {
+          current.splice(i, 1);
+          break;
+        }
       }
     },
     clearItems(state: ItemsSchema) {

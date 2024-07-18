@@ -17,4 +17,5 @@ export {
   type BaseDataType,
   type SearchProps,
   type ItemsType,
+  type ItemType,
 } from './AppTypes';

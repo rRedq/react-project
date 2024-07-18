@@ -1,12 +1,24 @@
-import { CategoriesType, ItemsType } from 'shared/types';
+import { CategoriesType, ItemsType, ItemType } from 'shared/types';
 
 interface ItemsSchema {
   items: ItemsType;
 }
 
-interface PayloadType {
+type OriginalItems = Record<CategoriesType, string[]>;
+
+interface AddPayloadType {
   category: CategoriesType;
-  item: string;
+  item: ItemType;
 }
 
-export { type ItemsSchema, type PayloadType };
+interface RemovePayloadType {
+  category: CategoriesType;
+  id: string;
+}
+
+export {
+  type ItemsSchema,
+  type RemovePayloadType,
+  type AddPayloadType,
+  type OriginalItems,
+};

@@ -1,4 +1,7 @@
-export { getSelectedItems } from './model/selectors/itemSelectors';
+export {
+  getSelectedItems,
+  getOriginalItemsId,
+} from './model/selectors/itemSelectors';
 
 export { addItem, removeItem, clearItems } from './model/slices/itemsSlice';
 
