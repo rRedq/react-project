@@ -16,4 +16,5 @@ export {
   type ErrorState,
   type BaseDataType,
   type SearchProps,
+  type ItemsType,
 } from './AppTypes';

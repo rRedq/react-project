@@ -15,4 +15,10 @@ type SearchProps = {
   page?: string;
 };
 
-export { type ErrorState, type BaseDataType, type SearchProps };
+interface ItemsType {
+  species: string[];
+  planets: string[];
+  starships: string[];
+}
+
+export { type ErrorState, type BaseDataType, type SearchProps, type ItemsType };

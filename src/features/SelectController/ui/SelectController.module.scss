@@ -3,29 +3,42 @@
 .container {
   padding: 0 10px;
   @include flex(center);
+  font-size: 18px;
+  font-weight: bold;
+  min-height: 90px;
 }
 
 .wrapper {
-  @include flex(space-between, 20px, $borderRadius: true);
-  width: fit-content;
+  @include flex(space-between, 10px, $direction: column, $borderRadius: true);
+  text-align: center;
   background: var(--main-color-4);
   border: 1px solid var(--main-color-1);
-  padding: 12px 20px;
+  padding: 10px 20px;
+}
+
+.label {
+  color: var(--main-color-1);
+
+  span {
+    color: var(--red);
+  }
+}
+.btnCover {
+  @include flex(space-between, 20px);
 }
 
 .btn {
-  color: var(--red);
+  color: var(--main-color-1);
   background: var(--main-color-3);
-  font-size: 18px;
-  font-weight: bold;
   border: 1px solid var(--main-color-1);
   border-radius: $border-radius;
   text-decoration: none;
   padding: 7px 10px;
+  transition: all 0.3s;
 
   &:hover {
     cursor: pointer;
-    background: var(--blue);
+    background: var(--red);
     color: var(--main-color-1);
   }
 }

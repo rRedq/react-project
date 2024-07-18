@@ -1,8 +1,9 @@
-import { CategoriesType } from 'shared/types';
+import { CategoriesType, ItemsType } from 'shared/types';
 
 interface ItemsSchema {
-  items: { species: string[]; planets: string[]; starships: string[] };
+  items: ItemsType;
 }
+
 interface PayloadType {
   category: CategoriesType;
   item: string;
