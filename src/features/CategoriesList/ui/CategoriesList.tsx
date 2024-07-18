@@ -7,7 +7,7 @@ import { convertUrlToLabel } from 'shared/lib/dataConverters';
 import { CategoriesType } from 'shared/types';
 import { setLocalState } from 'shared/utils/localState';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
-import { getSearchProps, setCategory } from 'app/entities/Search';
+import { getSearchProps, setCategory } from 'entities/Search';
 
 const categoriesImg: string[] = [species, starships, planets];
 

@@ -1,4 +1,4 @@
-import { getSearchProps } from 'app/entities/Search';
+import { getSearchProps } from 'entities/Search';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { DEFAULT_CATEGORY, DEFAULT_PAGE } from 'shared/consts';

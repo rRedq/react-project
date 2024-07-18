@@ -10,8 +10,8 @@ import placeholder from 'shared/assets/images/images/placeholder.jpg';
 import { setSearchParamsByKey } from 'shared/utils/searchParams';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
-import { addItem, getSelectedItems, removeItem } from 'app/entities/Items';
-import { getSearchProps } from 'app/entities/Search';
+import { addItem, getSelectedItems, removeItem } from 'entities/Items';
+import { getSearchProps } from 'entities/Search';
 
 type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
 

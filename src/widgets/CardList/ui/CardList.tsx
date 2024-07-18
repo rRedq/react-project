@@ -47,7 +47,7 @@ export const CardList: FC = () => {
         </div>
         <div>{getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}</div>
       </div>
-      {data && data.count && <Pagination count={data.count} />}
+      {!isFetching && data && data.count && <Pagination count={data.count} />}
     </>
   );
 };

@@ -1,0 +1,31 @@
+@import '../../../app/styles/common.scss';
+
+.container {
+  padding: 0 10px;
+  @include flex(center);
+}
+
+.wrapper {
+  @include flex(space-between, 20px, $borderRadius: true);
+  width: fit-content;
+  background: var(--main-color-4);
+  border: 1px solid var(--main-color-1);
+  padding: 12px 20px;
+}
+
+.btn {
+  color: var(--red);
+  background: var(--main-color-3);
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid var(--main-color-1);
+  border-radius: $border-radius;
+  text-decoration: none;
+  padding: 7px 10px;
+
+  &:hover {
+    cursor: pointer;
+    background: var(--blue);
+    color: var(--main-color-1);
+  }
+}

@@ -4,7 +4,7 @@ import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
 import { useAppDispatch } from 'shared/lib/hooks';
-import { setSearch } from 'app/entities/Search';
+import { setSearch } from 'entities/Search';
 import { useSearchParams } from 'react-router-dom';
 import { setSearchParamsByKey } from 'shared/utils/searchParams';
 import { DEFAULT_PAGE } from 'shared/consts';

@@ -1,6 +1,6 @@
 import { CategoriesType } from 'shared/types';
 
-interface ItemSchema {
+interface ItemsSchema {
   items: { species: string[]; planets: string[]; starships: string[] };
 }
 interface PayloadType {
@@ -8,4 +8,4 @@ interface PayloadType {
   item: string;
 }
 
-export { type ItemSchema, type PayloadType };
+export { type ItemsSchema, type PayloadType };

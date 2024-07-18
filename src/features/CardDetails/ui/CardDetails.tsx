@@ -8,10 +8,10 @@ import {
 import { useGetDetailsDataQuery } from 'shared/lib/api';
 import { CategoriesType } from 'shared/types';
 import { Spinner } from 'shared/lib/ui/Spinner';
-import { getSearchProps } from 'app/entities/Search';
+import { getSearchProps } from 'entities/Search';
 import { useAppSelector } from 'shared/lib/hooks';
 import { DEFAULT_PAGE } from 'shared/consts';
-import { useMemoDetails } from './hook/memoDetails';
+import { useMemoDetails } from './hook/useMemoDetails';
 
 export interface CardDetailsProps {
   card: string;

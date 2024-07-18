@@ -4,8 +4,9 @@ import { FC } from 'react';
 import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Main.module.scss';
-import { getSearchProps } from 'app/entities/Search';
+import { getSearchProps } from 'entities/Search';
 import { useAppSelector } from 'shared/lib/hooks';
+import { SelectController } from 'features/SelectController';
 
 export const Main: FC = () => {
   const { category } = useAppSelector(getSearchProps);
@@ -15,6 +16,7 @@ export const Main: FC = () => {
       <Header />
       <CategoriesList />
       <Search />
+      <SelectController />
       <CardList />
     </div>
   );
