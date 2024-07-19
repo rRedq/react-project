@@ -29,10 +29,13 @@ interface ItemsType {
   starships: ItemType[];
 }
 
+type ThemeType = 'light' | 'dark';
+
 export {
   type ErrorState,
   type BaseDataType,
   type SearchProps,
   type ItemsType,
   type ItemType,
+  type ThemeType,
 };

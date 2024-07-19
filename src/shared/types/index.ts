@@ -18,4 +18,5 @@ export {
   type SearchProps,
   type ItemsType,
   type ItemType,
+  type ThemeType,
 } from './AppTypes';
