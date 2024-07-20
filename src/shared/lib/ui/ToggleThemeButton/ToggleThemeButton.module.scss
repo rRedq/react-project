@@ -6,8 +6,13 @@
   height: 30px;
   padding: 2px;
   @include flex($borderRadius: true);
+  @include imgBackground;
   background: var(--main-color-1);
   background: var(--red);
+
+  img {
+    width: 100%;
+  }
 
   &:hover {
     cursor: pointer;
