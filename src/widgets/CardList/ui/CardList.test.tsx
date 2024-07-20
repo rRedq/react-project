@@ -3,11 +3,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { App } from 'app/App';
 import { swapi } from 'shared/lib/api/swApi';
-import { store } from 'app/providers/storeProvider/config/store';
 import {
   testDataWithFiveResult,
   testDataWithNullResult,
 } from 'shared/lib/__mock__';
+import { store } from 'app/providers/storeProvider';
 
 const server = setupServer();
 
@@ -26,7 +26,7 @@ afterAll(() => {
 
 describe('testing CardList', () => {
   it('testing number of cards should be equal 5', async () => {
-    server.use(testDataWithNullResult);
+    server.use(testDataWithFiveResult);
     const { findAllByTestId, getByTestId } = render(
       <BrowserRouter>
         <App />
@@ -41,7 +41,7 @@ describe('testing CardList', () => {
     expect(imgCount).toHaveLength(5);
   });
   it('testing number of cards should be equal 0', async () => {
-    server.use(testDataWithFiveResult);
+    server.use(testDataWithNullResult);
     const { findByText, getByTestId } = render(
       <BrowserRouter>
         <App />

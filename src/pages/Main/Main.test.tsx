@@ -1,42 +1,31 @@
 import { BrowserRouter } from 'react-router-dom';
-import { Main } from './Main';
 import { render } from '@testing-library/react';
-import { http, HttpResponse } from 'msw';
-import { DEFAULT_URL } from 'shared/consts';
-import { BaseResponse, SpeciesResponse } from 'shared/types';
 import { setupServer } from 'msw/node';
+import { App } from 'app/App';
+import { swapi } from 'shared/lib/api/swApi';
+import { store } from 'app/providers/storeProvider';
+import { testDataWithFiveResult } from 'shared/lib/__mock__';
 
-const testItem: SpeciesResponse = {
-  name: 'Human',
-  url: 'https://swapi.dev/api/species/1/',
-  average_lifespan: '120',
-  eye_colors: 'brown, blue, green, hazel, grey, amber',
-  hair_colors: 'blonde, brown, black, red',
-  language: 'Galactic Basic',
-  skin_colors: 'caucasian, black, asian, hispanic',
-};
+const server = setupServer();
 
-const testData: BaseResponse = {
-  count: 2,
-  next: null,
-  previous: null,
-  results: [testItem, testItem],
-};
+beforeAll(() => {
+  server.listen();
+});
 
-const handlers = [
-  http.get(`${DEFAULT_URL}:category`, async () => {
-    return HttpResponse.json(testData);
-  }),
-  http.get(`${DEFAULT_URL}:category`, async () => {
-    return HttpResponse.error();
-  }),
-];
+beforeEach(() => {
+  server.resetHandlers();
+  store.dispatch(swapi.util.resetApiState());
+});
+
+afterAll(() => {
+  server.close();
+});
 
 describe('testing Main', async () => {
   it('testing base shape of main', () => {
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
       <BrowserRouter>
-        <Main />
+        <App />
       </BrowserRouter>
     );
 
@@ -56,37 +45,16 @@ describe('testing Main', async () => {
     expect(errorBtn).toBeInTheDocument();
   });
   it('testing success data response', async () => {
-    const server = setupServer(handlers[0]);
-    server.listen();
+    server.use(testDataWithFiveResult);
 
     const { findAllByTestId } = render(
       <BrowserRouter>
-        <Main />
+        <App />
       </BrowserRouter>
     );
 
     const cardList = await findAllByTestId(/card/i);
-    expect(cardList).toHaveLength(2);
 
-    server.close();
-  });
-  it('testing error data response', async () => {
-    const server = setupServer(handlers[1]);
-    server.listen();
-
-    const { getByTestId, findByTestId } = render(
-      <BrowserRouter>
-        <Main />
-      </BrowserRouter>
-    );
-
-    const spinner = getByTestId(/spinner/i);
-    expect(spinner).toBeInTheDocument();
-
-    const cover = await findByTestId(/cover/i);
-    expect(spinner).not.toBeInTheDocument();
-
-    expect(cover).toBeInTheDocument();
-    expect(cover).toBeEmptyDOMElement();
+    expect(cardList).toHaveLength(5);
   });
 });

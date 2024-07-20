@@ -1,1 +1,1 @@
-export { type RootState, type AppDispatch } from './config/store';
+export { type RootState, type AppDispatch, store } from './config/store';

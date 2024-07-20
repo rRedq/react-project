@@ -4,10 +4,10 @@ import { nullResult, resultWithFiveItems } from './data';
 
 const handlers = [
   http.get(`${DEFAULT_URL}species`, async () => {
-    return HttpResponse.json(resultWithFiveItems);
+    return HttpResponse.json(nullResult);
   }),
   http.get(`${DEFAULT_URL}species`, async () => {
-    return HttpResponse.json(nullResult);
+    return HttpResponse.json(resultWithFiveItems);
   }),
 ];
 
