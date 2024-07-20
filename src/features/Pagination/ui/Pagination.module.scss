@@ -17,13 +17,13 @@
 
   &:hover:not(.active) {
     cursor: pointer;
-    color: var(--red);
-    border: 1px solid var(--red);
+    color: var(--blue);
+    border: 1px solid var(--blue);
   }
 }
 
 .active {
-  color: var(--blue);
-  border: 1px solid var(--blue);
+  color: var(--red);
+  border: 1px solid var(--red);
   pointer-events: none;
 }

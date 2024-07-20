@@ -7,7 +7,7 @@ import { getItemsCsv, getItemsLength } from 'shared/utils/helpers';
 export const SelectController: FC = () => {
   const dispatch = useAppDispatch();
   const selectedItems = useAppSelector(getSelectedItems);
-  const items = getItemsLength(selectedItems);
+  const itemsCount = getItemsLength(selectedItems);
 
   const unSelectAllClick = () => {
     dispatch(clearItems());
@@ -15,10 +15,10 @@ export const SelectController: FC = () => {
 
   return (
     <div className={style.container}>
-      {items > 0 && (
+      {itemsCount > 0 && (
         <div className={style.wrapper}>
           <div className={style.label}>
-            Selected items: <span>{items}</span>
+            Selected items: <span>{itemsCount}</span>
           </div>
           <div className={style.btnCover}>
             <a className={style.btn} onClick={unSelectAllClick}>
@@ -27,7 +27,7 @@ export const SelectController: FC = () => {
             <a
               className={style.btn}
               href={getItemsCsv(selectedItems)}
-              download="selectedItems.csv"
+              download={`${itemsCount}_selectedItems.csv`}
             >
               Download
             </a>
