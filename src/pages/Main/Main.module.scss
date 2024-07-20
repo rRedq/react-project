@@ -16,3 +16,8 @@
   @include flex($direction: column, $grow: 1);
   @include imgBackground;
 }
+
+[data-theme='light'] {
+  --red: #0353a4;
+  --blue: #e45545;
+}

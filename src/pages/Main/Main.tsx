@@ -5,14 +5,15 @@ import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Main.module.scss';
 import { getSearchProps } from 'entities/Search';
-import { useAppSelector } from 'shared/lib/hooks';
+import { useAppSelector, useTheme } from 'shared/lib/hooks';
 import { SelectController } from 'features/SelectController';
 
 export const Main: FC = () => {
   const { category } = useAppSelector(getSearchProps);
+  const { theme } = useTheme();
 
   return (
-    <div className={`${style.app} ${style[category]}`}>
+    <div className={`${style.app} ${style[category]}`} data-theme={theme}>
       <Header />
       <CategoriesList />
       <Search />

@@ -1,0 +1,16 @@
+@import '../../../../app/styles/common.scss';
+
+.wrapper {
+  user-select: none;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  @include flex($borderRadius: true);
+  background: var(--main-color-1);
+  background: var(--red);
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}

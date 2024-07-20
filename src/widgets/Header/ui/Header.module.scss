@@ -8,7 +8,14 @@
 .logo {
   font-family: 'Alfa Slab One';
   font-size: 45px;
-  color: var(--main-color-4);
   font-weight: bold;
+  color: var(--main-color-4);
+}
+
+.light {
   @include text-shadow(--main-color-1);
+}
+
+.dark {
+  @include text-shadow(--yellow);
 }

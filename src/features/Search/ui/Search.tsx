@@ -8,6 +8,7 @@ import { setSearch } from 'entities/Search';
 import { useSearchParams } from 'react-router-dom';
 import { setSearchParamsByKey } from 'shared/utils/searchParams';
 import { DEFAULT_PAGE } from 'shared/consts';
+import { ToggleThemeButton } from 'shared/lib/ui/ToggleThemeButton';
 
 export const Search: FC = () => {
   const [value, setValue] = useState<string>('');
@@ -41,6 +42,7 @@ export const Search: FC = () => {
   return (
     <form className={style.searchForm} onSubmit={onSubmit}>
       <ErrorButton />
+      <ToggleThemeButton />
       <div className={style.cover}>
         <input
           className={style.search}
