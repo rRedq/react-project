@@ -1,43 +1,60 @@
 import { render } from '@testing-library/react';
-import { vi } from 'vitest';
-import { CardList } from './CardList';
 import { BrowserRouter } from 'react-router-dom';
+import { setupServer } from 'msw/node';
+import { App } from 'app/App';
+import { swapi } from 'shared/lib/api/swApi';
+import { store } from 'app/providers/storeProvider/config/store';
+import {
+  testDataWithFiveResult,
+  testDataWithNullResult,
+} from 'shared/lib/__mock__';
 
-// const testItem: SpeciesResponse = {
-//   name: 'Human',
-//   url: 'https://swapi.dev/api/species/1/',
-//   average_lifespan: '120',
-//   eye_colors: 'brown, blue, green, hazel, grey, amber',
-//   hair_colors: 'blonde, brown, black, red',
-//   language: 'Galactic Basic',
-//   skin_colors: 'caucasian, black, asian, hispanic',
-// };
+const server = setupServer();
 
-// const testData = [testItem, testItem, testItem, testItem, testItem];
+beforeAll(() => {
+  server.listen();
+});
+
+beforeEach(() => {
+  server.resetHandlers();
+  store.dispatch(swapi.util.resetApiState());
+});
+
+afterAll(() => {
+  server.close();
+});
 
 describe('testing CardList', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('testing number of cards should be equal 5', () => {
-    const { getAllByRole } = render(
+  it('testing number of cards should be equal 5', async () => {
+    server.use(testDataWithNullResult);
+    const { findAllByTestId, getByTestId } = render(
       <BrowserRouter>
-        <CardList />
+        <App />
       </BrowserRouter>
     );
 
-    const imgCount = getAllByRole('img');
+    const spinner = getByTestId(/spinner/i);
+    expect(spinner).toBeInTheDocument();
+
+    const imgCount = await findAllByTestId(/card/i);
+    expect(spinner).not.toBeInTheDocument();
     expect(imgCount).toHaveLength(5);
   });
-  it('testing number of cards should be equal 0', () => {
-    const { getByText } = render(
+  it('testing number of cards should be equal 0', async () => {
+    server.use(testDataWithFiveResult);
+    const { findByText, getByTestId } = render(
       <BrowserRouter>
-        <CardList />
+        <App />
       </BrowserRouter>
     );
 
-    const placeholderText = getByText(/We have been able to find nothing/i);
+    const spinner = getByTestId(/spinner/i);
+    expect(spinner).toBeInTheDocument();
+
+    const placeholderText = await findByText(
+      /We have been able to find nothing/i
+    );
+    expect(spinner).not.toBeInTheDocument();
     expect(placeholderText).toBeInTheDocument();
   });
 });

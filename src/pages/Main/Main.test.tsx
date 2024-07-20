@@ -49,8 +49,8 @@ describe('testing Main', async () => {
     const search = getByAltText(/search/i);
     expect(search).toBeInTheDocument();
 
-    const spiner = getByTestId(/spiner/i);
-    expect(spiner).toBeInTheDocument();
+    const spinner = getByTestId(/spinner/i);
+    expect(spinner).toBeInTheDocument();
 
     const errorBtn = getByText(/throw error/i);
     expect(errorBtn).toBeInTheDocument();
@@ -80,11 +80,11 @@ describe('testing Main', async () => {
       </BrowserRouter>
     );
 
-    const spiner = getByTestId(/spiner/i);
-    expect(spiner).toBeInTheDocument();
+    const spinner = getByTestId(/spinner/i);
+    expect(spinner).toBeInTheDocument();
 
     const cover = await findByTestId(/cover/i);
-    expect(spiner).not.toBeInTheDocument();
+    expect(spinner).not.toBeInTheDocument();
 
     expect(cover).toBeInTheDocument();
     expect(cover).toBeEmptyDOMElement();

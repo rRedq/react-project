@@ -47,7 +47,7 @@ test('testing CardDetails', async () => {
       <CardDetails />
     </MemoryRouter>
   );
-  const loading = getByTestId(/spiner/i);
+  const loading = getByTestId(/spinner/i);
   expect(loading).toBeInTheDocument();
 
   const name = await findByText(testData.name);
