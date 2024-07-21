@@ -41,7 +41,7 @@ describe('testing Main', () => {
     const spinner = getByTestId(/spinner/i);
     expect(spinner).toBeInTheDocument();
 
-    const errorBtn = getByText(/throw error/i);
+    const errorBtn = getByText(/error/i);
     expect(errorBtn).toBeInTheDocument();
   });
   it('testing success data response', async () => {

@@ -4,6 +4,7 @@
   @include flex($borderRadius: true);
   min-height: 30px;
   padding: 5px;
+  font-weight: bold;
   background: var(--red);
 
   &:hover {

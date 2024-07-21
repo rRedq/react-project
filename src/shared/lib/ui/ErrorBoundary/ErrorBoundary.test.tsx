@@ -10,7 +10,7 @@ test('testing ErrorBoundary', async () => {
     </BrowserRouter>
   );
 
-  const errorBtn = getByText(/throw error/i);
+  const errorBtn = getByText(/error/i);
   expect(errorBtn).toBeInTheDocument();
   await act(async () => await userEvent.click(errorBtn));
 

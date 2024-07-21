@@ -9,6 +9,15 @@ const testItemSpaceResponse: SpeciesResponse = {
   language: 'Galactic Basic',
   skin_colors: 'caucasian, black, asian, hispanic',
 };
+const testItem2SpaceResponse: SpeciesResponse = {
+  name: 'Droid',
+  url: 'https://swapi.dev/api/s',
+  average_lifespan: '14',
+  eye_colors: 'brown, blue, green, hazel, grey, amber',
+  hair_colors: 'blonde, brown, black, red',
+  language: 'Galactic Basic',
+  skin_colors: 'caucasian, black, asian, hispanic',
+};
 
 const testData = [
   testItemSpaceResponse,
@@ -39,9 +48,17 @@ const resultWithOneItem: BaseResponse = {
   results: [testItemSpaceResponse],
 };
 
+const resultWithTwoItem: BaseResponse = {
+  count: 0,
+  next: 'test',
+  previous: null,
+  results: [testItem2SpaceResponse, testItemSpaceResponse],
+};
+
 export {
   nullResult,
   resultWithFiveItems,
   testItemSpaceResponse,
   resultWithOneItem,
+  resultWithTwoItem,
 };

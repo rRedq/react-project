@@ -18,7 +18,7 @@ export const SelectController: FC = () => {
       {itemsCount > 0 && (
         <div className={style.wrapper}>
           <div className={style.label}>
-            Selected items: <span>{itemsCount}</span>
+            Selected items: <span data-testid="itemsCount">{itemsCount}</span>
           </div>
           <div className={style.btnCover}>
             <a className={style.btn} onClick={unSelectAllClick}>

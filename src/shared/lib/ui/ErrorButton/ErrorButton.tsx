@@ -8,7 +8,7 @@ export const ErrorButton: FC = () => {
 
   return (
     <div className={style.btn} onClick={() => setError(true)}>
-      throw error
+      error
     </div>
   );
 };

@@ -52,6 +52,7 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
           onChange={toggleCheckbox}
           onClick={(e) => e.stopPropagation()}
           checked={isChecked}
+          data-testid="checkbox"
         />
       </div>
       <div className={style.content}>

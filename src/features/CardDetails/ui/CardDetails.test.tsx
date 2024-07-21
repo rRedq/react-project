@@ -50,7 +50,7 @@ describe('testing CardDetails', () => {
     const language = await findByText(testItemSpaceResponse.language);
     expect(language).toBeInTheDocument();
   });
-  it('testing open/close', async () => {
+  it('testing opening / closing CardDetails', async () => {
     server.use(testDataWithOneItem);
     server.use(testDataDetails);
     const { findByTestId } = render(
@@ -63,7 +63,7 @@ describe('testing CardDetails', () => {
     const card = await findByTestId(/card/i);
     expect(card).toBeInTheDocument();
 
-    await act(() => card.click());
+    act(() => card.click());
 
     expect(location.search).toBe(detailsPath);
     const details = await findByTestId(/details/i);
@@ -71,7 +71,7 @@ describe('testing CardDetails', () => {
     expect(details).toBeInTheDocument();
     expect(closeBtn).toBeInTheDocument();
 
-    await act(() => closeBtn.click());
+    act(() => closeBtn.click());
     expect(location.search).toBe(basePath);
     expect(details).not.toBeInTheDocument();
     expect(closeBtn).not.toBeInTheDocument();
