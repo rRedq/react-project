@@ -1,19 +1,11 @@
 import { act, render } from '@testing-library/react';
-import { SpeciesResponse } from 'shared/types';
 import { vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { Card } from './Card';
 import userEvent from '@testing-library/user-event';
-
-const testData: SpeciesResponse = {
-  name: 'Human',
-  url: 'https://swapi.dev/api/species/1/',
-  average_lifespan: '120',
-  eye_colors: 'brown, blue, green, hazel, grey, amber',
-  hair_colors: 'blonde, brown, black, red',
-  language: 'Galactic Basic',
-  skin_colors: 'caucasian, black, asian, hispanic',
-};
+import { store } from 'app/providers/storeProvider';
+import { Provider } from 'react-redux';
+import { testItemSpaceResponse } from 'shared/lib/__mock__';
 
 describe('testing Card', () => {
   afterEach(() => {
@@ -21,37 +13,38 @@ describe('testing Card', () => {
   });
 
   it('testing component renders the relevant card data', () => {
-    const { getByText, getByAltText } = render(
+    const { getByText } = render(
       <BrowserRouter>
-        <Card {...testData} />
+        <Provider store={store}>
+          <Card {...testItemSpaceResponse} />
+        </Provider>
       </BrowserRouter>
     );
 
-    const name = getByText(testData.name);
+    const name = getByText(testItemSpaceResponse.name);
     expect(name).toBeInTheDocument();
 
-    const url = getByAltText(testData.url);
-    expect(url).toBeInTheDocument();
-
-    const lifespan = getByText(testData.average_lifespan);
+    const lifespan = getByText(testItemSpaceResponse.average_lifespan);
     expect(lifespan).toBeInTheDocument();
 
-    const eye = getByText(testData.eye_colors);
+    const eye = getByText(testItemSpaceResponse.eye_colors);
     expect(eye).toBeInTheDocument();
 
-    const hair = getByText(testData.hair_colors);
+    const hair = getByText(testItemSpaceResponse.hair_colors);
     expect(hair).toBeInTheDocument();
 
-    const language = getByText(testData.language);
+    const language = getByText(testItemSpaceResponse.language);
     expect(language).toBeInTheDocument();
 
-    const skin = getByText(testData.skin_colors);
+    const skin = getByText(testItemSpaceResponse.skin_colors);
     expect(skin).toBeInTheDocument();
   });
   it('testing clicking on a card opens a detailed card component', async () => {
     const { getByTestId } = render(
       <BrowserRouter>
-        <Card {...testData} />
+        <Provider store={store}>
+          <Card {...testItemSpaceResponse} />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -61,7 +54,7 @@ describe('testing Card', () => {
       await userEvent.click(card);
     });
 
-    const expectedUrl = '?details=species%2F1';
+    const expectedUrl = '?details=1';
     expect(location.search).toBe(expectedUrl);
   });
 });

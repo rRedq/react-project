@@ -1,6 +1,6 @@
 import { SpeciesResponse, BaseResponse } from 'shared/types';
 
-const testItem: SpeciesResponse = {
+const testItemSpaceResponse: SpeciesResponse = {
   name: 'Human',
   url: 'https://swapi.dev/api/species/1/',
   average_lifespan: '120',
@@ -10,7 +10,13 @@ const testItem: SpeciesResponse = {
   skin_colors: 'caucasian, black, asian, hispanic',
 };
 
-const testData = [testItem, testItem, testItem, testItem, testItem];
+const testData = [
+  testItemSpaceResponse,
+  testItemSpaceResponse,
+  testItemSpaceResponse,
+  testItemSpaceResponse,
+  testItemSpaceResponse,
+];
 
 const resultWithFiveItems: BaseResponse = {
   count: 5,
@@ -26,4 +32,16 @@ const nullResult: BaseResponse = {
   results: [],
 };
 
-export { nullResult, resultWithFiveItems };
+const resultWithOneItem: BaseResponse = {
+  count: 0,
+  next: 'test',
+  previous: null,
+  results: [testItemSpaceResponse],
+};
+
+export {
+  nullResult,
+  resultWithFiveItems,
+  testItemSpaceResponse,
+  resultWithOneItem,
+};

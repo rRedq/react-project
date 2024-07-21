@@ -1,63 +1,79 @@
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { CardDetails, CardDetailsProps } from './CardDetails';
-import { http, HttpResponse } from 'msw';
-import { DEFAULT_URL } from 'shared/consts';
+import { act, render } from '@testing-library/react';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { CardDetails } from './CardDetails';
 import { setupServer } from 'msw/node';
-import { SpeciesResponse } from 'shared/types';
+import { store } from 'app/providers/storeProvider';
+import { Provider } from 'react-redux';
+import { App } from 'app/App';
+import { testDataDetails, testDataWithOneItem } from 'shared/lib/__mock__';
+import { swapi } from 'shared/lib/api/swApi';
+import { testItemSpaceResponse } from 'shared/lib/__mock__/data';
+import { basePath, detailsPath } from 'shared/lib/__mock__/variables';
 
-const searchPath = '/?details=species%2F1';
-
-const testData: SpeciesResponse = {
-  name: 'Human',
-  url: 'https://swapi.dev/api/species/1/',
-  average_lifespan: '120',
-  eye_colors: 'brown, blue, green, hazel, grey, amber',
-  hair_colors: 'blonde, brown, black, red',
-  language: 'Galactic Basic',
-  skin_colors: 'caucasian, black, asian, hispanic',
-};
-
-const data: CardDetailsProps = {
-  category: 'species',
-  card: '1',
-};
-
-const { card, category } = data;
-
-const handlers = [
-  http.get(`${DEFAULT_URL}${category}/${card}`, async () => {
-    return HttpResponse.json(testData);
-  }),
-];
-
-const server = setupServer(...handlers);
+const server = setupServer();
 
 beforeAll(() => {
   server.listen();
+});
+
+beforeEach(() => {
+  server.resetHandlers();
+  store.dispatch(swapi.util.resetApiState());
 });
 
 afterAll(() => {
   server.close();
 });
 
-test('testing CardDetails', async () => {
-  const { findByText, getByTestId } = render(
-    <MemoryRouter initialEntries={[searchPath]}>
-      <CardDetails />
-    </MemoryRouter>
-  );
-  const loading = getByTestId(/spinner/i);
-  expect(loading).toBeInTheDocument();
+describe('testing CardDetails', () => {
+  it('testing information display', async () => {
+    server.use(testDataDetails);
+    const { findByText, getByTestId } = render(
+      <MemoryRouter initialEntries={[detailsPath]}>
+        <Provider store={store}>
+          <CardDetails />
+        </Provider>
+      </MemoryRouter>
+    );
 
-  const name = await findByText(testData.name);
+    const loading = getByTestId(/spinner/i);
+    expect(loading).toBeInTheDocument();
 
-  expect(loading).not.toBeInTheDocument();
-  expect(name).toBeInTheDocument();
+    const name = await findByText(testItemSpaceResponse.name);
 
-  const closeBtn = getByTestId(/close/i);
-  expect(closeBtn).toBeInTheDocument();
+    expect(loading).not.toBeInTheDocument();
+    expect(name).toBeInTheDocument();
 
-  const language = await findByText(testData.language);
-  expect(language).toBeInTheDocument();
+    const closeBtn = getByTestId(/close/i);
+    expect(closeBtn).toBeInTheDocument();
+
+    const language = await findByText(testItemSpaceResponse.language);
+    expect(language).toBeInTheDocument();
+  });
+  it('testing open/close', async () => {
+    server.use(testDataWithOneItem);
+    server.use(testDataDetails);
+    const { findByTestId } = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+
+    expect(location.search).toBe(basePath);
+    const card = await findByTestId(/card/i);
+    expect(card).toBeInTheDocument();
+
+    await act(() => card.click());
+
+    expect(location.search).toBe(detailsPath);
+    const details = await findByTestId(/details/i);
+    const closeBtn = await findByTestId(/close/i);
+    expect(details).toBeInTheDocument();
+    expect(closeBtn).toBeInTheDocument();
+
+    await act(() => closeBtn.click());
+    expect(location.search).toBe(basePath);
+    expect(details).not.toBeInTheDocument();
+    expect(closeBtn).not.toBeInTheDocument();
+  });
 });

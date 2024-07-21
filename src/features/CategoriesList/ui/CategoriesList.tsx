@@ -28,10 +28,15 @@ export const CategoriesList: FC = () => {
         <div
           className={`${style.imgContainer} ${category === convertUrlToLabel(img) ? style.active : style.common}`}
           key={index}
-          data-testid="category"
+          data-testid={convertUrlToLabel(img)}
           onClick={() => setValue(convertUrlToLabel(img))}
         >
-          <img className={style.img} src={img} alt={convertUrlToLabel(img)} />
+          <img
+            className={style.img}
+            src={img}
+            alt={convertUrlToLabel(img)}
+            data-testid="category"
+          />
           <p className={style.text}>{convertUrlToLabel(img)}</p>
         </div>
       ))}

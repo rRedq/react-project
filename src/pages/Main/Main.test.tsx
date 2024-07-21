@@ -21,7 +21,7 @@ afterAll(() => {
   server.close();
 });
 
-describe('testing Main', async () => {
+describe('testing Main', () => {
   it('testing base shape of main', () => {
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
       <BrowserRouter>
