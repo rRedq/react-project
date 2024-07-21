@@ -29,8 +29,6 @@ export const baseDataConverter = (
     case 'planets':
       formattedData = planetsDataConverter(data.results as PlanetsResponse[]);
       break;
-    default:
-      formattedData = speciesDataConverter(data.results as SpeciesResponse[]);
   }
 
   const result: BaseDataType = { count: data.count || 0, data: formattedData };

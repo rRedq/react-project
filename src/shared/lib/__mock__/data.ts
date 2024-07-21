@@ -1,4 +1,9 @@
-import { SpeciesResponse, BaseResponse } from 'shared/types';
+import {
+  SpeciesResponse,
+  BaseResponse,
+  StarshipsResponse,
+  PlanetsResponse,
+} from 'shared/types';
 
 const testItemSpaceResponse: SpeciesResponse = {
   name: 'Human',
@@ -19,6 +24,26 @@ const testItem2SpaceResponse: SpeciesResponse = {
   skin_colors: 'caucasian, black, asian, hispanic',
 };
 
+const testItemStarshipResponse: StarshipsResponse = {
+  name: 'Millennium Falcon',
+  url: 'https://swapi.dev/api/starships/10/',
+  starship_class: 'Light freighter',
+  length: '34.37',
+  consumables: '2 months',
+  cost_in_credits: '100000',
+  manufacturer: 'Corellian Engineering Corporation',
+};
+
+const testItemPlanetsResponse: PlanetsResponse = {
+  name: 'Tatooine',
+  url: 'https://swapi.dev/api/planets/1/',
+  climate: 'arid',
+  diameter: '10465',
+  gravity: '1 standard',
+  population: '200000',
+  terrain: 'desert',
+};
+
 const testData = [
   testItemSpaceResponse,
   testItemSpaceResponse,
@@ -26,6 +51,20 @@ const testData = [
   testItemSpaceResponse,
   testItemSpaceResponse,
 ];
+
+const resultStarshipResponse: BaseResponse = {
+  count: 1,
+  next: 'test',
+  previous: null,
+  results: [testItemStarshipResponse],
+};
+
+const resultPlanetsResponse: BaseResponse = {
+  count: 1,
+  next: 'test',
+  previous: null,
+  results: [testItemPlanetsResponse],
+};
 
 const resultWithFiveItems: BaseResponse = {
   count: 5,
@@ -61,4 +100,6 @@ export {
   testItemSpaceResponse,
   resultWithOneItem,
   resultWithTwoItem,
+  resultStarshipResponse,
+  resultPlanetsResponse,
 };

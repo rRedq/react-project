@@ -16,7 +16,7 @@ const testData: TestType = {
   unexpected: 'test',
 };
 
-const expectedResullt: SpeciesResponse = {
+const expectedResult: SpeciesResponse = {
   name: 'Human',
   url: 'https://swapi.dev/api/species/1/',
   average_lifespan: '120',
@@ -28,5 +28,5 @@ const expectedResullt: SpeciesResponse = {
 
 test('testing speciesDataConverter', () => {
   const result = speciesDataConverter([testData]);
-  expect(result).toStrictEqual([expectedResullt]);
+  expect(result).toStrictEqual([expectedResult]);
 });

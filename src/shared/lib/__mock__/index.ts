@@ -1,4 +1,9 @@
-export { testItemSpaceResponse, resultWithTwoItem } from './data';
+export {
+  testItemSpaceResponse,
+  resultWithTwoItem,
+  resultStarshipResponse,
+  resultPlanetsResponse,
+} from './data';
 
 export {
   testDataWithNullResult,

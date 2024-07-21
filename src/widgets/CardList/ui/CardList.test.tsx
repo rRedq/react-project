@@ -4,10 +4,15 @@ import { setupServer } from 'msw/node';
 import { App } from 'app/App';
 import { swapi } from 'shared/lib/api/swApi';
 import {
+  testDataDetails,
   testDataWithFiveResult,
   testDataWithNullResult,
+  testDataWithOneItem,
 } from 'shared/lib/__mock__';
 import { store } from 'app/providers/storeProvider';
+import { act } from 'react';
+import { CardList } from './CardList';
+import { Provider } from 'react-redux';
 
 const server = setupServer();
 
@@ -27,13 +32,13 @@ afterAll(() => {
 describe('testing CardList', () => {
   it('testing number of cards should be equal 5', async () => {
     server.use(testDataWithFiveResult);
-    const { findAllByTestId, getByTestId } = render(
+    const { findAllByTestId, findByTestId } = render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
     );
 
-    const spinner = getByTestId(/spinner/i);
+    const spinner = await findByTestId(/spinner/i);
     expect(spinner).toBeInTheDocument();
 
     const imgCount = await findAllByTestId(/card/i);
@@ -44,7 +49,9 @@ describe('testing CardList', () => {
     server.use(testDataWithNullResult);
     const { findByText, getByTestId } = render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <CardList />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -56,5 +63,26 @@ describe('testing CardList', () => {
     );
     expect(spinner).not.toBeInTheDocument();
     expect(placeholderText).toBeInTheDocument();
+  });
+  it('testing click to close details', async () => {
+    server.use(testDataWithOneItem);
+    server.use(testDataDetails);
+    const { findByTestId } = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+
+    const card = await findByTestId(/card/i);
+    expect(card).toBeInTheDocument();
+
+    act(() => card.click());
+    const details = await findByTestId(/details/i);
+    const cover = await findByTestId(/cover/i);
+    expect(details).toBeInTheDocument();
+    expect(cover).toBeInTheDocument();
+
+    act(() => cover.click());
+    expect(details).not.toBeInTheDocument();
   });
 });
