@@ -1,4 +1,4 @@
-export { testItemSpaceResponse } from './data';
+export { testItemSpaceResponse, resultWithTwoItem } from './data';
 
 export {
   testDataWithNullResult,
