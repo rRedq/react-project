@@ -4,6 +4,21 @@
   @include flex($grow: 1);
   background: var(--main-color-4);
   color: var(--main-color-1);
+
+  h2,
+  p {
+    font-family: 'Permanent Marker';
+  }
+
+  h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--red);
+  }
+
+  p {
+    font-size: 25px;
+  }
 }
 
 .container {
@@ -15,11 +30,15 @@
 .btn {
   border-radius: $border-radius;
   padding: 7px 10px;
-  background: var(--green);
-  color: var(--main-color-4);
+  background: var(--main-color-3);
+  color: var(--main-color-1);
+  border: 1px solid var(--main-color-1);
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 40px;
 
   &:hover {
     cursor: pointer;
-    color: var(--main-color-1);
+    background: var(--red);
   }
 }

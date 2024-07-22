@@ -1,10 +1,9 @@
 import { getSearchProps } from 'entities/Search';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { DEFAULT_CATEGORY, DEFAULT_PAGE } from 'shared/consts';
+import { DEFAULT_PAGE } from 'shared/consts';
 import { useAppSelector } from 'shared/lib/hooks';
 import { SearchProps } from 'shared/types';
-import { getLocalState } from 'shared/utils/localState';
 import {
   getSearchParamsByKey,
   setSearchParamsByKey,
@@ -14,12 +13,12 @@ export const useSearchQuery = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { category, search } = useAppSelector(getSearchProps);
   const page = getSearchParamsByKey('PAGE', searchParams);
-  const initialProps: SearchProps = {
-    category: getLocalState('category') || DEFAULT_CATEGORY,
-    search: getLocalState('search'),
+  const initialState: SearchProps = {
+    category,
+    search,
     page: page || DEFAULT_PAGE,
   };
-  const [searchProps, setSearchProps] = useState<SearchProps>(initialProps);
+  const [searchProps, setSearchProps] = useState<SearchProps>(initialState);
 
   useEffect(() => {
     if (category === searchProps.category && search === searchProps.search) {
