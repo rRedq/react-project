@@ -16,7 +16,7 @@ const testData: TestType = {
   unexpected: 'test',
 };
 
-const expectedResullt: StarshipsResponse = {
+const expectedResult: StarshipsResponse = {
   name: 'Millennium Falcon',
   url: 'https://swapi.dev/api/starships/10/',
   starship_class: 'Light freighter',
@@ -28,5 +28,5 @@ const expectedResullt: StarshipsResponse = {
 
 test('testing starshipsDataConverter', () => {
   const result = starshipsDataConverter([testData]);
-  expect(result).toStrictEqual([expectedResullt]);
+  expect(result).toStrictEqual([expectedResult]);
 });

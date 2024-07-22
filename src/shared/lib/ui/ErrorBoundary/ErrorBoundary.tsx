@@ -26,7 +26,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorState> {
           <div className={style.container}>
             <h2>Sorry... there was an error</h2>
             <p>Please reload the page</p>
-            <div className={style.btn} onClick={() => location.reload()}>
+            <div
+              className={style.btn}
+              onClick={() => location.reload()}
+              data-testid="reload"
+            >
               reload
             </div>
           </div>
