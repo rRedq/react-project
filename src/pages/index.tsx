@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { App } from 'app/App';
+import { Main } from './Main/Main';
 export default function Home() {
   return (
     <>
@@ -9,7 +10,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/svg+xml" href="/icon.svg" />
       </Head>
-      <App />
+      <App>
+        <Main />
+      </App>
     </>
   );
 }

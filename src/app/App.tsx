@@ -1,18 +1,19 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import './styles/global.scss';
 import { ErrorBoundary } from 'shared/lib/ui/ErrorBoundary';
 import { Provider } from 'react-redux';
 import { store } from './providers/storeProvider/config/store';
 import { ThemeProvider } from './providers/themeProvider';
-import { Main } from 'pages/main/Main';
 
-export const App: FC = () => {
+interface AppProps {
+  children: ReactNode;
+}
+
+export const App: FC<AppProps> = ({ children }) => {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <Provider store={store}>
-          <Main />
-        </Provider>
+        <Provider store={store}>{children}</Provider>
       </ThemeProvider>
     </ErrorBoundary>
   );
