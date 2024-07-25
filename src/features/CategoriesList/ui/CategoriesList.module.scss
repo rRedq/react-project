@@ -29,7 +29,7 @@
   width: 250px;
   height: 150px;
   position: relative;
-  @include flex(center, $alignItems: end, $borderRadius: true);
+  @include flex(center, $alignItems: flex-end, $borderRadius: true);
   user-select: none;
   overflow: hidden;
 
