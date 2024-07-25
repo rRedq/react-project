@@ -13,6 +13,7 @@
     "jsx": "preserve",
     "incremental": true,
     "noImplicitAny": true,
+    "types": ["vitest/globals"],
     "baseUrl": "./src",
     "paths": { "*": ["*"] },
     "plugins": [
