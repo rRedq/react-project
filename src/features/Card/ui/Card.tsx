@@ -7,9 +7,11 @@ import {
 import { getImageUrl } from 'shared/lib/api';
 import style from './Card.module.scss';
 import placeholder from 'shared/assets/images/images/placeholder.jpg';
-import { setSearchParamsByKey } from 'shared/utils/searchParams';
-import { useSearchParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
+import {
+  useAppDispatch,
+  useAppSearchParams,
+  useAppSelector,
+} from 'shared/lib/hooks';
 import { addItem, getOriginalItemsId, removeItem } from 'entities/Items';
 import { getSearchProps } from 'entities/Search';
 
@@ -26,7 +28,7 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   const { category } = useAppSelector(getSearchProps);
   const selectedItems = useAppSelector(getOriginalItemsId);
   const [imgSrc, setImgSrc] = useState<string>(getImageUrl(url));
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { setSearchParamsByKey } = useAppSearchParams();
   const id = getId(url);
   const isChecked = selectedItems[category].includes(id);
   const keys: string[] = Object.keys(rest);
@@ -34,8 +36,7 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
 
   const openDetails = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    const result = setSearchParamsByKey('DETAILS', id, searchParams);
-    setSearchParams(result);
+    setSearchParamsByKey('DETAILS', id);
   };
 
   const toggleCheckbox = () => {

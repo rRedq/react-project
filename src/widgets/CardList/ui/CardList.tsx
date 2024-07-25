@@ -2,23 +2,19 @@ import { FC, ReactNode } from 'react';
 import style from './CardList.module.scss';
 import { Card } from 'features/Card';
 import { Spinner } from 'shared/lib/ui/Spinner';
-import { Outlet, useSearchParams } from 'react-router-dom';
-import {
-  getSearchParamsByKey,
-  setSearchParamsByKey,
-} from 'shared/utils/searchParams';
+import { Outlet } from 'react-router-dom';
 import { Pagination } from 'features/Pagination';
 import { useSearchQuery } from './hoook/useSearchQuery';
 import { useGetDataQuery } from 'shared/lib/api';
+import { useAppSearchParams } from 'shared/lib/hooks';
 
 export const CardList: FC = () => {
   const searchQuery = useSearchQuery();
-  const [searchParams, setSearchParams] = useSearchParams();
   const { data, isFetching } = useGetDataQuery(searchQuery);
+  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
 
   const closeDetails = () => {
-    const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
-    setSearchParams(props);
+    setSearchParamsByKey('DETAILS', undefined);
   };
 
   let content: ReactNode;
@@ -45,7 +41,7 @@ export const CardList: FC = () => {
         <div className={style.cover} data-testid="cover" onClick={closeDetails}>
           <div className={style.wrapper}>{content}</div>
         </div>
-        <div>{getSearchParamsByKey('DETAILS', searchParams) && <Outlet />}</div>
+        <div>{getSearchParamsByKey('DETAILS') && <Outlet />}</div>
       </div>
       {!isFetching && data && data.count && <Pagination count={data.count} />}
     </>
