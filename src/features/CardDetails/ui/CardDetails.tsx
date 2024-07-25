@@ -1,34 +1,20 @@
 import { FC } from 'react';
 import style from './CardDetails.module.scss';
-import { useSearchParams } from 'react-router-dom';
-import {
-  getSearchParamsByKey,
-  setSearchParamsByKey,
-} from 'shared/utils/searchParams';
 import { useGetDetailsDataQuery } from 'shared/lib/api';
-import { CategoriesType } from 'shared/types';
 import { Spinner } from 'shared/lib/ui/Spinner';
 import { getSearchProps } from 'entities/Search';
-import { useAppSelector } from 'shared/lib/hooks';
-import { DEFAULT_PAGE } from 'shared/consts';
+import { useAppSearchParams, useAppSelector } from 'shared/lib/hooks';
 import { useMemoDetails } from './hook/useMemoDetails';
 
 export interface CardDetailsProps {
   card: string;
-  category: CategoriesType;
 }
 
-export const CardDetails: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+export const CardDetails: FC<CardDetailsProps> = ({ card }) => {
   const { category } = useAppSelector(getSearchProps);
-  const card = getSearchParamsByKey('DETAILS', searchParams) || DEFAULT_PAGE;
+  const { setSearchParamsByKey } = useAppSearchParams();
   const { data, isFetching } = useGetDetailsDataQuery({ category, card });
   const memoDetails = useMemoDetails(data);
-
-  const closeDetails = () => {
-    const props = setSearchParamsByKey('DETAILS', undefined, searchParams);
-    setSearchParams(props);
-  };
 
   return (
     <div className={style.cover} data-testid="details">
@@ -38,7 +24,7 @@ export const CardDetails: FC = () => {
         <div className={style.wrapper}>
           <div
             className={style.close}
-            onClick={closeDetails}
+            onClick={() => setSearchParamsByKey('DETAILS', undefined)}
             data-testid="close"
           ></div>
           {memoDetails}

@@ -1,11 +1,9 @@
-import { getLocalState } from 'shared/utils/localState';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CategoriesType, SearchProps } from 'shared/types';
 import { DEFAULT_CATEGORY } from 'shared/consts';
 
 const initialState: SearchProps = {
-  category: getLocalState('category') || DEFAULT_CATEGORY,
-  search: getLocalState('search'),
+  category: DEFAULT_CATEGORY,
 };
 
 export const searchSlice = createSlice({

@@ -1,28 +1,22 @@
 import { FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { CARD_ON_PAGE } from 'shared/consts';
-import {
-  getSearchParamsByKey,
-  setSearchParamsByKey,
-} from 'shared/utils/searchParams';
 import style from './Pagination.module.scss';
+import { useAppSearchParams } from 'shared/lib/hooks';
 
 interface PaginationProps {
   count: number;
 }
 export const Pagination: FC<PaginationProps> = ({ count }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const formattedCount: number = Math.ceil(count / CARD_ON_PAGE);
-  const activePage = getSearchParamsByKey('PAGE', searchParams);
+  const { getSearchParamsByKey, setSearchParamsByKey } = useAppSearchParams();
+  const activePage = getSearchParamsByKey('PAGE');
   const arrayFromCount = Array.from(
     { length: formattedCount },
     (_, i) => i + 1
   );
 
-  const onClick = (value: number): void => {
-    setSearchParams(
-      setSearchParamsByKey('PAGE', value.toString(), searchParams)
-    );
+  const onClick = (page: number): void => {
+    setSearchParamsByKey('PAGE', page.toString());
   };
 
   return (

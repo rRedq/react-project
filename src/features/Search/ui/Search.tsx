@@ -5,16 +5,13 @@ import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
 import { useAppDispatch } from 'shared/lib/hooks';
 import { setSearch } from 'entities/Search';
-import { useSearchParams } from 'react-router-dom';
-import { setSearchParamsByKey } from 'shared/utils/searchParams';
-import { DEFAULT_PAGE } from 'shared/consts';
 import { ToggleThemeButton } from 'shared/lib/ui/ToggleThemeButton';
+import Image from 'next/image';
 
 export const Search: FC = () => {
   const [value, setValue] = useState<string>('');
   const [submitValue, setSubmitValue] = useState<string>();
   const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,14 +26,15 @@ export const Search: FC = () => {
   useEffect(() => {
     if (submitValue === undefined) return;
     setLocalState('search', submitValue);
-    const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
-    setSearchParams(result);
     dispatch(setSearch(submitValue));
   }, [submitValue]);
 
   useEffect(() => {
-    const getValue: string | undefined = getLocalState('search');
-    if (getValue) setValue(getValue);
+    const search: string | undefined = getLocalState('search');
+    if (search) {
+      setValue(search);
+      dispatch(setSearch(search));
+    }
   }, []);
 
   return (
@@ -60,7 +58,7 @@ export const Search: FC = () => {
         )}
       </div>
       <button className={style.btn} type="submit">
-        <img src={searchIcon} alt="search" />
+        <Image src={searchIcon} alt="search" width={30} height={30} />
       </button>
     </form>
   );

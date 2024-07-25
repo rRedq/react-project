@@ -1,18 +1,13 @@
-import { getSearchProps } from 'entities/Search';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { DEFAULT_PAGE } from 'shared/consts';
-import { useAppSelector } from 'shared/lib/hooks';
+import { useAppSearchParams, useAppSelector } from 'shared/lib/hooks';
 import { SearchProps } from 'shared/types';
-import {
-  getSearchParamsByKey,
-  setSearchParamsByKey,
-} from 'shared/utils/searchParams';
+import { getSearchProps } from 'entities/Search';
 
 export const useSearchQuery = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const { category, search } = useAppSelector(getSearchProps);
-  const page = getSearchParamsByKey('PAGE', searchParams);
+  const { getSearchParamsByKey, setSearchParamsByKey } = useAppSearchParams();
+  const page = getSearchParamsByKey('PAGE');
   const initialState: SearchProps = {
     category,
     search,
@@ -25,20 +20,16 @@ export const useSearchQuery = () => {
       return;
     }
     setSearchProps({ category, search, page: DEFAULT_PAGE });
-    const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
-    setSearchParams(result);
+    setSearchParamsByKey('PAGE', DEFAULT_PAGE);
   }, [category, search]);
 
   useEffect(() => {
-    if (searchProps.page === page) return;
+    if (searchProps.page === page || !page) return;
     setSearchProps({ ...searchProps, page });
   }, [page]);
 
   useEffect(() => {
-    if (!page) {
-      const result = setSearchParamsByKey('PAGE', DEFAULT_PAGE, searchParams);
-      setSearchParams(result);
-    }
+    if (!page) setSearchParamsByKey('PAGE', DEFAULT_PAGE);
   }, []);
 
   return searchProps;
