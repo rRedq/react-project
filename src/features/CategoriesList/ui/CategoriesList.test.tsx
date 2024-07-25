@@ -5,7 +5,6 @@ import { vi } from 'vitest';
 import { CategoriesType } from 'shared/types';
 import { store } from 'app/providers/storeProvider';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import style from './CategoriesList.module.scss';
 import { getLocalState } from 'shared/utils/localState';
 
@@ -20,11 +19,9 @@ describe('testing CategoriesList', () => {
 
   it('testing count of image for categories to equal 3', () => {
     const { getAllByRole } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <CategoriesList />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <CategoriesList />
+      </Provider>
     );
 
     const imgCount = getAllByRole('img');
@@ -32,11 +29,9 @@ describe('testing CategoriesList', () => {
   });
   it('testing consecutive different requests', async () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <CategoriesList />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <CategoriesList />
+      </Provider>
     );
 
     const planet = getByTestId(planetsTest);
@@ -67,11 +62,9 @@ describe('testing CategoriesList', () => {
   });
   it('testing consecutive identical requests', async () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <CategoriesList />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <CategoriesList />
+      </Provider>
     );
 
     const species = getByTestId(speciesTest);

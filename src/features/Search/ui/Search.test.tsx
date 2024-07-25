@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
 import { App } from 'app/App';
-import { BrowserRouter } from 'react-router-dom';
 
 const testStr = 'test';
 const anotherStr = 'cr';
@@ -19,11 +18,7 @@ afterEach(() => {
 });
 
 test('testing Search component', async () => {
-  const { getByPlaceholderText, getByText, getByAltText } = render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
+  const { getByPlaceholderText, getByText, getByAltText } = render(<App />);
 
   const searchInput: HTMLElement = getByPlaceholderText(/search/i);
   const searchBtn: HTMLElement = getByAltText(/search/i);

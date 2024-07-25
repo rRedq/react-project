@@ -1,11 +1,11 @@
 import { act, render } from '@testing-library/react';
 import { vi } from 'vitest';
-import { BrowserRouter } from 'react-router-dom';
 import { Card } from './Card';
 import userEvent from '@testing-library/user-event';
 import { store } from 'app/providers/storeProvider';
 import { Provider } from 'react-redux';
 import { testItemSpaceResponse } from 'shared/lib/__mock__';
+import mockRouter from 'next-router-mock';
 
 describe('testing Card', () => {
   afterEach(() => {
@@ -14,11 +14,9 @@ describe('testing Card', () => {
 
   it('testing component renders the relevant card data', () => {
     const { getByText } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Card {...testItemSpaceResponse} />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <Card {...testItemSpaceResponse} />
+      </Provider>
     );
 
     const name = getByText(testItemSpaceResponse.name);
@@ -41,11 +39,9 @@ describe('testing Card', () => {
   });
   it('testing clicking on a card opens a detailed card component', async () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Card {...testItemSpaceResponse} />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <Card {...testItemSpaceResponse} />
+      </Provider>
     );
 
     const card = getByTestId(/card/i);
@@ -54,7 +50,6 @@ describe('testing Card', () => {
       await userEvent.click(card);
     });
 
-    const expectedUrl = '?details=1';
-    expect(location.search).toBe(expectedUrl);
+    expect(mockRouter.query.details).toBe('1');
   });
 });

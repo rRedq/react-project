@@ -1,12 +1,16 @@
 import { render } from '@testing-library/react';
-import { App } from './App';
-import { BrowserRouter } from 'react-router-dom';
+import { Main } from 'pages/main/Main';
+import { Provider } from 'react-redux';
+import { store } from './providers/storeProvider';
+import { ThemeProvider } from './providers/themeProvider';
 
 test('testing App', async () => {
   const { getByText } = render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ThemeProvider>
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    </ThemeProvider>
   );
 
   const h1Text = getByText(/Star Wars DB/i);

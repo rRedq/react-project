@@ -1,20 +1,20 @@
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { App } from 'app/App';
 import { act } from 'react';
+import { ToggleThemeButton } from './ToggleThemeButton';
+import { ThemeProvider } from 'app/providers/themeProvider';
 
 test('testing ToggleThemeButton', async () => {
   const { getByAltText } = render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ThemeProvider>
+      <ToggleThemeButton />
+    </ThemeProvider>
   );
 
-  const darkTheme = await getByAltText('dark');
+  const darkTheme = await getByAltText(/dark/i);
   expect(darkTheme).toBeInTheDocument();
 
   act(() => darkTheme.click());
 
-  const lightTheme = getByAltText('light');
+  const lightTheme = getByAltText(/light/i);
   expect(lightTheme).toBeInTheDocument();
 });

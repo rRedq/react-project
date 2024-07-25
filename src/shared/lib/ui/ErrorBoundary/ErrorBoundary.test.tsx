@@ -1,14 +1,9 @@
-import { BrowserRouter } from 'react-router-dom';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { App } from 'app/App';
 
 test('testing ErrorBoundary', async () => {
-  const { getByText, getByTestId } = render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
+  const { getByText, getByTestId } = render(<App />);
 
   const errorBtn = getByText(/error/i);
   expect(errorBtn).toBeInTheDocument();

@@ -1,7 +1,5 @@
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
-import { App } from 'app/App';
 import { swapi } from 'shared/lib/api/swApi';
 import {
   testDataDetails,
@@ -13,6 +11,9 @@ import { store } from 'app/providers/storeProvider';
 import { act } from 'react';
 import { CardList } from './CardList';
 import { Provider } from 'react-redux';
+import { Main } from 'pages/main/Main';
+import { ThemeProvider } from 'app/providers/themeProvider';
+import mockRouter from 'next-router-mock';
 
 const server = setupServer();
 
@@ -33,9 +34,11 @@ describe('testing CardList', () => {
   it('testing number of cards should be equal 5', async () => {
     server.use(testDataWithFiveResult);
     const { findAllByTestId, findByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeProvider>
+        <Provider store={store}>
+          <Main />
+        </Provider>
+      </ThemeProvider>
     );
 
     const spinner = await findByTestId(/spinner/i);
@@ -48,11 +51,9 @@ describe('testing CardList', () => {
   it('testing number of cards should be equal 0', async () => {
     server.use(testDataWithNullResult);
     const { findByText, getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <CardList />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <CardList />
+      </Provider>
     );
 
     const spinner = getByTestId(/spinner/i);
@@ -68,21 +69,18 @@ describe('testing CardList', () => {
     server.use(testDataWithOneItem);
     server.use(testDataDetails);
     const { findByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeProvider>
+        <Provider store={store}>
+          <Main />
+        </Provider>
+      </ThemeProvider>
     );
 
     const card = await findByTestId(/card/i);
     expect(card).toBeInTheDocument();
 
     act(() => card.click());
-    const details = await findByTestId(/details/i);
-    const cover = await findByTestId(/cover/i);
-    expect(details).toBeInTheDocument();
-    expect(cover).toBeInTheDocument();
 
-    act(() => cover.click());
-    expect(details).not.toBeInTheDocument();
+    expect(mockRouter.query.details).toBe('1');
   });
 });

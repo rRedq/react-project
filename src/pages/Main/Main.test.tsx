@@ -1,4 +1,3 @@
-import { BrowserRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { App } from 'app/App';
@@ -24,9 +23,7 @@ afterAll(() => {
 describe('testing Main', () => {
   it('testing base shape of main', () => {
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <App />
     );
 
     const logo = getByText(/Star Wars DB/i);
@@ -47,11 +44,7 @@ describe('testing Main', () => {
   it('testing success data response', async () => {
     server.use(testDataWithFiveResult);
 
-    const { findAllByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
+    const { findAllByTestId } = render(<App />);
 
     const cardList = await findAllByTestId(/card/i);
 

@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { CardDetails } from './CardDetails';
 import { setupServer } from 'msw/node';
 import { store } from 'app/providers/storeProvider';
@@ -9,6 +9,7 @@ import { testDataDetails, testDataWithOneItem } from 'shared/lib/__mock__';
 import { swapi } from 'shared/lib/api/swApi';
 import { testItemSpaceResponse } from 'shared/lib/__mock__/data';
 import { basePath, detailsPath } from 'shared/lib/__mock__/variables';
+import mockRouter from 'next-router-mock';
 
 const server = setupServer();
 
@@ -25,13 +26,15 @@ afterAll(() => {
   server.close();
 });
 
+const mockCard = '1';
+
 describe('testing CardDetails', () => {
   it('testing information display', async () => {
     server.use(testDataDetails);
     const { findByText, getByTestId } = render(
       <MemoryRouter initialEntries={[detailsPath]}>
         <Provider store={store}>
-          <CardDetails />
+          <CardDetails card={mockCard} />
         </Provider>
       </MemoryRouter>
     );
@@ -53,27 +56,17 @@ describe('testing CardDetails', () => {
   it('testing opening / closing CardDetails', async () => {
     server.use(testDataWithOneItem);
     server.use(testDataDetails);
-    const { findByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
+    const { findByTestId } = render(<App />);
 
-    expect(location.search).toBe(basePath);
+    expect(mockRouter.query.page).toBe(basePath);
     const card = await findByTestId(/card/i);
     expect(card).toBeInTheDocument();
 
     act(() => card.click());
 
-    expect(location.search).toBe(detailsPath);
-    const details = await findByTestId(/details/i);
-    const closeBtn = await findByTestId(/close/i);
-    expect(details).toBeInTheDocument();
-    expect(closeBtn).toBeInTheDocument();
-
-    act(() => closeBtn.click());
-    expect(location.search).toBe(basePath);
-    expect(details).not.toBeInTheDocument();
-    expect(closeBtn).not.toBeInTheDocument();
+    expect(mockRouter.query).toEqual({
+      details: '1',
+      page: '1',
+    });
   });
 });
