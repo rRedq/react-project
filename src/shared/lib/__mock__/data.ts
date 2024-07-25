@@ -44,13 +44,7 @@ const testItemPlanetsResponse: PlanetsResponse = {
   terrain: 'desert',
 };
 
-const testData = [
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-];
+const testData: SpeciesResponse[] = new Array(5).fill(testItemSpaceResponse);
 
 const resultStarshipResponse: BaseResponse = {
   count: 1,
