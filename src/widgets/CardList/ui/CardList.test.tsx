@@ -11,7 +11,7 @@ import { store } from 'app/providers/storeProvider';
 import { act } from 'react';
 import { CardList } from './CardList';
 import { Provider } from 'react-redux';
-import { Main } from 'pages/main/Main';
+import { Main } from 'pages/Main/Main';
 import { ThemeProvider } from 'app/providers/themeProvider';
 import mockRouter from 'next-router-mock';
 

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { Main } from 'pages/main/Main';
+import { Main } from 'pages/Main/Main';
 import { Provider } from 'react-redux';
 import { store } from './providers/storeProvider';
 import { ThemeProvider } from './providers/themeProvider';

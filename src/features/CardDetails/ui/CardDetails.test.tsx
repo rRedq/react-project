@@ -10,6 +10,7 @@ import { swapi } from 'shared/lib/api/swApi';
 import { testItemSpaceResponse } from 'shared/lib/__mock__/data';
 import { basePath, detailsPath } from 'shared/lib/__mock__/variables';
 import mockRouter from 'next-router-mock';
+import { Main } from 'pages/Main/Main';
 
 const server = setupServer();
 
@@ -56,7 +57,11 @@ describe('testing CardDetails', () => {
   it('testing opening / closing CardDetails', async () => {
     server.use(testDataWithOneItem);
     server.use(testDataDetails);
-    const { findByTestId } = render(<App />);
+    const { findByTestId } = render(
+      <App>
+        <Main />
+      </App>
+    );
 
     expect(mockRouter.query.page).toBe(basePath);
     const card = await findByTestId(/card/i);

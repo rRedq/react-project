@@ -1,6 +1,7 @@
 import { act, render } from '@testing-library/react';
 import { App } from 'app/App';
 import { setupServer } from 'msw/node';
+import { Main } from 'pages/Main/Main';
 import {
   resultWithTwoItem,
   testDataWithTwoDifferentItems,
@@ -19,7 +20,11 @@ afterAll(() => {
 describe('testing SelectController', () => {
   it('testing sequential clicks on checkboxes', async () => {
     server.use(testDataWithTwoDifferentItems);
-    const { findAllByRole, findByTestId, findByText } = render(<App />);
+    const { findAllByRole, findByTestId, findByText } = render(
+      <App>
+        <Main />
+      </App>
+    );
 
     const checkboxes = (await findAllByRole('checkbox')) as HTMLInputElement[];
 
@@ -58,7 +63,11 @@ describe('testing SelectController', () => {
 
   it('testing overlapping clicks on checkboxes', async () => {
     server.use(testDataWithTwoDifferentItems);
-    const { findByTestId, findByText } = render(<App />);
+    const { findByTestId, findByText } = render(
+      <App>
+        <Main />
+      </App>
+    );
     const firstCheckbox = await findByTestId(resultWithTwoItem.results[0].name);
     const secondCheckbox = await findByTestId(
       resultWithTwoItem.results[1].name

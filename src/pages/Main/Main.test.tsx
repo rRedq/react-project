@@ -4,6 +4,7 @@ import { App } from 'app/App';
 import { swapi } from 'shared/lib/api/swApi';
 import { store } from 'app/providers/storeProvider';
 import { testDataWithFiveResult } from 'shared/lib/__mock__';
+import { Main } from './Main';
 
 const server = setupServer();
 
@@ -23,7 +24,9 @@ afterAll(() => {
 describe('testing Main', () => {
   it('testing base shape of main', () => {
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
-      <App />
+      <App>
+        <Main />
+      </App>
     );
 
     const logo = getByText(/Star Wars DB/i);
@@ -44,7 +47,11 @@ describe('testing Main', () => {
   it('testing success data response', async () => {
     server.use(testDataWithFiveResult);
 
-    const { findAllByTestId } = render(<App />);
+    const { findAllByTestId } = render(
+      <App>
+        <Main />
+      </App>
+    );
 
     const cardList = await findAllByTestId(/card/i);
 

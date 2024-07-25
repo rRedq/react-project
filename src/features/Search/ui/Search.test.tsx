@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
 import { App } from 'app/App';
+import { Main } from 'pages/Main/Main';
 
 const testStr = 'test';
 const anotherStr = 'cr';
@@ -18,7 +19,11 @@ afterEach(() => {
 });
 
 test('testing Search component', async () => {
-  const { getByPlaceholderText, getByText, getByAltText } = render(<App />);
+  const { getByPlaceholderText, getByText, getByAltText } = render(
+    <App>
+      <Main />
+    </App>
+  );
 
   const searchInput: HTMLElement = getByPlaceholderText(/search/i);
   const searchBtn: HTMLElement = getByAltText(/search/i);
