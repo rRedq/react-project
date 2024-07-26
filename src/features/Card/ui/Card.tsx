@@ -14,6 +14,7 @@ import {
 } from 'shared/lib/hooks';
 import { addItem, getOriginalItemsId, removeItem } from 'entities/Items';
 import { getSearchProps } from 'entities/Search';
+import Image from 'next/image';
 
 type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
 
@@ -58,10 +59,15 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
       </div>
       <div className={style.content}>
         <div className={style.leftSide}>
-          <img
+          <Image
             className={style.img}
             src={imgSrc}
-            onError={() => setImgSrc(placeholder)}
+            alt={imgSrc}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '130px', height: 'auto' }}
+            onError={() => setImgSrc(placeholder.src)}
           />
         </div>
         <div className={style.rightSide}>
