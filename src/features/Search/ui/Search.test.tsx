@@ -3,8 +3,8 @@ import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { App } from 'app/App';
 import { Main } from 'pages/Main/Main';
+import { CoreProvider } from 'core/CoreProvider';
 
 const testStr = 'test';
 const anotherStr = 'cr';
@@ -20,9 +20,9 @@ afterEach(() => {
 
 test('testing Search component', async () => {
   const { getByPlaceholderText, getByText, getByAltText } = render(
-    <App>
+    <CoreProvider>
       <Main />
-    </App>
+    </CoreProvider>
   );
 
   const searchInput: HTMLElement = getByPlaceholderText(/search/i);

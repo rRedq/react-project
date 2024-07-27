@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { setupServer } from 'msw/node';
-import { App } from 'app/App';
 import { swapi } from 'shared/lib/api/swApi';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { testDataWithFiveResult } from 'shared/lib/__mock__';
 import { Main } from './Main';
+import { CoreProvider } from 'core/CoreProvider';
 
 const server = setupServer();
 
@@ -24,9 +24,9 @@ afterAll(() => {
 describe('testing Main', () => {
   it('testing base shape of main', () => {
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
-      <App>
+      <CoreProvider>
         <Main />
-      </App>
+      </CoreProvider>
     );
 
     const logo = getByText(/Star Wars DB/i);
@@ -48,9 +48,9 @@ describe('testing Main', () => {
     server.use(testDataWithFiveResult);
 
     const { findAllByTestId } = render(
-      <App>
+      <CoreProvider>
         <Main />
-      </App>
+      </CoreProvider>
     );
 
     const cardList = await findAllByTestId(/card/i);

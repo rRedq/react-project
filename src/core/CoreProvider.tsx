@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 import { store } from './providers/storeProvider/config/store';
 import { ThemeProvider } from './providers/themeProvider';
 
-interface AppProps {
+interface CoreProviderProps {
   children: ReactNode;
 }
 
-export const App: FC<AppProps> = ({ children }) => {
+export const CoreProvider: FC<CoreProviderProps> = ({ children }) => {
   return (
     <ErrorBoundary>
       <ThemeProvider>

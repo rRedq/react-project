@@ -7,12 +7,12 @@ import {
   testDataWithNullResult,
   testDataWithOneItem,
 } from 'shared/lib/__mock__';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { act } from 'react';
 import { CardList } from './CardList';
 import { Provider } from 'react-redux';
 import { Main } from 'pages/Main/Main';
-import { ThemeProvider } from 'app/providers/themeProvider';
+import { ThemeProvider } from 'core/providers/themeProvider';
 import mockRouter from 'next-router-mock';
 
 const server = setupServer();

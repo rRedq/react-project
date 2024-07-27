@@ -2,7 +2,7 @@ import { act, render } from '@testing-library/react';
 import { vi } from 'vitest';
 import { Card } from './Card';
 import userEvent from '@testing-library/user-event';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { Provider } from 'react-redux';
 import { testItemSpaceResponse } from 'shared/lib/__mock__';
 import mockRouter from 'next-router-mock';

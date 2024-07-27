@@ -1,13 +1,13 @@
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/CoreProvider';
 import { Main } from 'pages/Main/Main';
 
 test('testing ErrorBoundary', async () => {
   const { getByText, getByTestId } = render(
-    <App>
+    <CoreProvider>
       <Main />
-    </App>
+    </CoreProvider>
   );
 
   const errorBtn = getByText(/error/i);

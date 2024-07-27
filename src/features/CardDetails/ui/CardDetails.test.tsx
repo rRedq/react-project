@@ -2,15 +2,15 @@ import { act, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { CardDetails } from './CardDetails';
 import { setupServer } from 'msw/node';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { Provider } from 'react-redux';
-import { App } from 'app/App';
 import { testDataDetails, testDataWithOneItem } from 'shared/lib/__mock__';
 import { swapi } from 'shared/lib/api/swApi';
 import { testItemSpaceResponse } from 'shared/lib/__mock__/data';
 import { basePath, detailsPath } from 'shared/lib/__mock__/variables';
 import mockRouter from 'next-router-mock';
 import { Main } from 'pages/Main/Main';
+import { CoreProvider } from 'core/CoreProvider';
 
 const server = setupServer();
 
@@ -58,9 +58,9 @@ describe('testing CardDetails', () => {
     server.use(testDataWithOneItem);
     server.use(testDataDetails);
     const { findByTestId } = render(
-      <App>
+      <CoreProvider>
         <Main />
-      </App>
+      </CoreProvider>
     );
 
     expect(mockRouter.query.page).toBe(basePath);

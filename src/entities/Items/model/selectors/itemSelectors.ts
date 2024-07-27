@@ -1,4 +1,4 @@
-import { RootState } from 'app/providers/storeProvider';
+import { RootState } from 'core/providers/storeProvider';
 import { CategoriesType } from 'shared/types';
 import { OriginalItems } from '../types/itemsTypes';
 import { createSelector } from 'reselect';

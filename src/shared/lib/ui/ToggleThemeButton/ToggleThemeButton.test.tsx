@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { act } from 'react';
 import { ToggleThemeButton } from './ToggleThemeButton';
-import { ThemeProvider } from 'app/providers/themeProvider';
+import { ThemeProvider } from 'core/providers/themeProvider';
 
 test('testing ToggleThemeButton', async () => {
   const { getByAltText } = render(
