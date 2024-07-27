@@ -1,4 +1,4 @@
-@import '../../../../app/styles/common.scss';
+@import '../../../styles/common.scss';
 
 .btn {
   @include flex($borderRadius: true);

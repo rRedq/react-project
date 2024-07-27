@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-import './styles/global.scss';
 import { ErrorBoundary } from 'shared/lib/ui/ErrorBoundary';
 import { Provider } from 'react-redux';
 import { store } from './providers/storeProvider/config/store';
