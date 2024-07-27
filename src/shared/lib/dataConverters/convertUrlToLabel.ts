@@ -8,14 +8,12 @@ export const convertUrlToLabel = (url: string): CategoriesType => {
   const splittedUrl: string[] = url.split('/');
   const lastElem: string = splittedUrl[splittedUrl.length - lastParamIndex];
   const resultWithExt: string = lastElem.split('?')[firstParamIndex];
-  const resultWithoutExt: string = resultWithExt
+  const resultWithoutExt: CategoriesType = resultWithExt
     .split('.')
-    [firstParamIndex].split('-')[firstParamIndex];
+    [firstParamIndex].split('-')[firstParamIndex] as CategoriesType;
 
-  const result: CategoriesType = validCategories.includes(
-    resultWithoutExt as CategoriesType
-  )
-    ? (resultWithoutExt as CategoriesType)
+  const result: CategoriesType = validCategories.includes(resultWithoutExt)
+    ? resultWithoutExt
     : DEFAULT_CATEGORY;
 
   return result;
