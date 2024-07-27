@@ -23,6 +23,8 @@ afterAll(() => {
 
 describe('testing Main', () => {
   it('testing base shape of main', () => {
+    server.use(testDataWithFiveResult);
+
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
       <BrowserRouter>
         <App />
