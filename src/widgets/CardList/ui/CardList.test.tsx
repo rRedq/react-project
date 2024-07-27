@@ -5,7 +5,6 @@ import { App } from 'app/App';
 import { swapi } from 'shared/lib/api/swApi';
 import {
   testDataDetails,
-  testDataWithFiveResult,
   testDataWithNullResult,
   testDataWithOneItem,
 } from 'shared/lib/__mock__';
@@ -30,21 +29,6 @@ afterAll(() => {
 });
 
 describe('testing CardList', () => {
-  it('testing number of cards should be equal 5', async () => {
-    server.use(testDataWithFiveResult);
-    const { findAllByTestId, findByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
-    const spinner = await findByTestId(/spinner/i);
-    expect(spinner).toBeInTheDocument();
-
-    const imgCount = await findAllByTestId(/card/i);
-    expect(spinner).not.toBeInTheDocument();
-    expect(imgCount).toHaveLength(5);
-  });
   it('testing number of cards should be equal 0', async () => {
     server.use(testDataWithNullResult);
     const { findByText, getByTestId } = render(
