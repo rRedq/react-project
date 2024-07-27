@@ -1,0 +1,21 @@
+@import '../../../app/styles/common.scss';
+
+.header {
+  padding: 15px 0;
+  @include flex(center, $alignItems: center);
+}
+
+.logo {
+  font-family: 'Alfa Slab One';
+  font-size: 45px;
+  font-weight: bold;
+  color: var(--main-color-4);
+}
+
+.light {
+  @include text-shadow(--main-color-1);
+}
+
+.dark {
+  @include text-shadow(--yellow);
+}

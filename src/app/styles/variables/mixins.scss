@@ -1,0 +1,57 @@
+@mixin flex(
+  $content: false,
+  $gap: 0,
+  $direction: row,
+  $wrap: nowrap,
+  $borderRadius: false,
+  $alignItems: false,
+  $grow: false
+) {
+  display: flex;
+
+  @if $content {
+    justify-content: $content;
+  }
+
+  @if $direction != row {
+    flex-direction: $direction;
+  }
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+
+  @if $wrap != nowrap {
+    flex-wrap: $wrap;
+  }
+
+  @if $borderRadius {
+    border-radius: $border-radius;
+  }
+
+  @if $alignItems {
+    align-items: $alignItems;
+  }
+
+  @if $grow {
+    flex-grow: $grow;
+  }
+}
+
+@mixin google-font($family) {
+  @import url('http://fonts.googleapis.com/css?family=#{$family}');
+}
+
+@mixin text-shadow($color) {
+  text-shadow:
+    -1px -1px 0 var($color),
+    1px -1px 0 var($color),
+    -1px 1px 0 var($color),
+    1px 1px 0 var($color);
+}
+
+@mixin imgBackground {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}

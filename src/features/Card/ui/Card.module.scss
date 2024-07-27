@@ -1,0 +1,75 @@
+@import '../../../app/styles/common.scss';
+
+.card {
+  @include flex($borderRadius: true, $direction: column);
+  padding: 7px;
+  background: var(--main-color-4);
+  border: 1px solid var(--main-color-0);
+  width: 350px;
+  height: 250px;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid var(--red);
+
+    .img {
+      transform: scale(1.1);
+    }
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 23px;
+    font-family: 'Permanent Marker';
+    color: var(--main-color-1);
+  }
+}
+
+.content {
+  @include flex($gap: 10px);
+  font-size: 14px;
+  color: var(--main-color-1);
+  height: 100%;
+}
+
+.leftSide {
+  width: 40%;
+  max-height: 100%;
+  @include flex(center, $alignItems: center);
+  position: relative;
+  overflow: hidden;
+}
+
+.rightSide {
+  width: 55%;
+  @include flex(center, $direction: column);
+
+  span {
+    color: var(--red);
+  }
+
+  p {
+    padding: 3px 0;
+  }
+}
+
+.img {
+  width: 130px;
+  border-radius: $border-radius;
+  position: absolute;
+  transition: transform 0.3s ease;
+}
+
+.label {
+  padding: 0 7px;
+  @include flex(space-between);
+
+  input {
+    width: 18px;
+    accent-color: var(--red);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
