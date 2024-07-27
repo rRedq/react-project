@@ -35,21 +35,21 @@ export const CategoriesList: FC = () => {
     <div className={style.wrapper}>
       {categoriesImg.map((img, index) => (
         <div
-          className={`${style.imgContainer} ${category === convertUrlToLabel(img.src) ? style.active : style.common}`}
+          className={`${style.imgContainer} ${category === convertUrlToLabel(img.src || img) ? style.active : style.common}`}
           key={index}
-          data-testid={convertUrlToLabel(img.src)}
-          onClick={() => setValue(convertUrlToLabel(img.src))}
+          data-testid={convertUrlToLabel(img.src || img)}
+          onClick={() => setValue(convertUrlToLabel(img.src || img))}
         >
           <Image
             className={style.img}
             src={img}
             priority
-            alt={convertUrlToLabel(img.src)}
+            alt={convertUrlToLabel(img.src || img)}
             data-testid="category"
             width={250}
             height={150}
           />
-          <p className={style.text}>{convertUrlToLabel(img.src)}</p>
+          <p className={style.text}>{convertUrlToLabel(img.src || img)}</p>
         </div>
       ))}
     </div>
