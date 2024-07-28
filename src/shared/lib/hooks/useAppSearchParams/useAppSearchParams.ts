@@ -19,12 +19,10 @@ export const useAppSearchParams = () => {
       details;
 
       router.push({
-        pathname: router.pathname,
         query: { ...rest },
       });
     } else {
       router.push({
-        pathname: router.pathname,
         query: { ...router.query, [SearchParams[key]]: value },
       });
     }
