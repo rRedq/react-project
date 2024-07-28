@@ -9,6 +9,12 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text'],
+      include: ['**/src/**'],
+      exclude: [
+        '**/src/entities/Items/model/types/**',
+        '**/src/vite-env.d.ts',
+        '**/src/shared/types/**',
+      ],
     },
     globals: true,
     environment: 'jsdom',
