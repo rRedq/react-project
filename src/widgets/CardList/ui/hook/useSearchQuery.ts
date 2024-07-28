@@ -21,6 +21,7 @@ export const useSearchQuery = () => {
     }
     setSearchProps({ category, search, page: DEFAULT_PAGE });
     setSearchParamsByKey('PAGE', DEFAULT_PAGE);
+    setSearchParamsByKey('DETAILS', undefined);
   }, [category, search]);
 
   useEffect(() => {

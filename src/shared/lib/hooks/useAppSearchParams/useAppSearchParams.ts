@@ -17,7 +17,6 @@ export const useAppSearchParams = () => {
     if (key === 'DETAILS' && value === undefined) {
       const { details, ...rest } = router.query;
       details;
-
       router.push({
         query: { ...rest },
       });

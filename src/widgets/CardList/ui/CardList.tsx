@@ -3,7 +3,7 @@ import style from './CardList.module.scss';
 import { Card } from 'features/Card';
 import { Spinner } from 'shared/lib/ui/Spinner';
 import { Pagination } from 'features/Pagination';
-import { useSearchQuery } from './hoook/useSearchQuery';
+import { useSearchQuery } from './hook/useSearchQuery';
 import { useGetDataQuery } from 'shared/lib/api';
 import { CardDetails } from 'features/CardDetails';
 import { useAppSearchParams } from 'shared/lib/hooks';
@@ -42,7 +42,7 @@ export const CardList: FC = () => {
         <div className={style.cover} data-testid="cover" onClick={closeDetails}>
           <div className={style.wrapper}>{content}</div>
         </div>
-        <div>{details && <CardDetails card={details} />}</div>
+        <div>{details && <CardDetails />}</div>
       </div>
       {!isFetching && data && data.count && <Pagination count={data.count} />}
     </>

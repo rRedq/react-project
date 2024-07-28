@@ -27,15 +27,13 @@ afterAll(() => {
   server.close();
 });
 
-const mockCard = '1';
-
 describe('testing CardDetails', () => {
   it('testing information display', async () => {
     server.use(testDataDetails);
     const { findByText, getByTestId } = render(
       <MemoryRouter initialEntries={[detailsPath]}>
         <Provider store={store}>
-          <CardDetails card={mockCard} />
+          <CardDetails />
         </Provider>
       </MemoryRouter>
     );

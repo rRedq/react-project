@@ -5,14 +5,12 @@ import { Spinner } from 'shared/lib/ui/Spinner';
 import { getSearchProps } from 'entities/Search';
 import { useAppSearchParams, useAppSelector } from 'shared/lib/hooks';
 import { useMemoDetails } from './hook/useMemoDetails';
+import { DEFAULT_PAGE } from 'shared/consts';
 
-export interface CardDetailsProps {
-  card: string;
-}
-
-export const CardDetails: FC<CardDetailsProps> = ({ card }) => {
+export const CardDetails: FC = () => {
   const { category } = useAppSelector(getSearchProps);
-  const { setSearchParamsByKey } = useAppSearchParams();
+  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
+  const card = getSearchParamsByKey('DETAILS') || DEFAULT_PAGE;
   const { data, isFetching } = useGetDetailsDataQuery({ category, card });
   const memoDetails = useMemoDetails(data);
 
