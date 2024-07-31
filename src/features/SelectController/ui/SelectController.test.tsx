@@ -1,16 +1,25 @@
 import { act, render } from '@testing-library/react';
 import { CoreProvider } from 'core/CoreProvider';
 import { setupServer } from 'msw/node';
-import { Main } from 'pages/Main/Main';
+import Category from 'pages/[category]/[[...details]]';
+import { DEFAULT_CATEGORY } from 'shared/consts';
 import {
   resultWithTwoItem,
   testDataWithTwoDifferentItems,
 } from 'shared/lib/__mock__';
+import mockRouter from 'next-router-mock';
 
 const server = setupServer();
 
 beforeAll(() => {
   server.listen();
+  mockRouter.push({
+    query: { category: DEFAULT_CATEGORY },
+  });
+});
+
+beforeEach(() => {
+  server.resetHandlers();
 });
 
 afterAll(() => {
@@ -22,7 +31,7 @@ describe('testing SelectController', () => {
     server.use(testDataWithTwoDifferentItems);
     const { findAllByRole, findByTestId, findByText } = render(
       <CoreProvider>
-        <Main />
+        <Category data={resultWithTwoItem} details={null} />
       </CoreProvider>
     );
 
@@ -60,18 +69,15 @@ describe('testing SelectController', () => {
     act(() => unselect.click());
     expect(itemsCount).not.toBeInTheDocument();
   });
-
   it('testing overlapping clicks on checkboxes', async () => {
     server.use(testDataWithTwoDifferentItems);
     const { findByTestId, findByText } = render(
       <CoreProvider>
-        <Main />
+        <Category data={resultWithTwoItem} details={null} />
       </CoreProvider>
     );
-    const firstCheckbox = await findByTestId(resultWithTwoItem.results[0].name);
-    const secondCheckbox = await findByTestId(
-      resultWithTwoItem.results[1].name
-    );
+    const firstCheckbox = await findByTestId(resultWithTwoItem.data[0].name);
+    const secondCheckbox = await findByTestId(resultWithTwoItem.data[1].name);
     act(() => firstCheckbox.click());
     act(() => secondCheckbox.click());
     const itemsCount = await findByTestId(/itemsCount/i);

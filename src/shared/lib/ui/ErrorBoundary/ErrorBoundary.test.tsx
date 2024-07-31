@@ -1,12 +1,21 @@
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CoreProvider } from 'core/CoreProvider';
-import { Main } from 'pages/Main/Main';
+import Category from 'pages/[category]/[[...details]]';
+import { DEFAULT_CATEGORY } from 'shared/consts';
+import { resultWithFiveItems } from 'shared/lib/__mock__/data';
+import mockRouter from 'next-router-mock';
+
+beforeAll(() => {
+  mockRouter.push({
+    query: { category: DEFAULT_CATEGORY },
+  });
+});
 
 test('testing ErrorBoundary', async () => {
   const { getByText, getByTestId } = render(
     <CoreProvider>
-      <Main />
+      <Category data={resultWithFiveItems} details={null} />
     </CoreProvider>
   );
 

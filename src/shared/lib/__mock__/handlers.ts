@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { DEFAULT_URL } from 'shared/consts';
+import { DEFAULT_CATEGORY, DEFAULT_URL } from 'shared/consts';
 import {
   nullResult,
   resultWithFiveItems,
@@ -9,19 +9,19 @@ import {
 } from './data';
 
 const handlers = [
-  http.get(`${DEFAULT_URL}species`, async () => {
+  http.get(`${DEFAULT_URL}${DEFAULT_CATEGORY}`, async () => {
     return HttpResponse.json(nullResult);
   }),
-  http.get(`${DEFAULT_URL}species`, async () => {
+  http.get(`${DEFAULT_URL}${DEFAULT_CATEGORY}`, async () => {
     return HttpResponse.json(resultWithFiveItems);
   }),
-  http.get(`${DEFAULT_URL}species/1`, async () => {
+  http.get(`${DEFAULT_URL}${DEFAULT_CATEGORY}/1`, async () => {
     return HttpResponse.json(testItemSpaceResponse);
   }),
-  http.get(`${DEFAULT_URL}species`, async () => {
+  http.get(`${DEFAULT_URL}${DEFAULT_CATEGORY}`, async () => {
     return HttpResponse.json(resultWithOneItem);
   }),
-  http.get(`${DEFAULT_URL}species`, async () => {
+  http.get(`${DEFAULT_URL}${DEFAULT_CATEGORY}`, async () => {
     return HttpResponse.json(resultWithTwoItem);
   }),
 ];

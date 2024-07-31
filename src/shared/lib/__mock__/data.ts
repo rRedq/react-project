@@ -3,6 +3,7 @@ import {
   BaseResponse,
   StarshipsResponse,
   PlanetsResponse,
+  BaseDataType,
 } from 'shared/types';
 
 const testItemSpaceResponse: SpeciesResponse = {
@@ -44,13 +45,7 @@ const testItemPlanetsResponse: PlanetsResponse = {
   terrain: 'desert',
 };
 
-const testData = [
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-  testItemSpaceResponse,
-];
+const dataTypeWithFiveResult = new Array(5).fill(testItemSpaceResponse);
 
 const resultStarshipResponse: BaseResponse = {
   count: 1,
@@ -66,32 +61,29 @@ const resultPlanetsResponse: BaseResponse = {
   results: [testItemPlanetsResponse],
 };
 
-const resultWithFiveItems: BaseResponse = {
+const resultWithFiveItems: BaseDataType = {
   count: 5,
-  next: 'test',
-  previous: null,
-  results: testData,
+  data: dataTypeWithFiveResult,
 };
 
-const nullResult: BaseResponse = {
+const nullResult: BaseDataType = {
   count: 0,
-  next: 'test',
-  previous: null,
-  results: [],
+  data: [],
 };
 
-const resultWithOneItem: BaseResponse = {
+const resultWithOneItem: BaseDataType = {
   count: 0,
-  next: 'test',
-  previous: null,
-  results: [testItemSpaceResponse],
+  data: [testItemSpaceResponse],
 };
 
-const resultWithTwoItem: BaseResponse = {
+const resultWithTwoItem: BaseDataType = {
   count: 0,
-  next: 'test',
-  previous: null,
-  results: [testItem2SpaceResponse, testItemSpaceResponse],
+  data: [testItem2SpaceResponse, testItemSpaceResponse],
+};
+
+const resultWithTwoItemDataType: BaseDataType = {
+  count: 2,
+  data: [testItem2SpaceResponse, testItemSpaceResponse],
 };
 
 export {
@@ -102,4 +94,7 @@ export {
   resultWithTwoItem,
   resultStarshipResponse,
   resultPlanetsResponse,
+  testItemPlanetsResponse,
+  resultWithTwoItemDataType,
+  dataTypeWithFiveResult,
 };

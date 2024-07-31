@@ -1,68 +1,26 @@
 import { act, render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { CardDetails } from './CardDetails';
-import { setupServer } from 'msw/node';
-import { store } from 'core/providers/storeProvider';
-import { Provider } from 'react-redux';
-import { testDataDetails, testDataWithOneItem } from 'shared/lib/__mock__';
-import { swapi } from 'shared/lib/api/swApi';
-import { testItemSpaceResponse } from 'shared/lib/__mock__/data';
-import { basePath, detailsPath } from 'shared/lib/__mock__/variables';
+import {
+  testItemPlanetsResponse,
+  testItemSpaceResponse,
+} from 'shared/lib/__mock__/data';
 import mockRouter from 'next-router-mock';
-import { Main } from 'pages/Main/Main';
 import { CoreProvider } from 'core/CoreProvider';
-
-const server = setupServer();
-
-beforeAll(() => {
-  server.listen();
-});
-
-beforeEach(() => {
-  server.resetHandlers();
-  store.dispatch(swapi.util.resetApiState());
-});
-
-afterAll(() => {
-  server.close();
-});
+import { DEFAULT_CATEGORY } from 'shared/consts';
+import { CardDetails } from './CardDetails';
 
 describe('testing CardDetails', () => {
-  it('testing information display', async () => {
-    server.use(testDataDetails);
-    const { findByText, getByTestId } = render(
-      <MemoryRouter initialEntries={[detailsPath]}>
-        <Provider store={store}>
-          <CardDetails />
-        </Provider>
-      </MemoryRouter>
-    );
-
-    const loading = getByTestId(/spinner/i);
-    expect(loading).toBeInTheDocument();
-
-    const name = await findByText(testItemSpaceResponse.name);
-
-    expect(loading).not.toBeInTheDocument();
-    expect(name).toBeInTheDocument();
-
-    const closeBtn = getByTestId(/close/i);
-    expect(closeBtn).toBeInTheDocument();
-
-    const language = await findByText(testItemSpaceResponse.language);
-    expect(language).toBeInTheDocument();
-  });
   it('testing opening / closing CardDetails', async () => {
-    server.use(testDataWithOneItem);
-    server.use(testDataDetails);
+    mockRouter.push({
+      query: { page: '1', details: '1', category: DEFAULT_CATEGORY },
+    });
     const { findByTestId } = render(
       <CoreProvider>
-        <Main />
+        <CardDetails data={testItemSpaceResponse} />
       </CoreProvider>
     );
 
-    expect(mockRouter.query.page).toBe(basePath);
-    const card = await findByTestId(/card/i);
+    expect(mockRouter.query.category).toBe(DEFAULT_CATEGORY);
+    const card = await findByTestId(/details/i);
     expect(card).toBeInTheDocument();
 
     act(() => card.click());
@@ -70,6 +28,23 @@ describe('testing CardDetails', () => {
     expect(mockRouter.query).toEqual({
       details: '1',
       page: '1',
+      category: DEFAULT_CATEGORY,
     });
+  });
+  it('testing information display', async () => {
+    const { findByText, getByTestId } = render(
+      <CoreProvider>
+        <CardDetails data={testItemPlanetsResponse} />
+      </CoreProvider>
+    );
+
+    const name = await findByText(testItemPlanetsResponse.name);
+    expect(name).toBeInTheDocument();
+
+    const closeBtn = getByTestId(/close/i);
+    expect(closeBtn).toBeInTheDocument();
+
+    const population = await findByText(testItemPlanetsResponse.population);
+    expect(population).toBeInTheDocument();
   });
 });

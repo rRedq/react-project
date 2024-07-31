@@ -3,6 +3,9 @@ export {
   resultWithTwoItem,
   resultStarshipResponse,
   resultPlanetsResponse,
+  testItemPlanetsResponse,
+  resultWithTwoItemDataType,
+  dataTypeWithFiveResult,
 } from './data';
 
 export {

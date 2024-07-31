@@ -1,27 +1,18 @@
-import { vi } from 'vitest';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
-import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { Main } from 'pages/Main/Main';
+import { getLocalState } from 'shared/utils/localState';
 import { CoreProvider } from 'core/CoreProvider';
+import { Search } from './Search';
 
 const testStr = 'test';
 const anotherStr = 'cr';
 const emptyStr = '';
 
-beforeAll(() => {
-  setLocalState('search', anotherStr);
-});
-
-afterEach(() => {
-  vi.clearAllMocks();
-});
-
 test('testing Search component', async () => {
   const { getByPlaceholderText, getByText, getByAltText } = render(
     <CoreProvider>
-      <Main />
+      <Search />
     </CoreProvider>
   );
 
@@ -29,19 +20,19 @@ test('testing Search component', async () => {
   const searchBtn: HTMLElement = getByAltText(/search/i);
 
   expect(searchInput).toBeInTheDocument();
-  expect(getLocalState('search')).toBe(anotherStr);
-  expect(searchInput).toHaveValue(anotherStr);
+  expect(getLocalState('search')).toBe(emptyStr);
+  expect(searchInput).toHaveValue(emptyStr);
   expect(searchInput).toHaveClass(style.search);
   expect(searchBtn).toBeDefined();
 
   await act(async () => await userEvent.type(searchInput, `${testStr}{enter}`));
-  expect(searchInput).toHaveValue(`${anotherStr}${testStr}`);
-  expect(getLocalState('search')).toBe(`${anotherStr}${testStr}`);
+  expect(searchInput).toHaveValue(testStr);
+  expect(getLocalState('search')).toBe(testStr);
 
   await act(async () => {
     await userEvent.type(searchInput, anotherStr);
   });
-  expect(searchInput).toHaveValue(`${anotherStr}${testStr}${anotherStr}`);
+  expect(searchInput).toHaveValue(`${testStr}${anotherStr}`);
   const cancelBtn: HTMLElement = getByText(/X/i);
 
   expect(cancelBtn).toBeDefined();
