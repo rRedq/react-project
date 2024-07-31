@@ -1,28 +1,24 @@
 import { FC, ReactNode } from 'react';
 import style from './CardList.module.scss';
 import { Card } from 'features/Card';
-import { Spinner } from 'shared/lib/ui/Spinner';
 import { Pagination } from 'features/Pagination';
-import { useSearchQuery } from './hook/useSearchQuery';
-import { useGetDataQuery } from 'shared/lib/api';
-import { CardDetails } from 'features/CardDetails';
 import { useAppSearchParams } from 'shared/lib/hooks';
+import { BaseDataType } from 'shared/types';
 
-export const CardList: FC = () => {
-  const searchQuery = useSearchQuery();
-  const { data, isFetching } = useGetDataQuery(searchQuery);
-  const { getSearchParamsByKey, setSearchParamsByKey } = useAppSearchParams();
-  const details = getSearchParamsByKey('DETAILS');
+interface CardListProps {
+  data: BaseDataType;
+  children?: ReactNode;
+}
+
+export const CardList: FC<CardListProps> = ({ data, children }) => {
+  const { setSearchParamsByKey } = useAppSearchParams();
 
   const closeDetails = () => {
     setSearchParamsByKey('DETAILS', undefined);
   };
 
   let content: ReactNode;
-
-  if (isFetching) {
-    content = <Spinner />;
-  } else if (data && data.data.length > 0) {
+  if (data.data.length > 0) {
     content = (
       <div className={style.container} key={crypto.randomUUID()}>
         {data.data.map((item, index) => (
@@ -42,9 +38,9 @@ export const CardList: FC = () => {
         <div className={style.cover} data-testid="cover" onClick={closeDetails}>
           <div className={style.wrapper}>{content}</div>
         </div>
-        <div>{details && <CardDetails />}</div>
+        <div>{children}</div>
       </div>
-      {!isFetching && data && data.count && <Pagination count={data.count} />}
+      {data.count && <Pagination count={data.count} />}
     </>
   );
 };

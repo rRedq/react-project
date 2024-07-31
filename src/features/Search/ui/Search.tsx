@@ -3,15 +3,15 @@ import style from './Search.module.scss';
 import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { useAppDispatch } from 'shared/lib/hooks';
-import { setSearch } from 'entities/Search';
+import { useAppSearchParams } from 'shared/lib/hooks';
 import { ToggleThemeButton } from 'shared/lib/ui/ToggleThemeButton';
 import Image from 'next/image';
 
 export const Search: FC = () => {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>();
   const [submitValue, setSubmitValue] = useState<string>();
-  const dispatch = useAppDispatch();
+  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
+  const search = getSearchParamsByKey('SEARCH');
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,21 +19,26 @@ export const Search: FC = () => {
   };
 
   const crossClick = () => {
-    setValue('');
-    setSubmitValue('');
+    setValue(undefined);
+    setSubmitValue(undefined);
   };
 
   useEffect(() => {
-    if (submitValue === undefined) return;
-    setLocalState('search', submitValue);
-    dispatch(setSearch(submitValue));
+    if (search === value) return;
+    setValue(search);
+    setSubmitValue(search);
+  }, [search]);
+
+  useEffect(() => {
+    setLocalState('search', submitValue || '');
+    setSearchParamsByKey('SEARCH', submitValue);
   }, [submitValue]);
 
   useEffect(() => {
     const search: string | undefined = getLocalState('search');
     if (search) {
       setValue(search);
-      dispatch(setSearch(search));
+      setSearchParamsByKey('SEARCH', search);
     }
   }, []);
 
@@ -49,7 +54,7 @@ export const Search: FC = () => {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setValue(e.target.value)
           }
-          value={value}
+          value={value || ''}
         />
         {value && (
           <div className={style.cross} onClick={crossClick}>

@@ -5,30 +5,22 @@ import starships from 'shared/assets/images/filters/starships.jpg';
 import planets from 'shared/assets/images/filters/planets.jpg';
 import { convertUrlToLabel } from 'shared/lib/dataConverters';
 import { CategoriesType } from 'shared/types';
-import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
-import { getSearchProps, setCategory } from 'entities/Search';
+import { setLocalState } from 'shared/utils/localState';
+import { useAppSearchParams } from 'shared/lib/hooks';
 import Image, { StaticImageData } from 'next/image';
+import { DEFAULT_CATEGORY } from 'shared/consts';
 
 const categoriesImg: StaticImageData[] = [species, starships, planets];
 
 export const CategoriesList: FC = () => {
-  const dispatch = useAppDispatch();
-  const { category } = useAppSelector(getSearchProps);
+  const { getSearchParamsByKey, setSearchParamsByKey } = useAppSearchParams();
+  const category = getSearchParamsByKey('CATEGORY') || DEFAULT_CATEGORY;
   const [value, setValue] = useState<CategoriesType>(category);
 
   useEffect(() => {
-    const category = getLocalState('category');
-    if (category) {
-      setValue(category);
-      dispatch(setCategory(category));
-    }
-  }, []);
-
-  useEffect(() => {
     if (value === category) return;
-    dispatch(setCategory(value));
     setLocalState('category', value);
+    setSearchParamsByKey('CATEGORY', value);
   }, [value]);
 
   return (

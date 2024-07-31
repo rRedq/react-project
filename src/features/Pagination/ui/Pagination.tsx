@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { CARD_ON_PAGE } from 'shared/consts';
+import { CARD_ON_PAGE, DEFAULT_PAGE } from 'shared/consts';
 import style from './Pagination.module.scss';
 import { useAppSearchParams } from 'shared/lib/hooks';
 
@@ -9,7 +9,7 @@ interface PaginationProps {
 export const Pagination: FC<PaginationProps> = ({ count }) => {
   const formattedCount: number = Math.ceil(count / CARD_ON_PAGE);
   const { getSearchParamsByKey, setSearchParamsByKey } = useAppSearchParams();
-  const activePage = getSearchParamsByKey('PAGE');
+  const activePage = getSearchParamsByKey('PAGE') || DEFAULT_PAGE;
   const arrayFromCount = Array.from(
     { length: formattedCount },
     (_, i) => i + 1
