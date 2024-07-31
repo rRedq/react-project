@@ -1,38 +1,44 @@
-import {
-  CategoriesType,
-  CombinedTypeDetails,
-  StarshipsResponse,
-} from 'shared/types';
+import { CategoriesType, CombinedTypeDetails } from 'shared/types';
 import axios from 'axios';
 import { vi } from 'vitest';
 import { getDetailsData } from './getDetailsData';
+import { testItemStarshipResponse } from '../__mock__';
 
 vi.mock('axios');
 
-const testData: StarshipsResponse = {
-  name: 'Millennium Falcon',
-  url: 'https://swapi.dev/api/starships/10/',
-  starship_class: 'Light freighter',
-  length: '34.37',
-  consumables: '2 months',
-  cost_in_credits: '100000',
-  manufacturer: 'Corellian Engineering Corporation',
-};
+const card = '12';
+const category: CategoriesType = 'starships';
 
-test('testing getDetailsData', async () => {
-  const card = '12';
-  const category: CategoriesType = 'starships';
+describe('testing getDetailsData', () => {
+  it('testing success response', async () => {
+    vi.mocked(axios.get).mockResolvedValue({
+      data: testItemStarshipResponse,
+      status: 200,
+    });
 
-  vi.mocked(axios.get).mockResolvedValue({
-    data: testData,
-    status: 200,
+    const result: CombinedTypeDetails = await getDetailsData({
+      card,
+      category,
+    });
+
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(result).toStrictEqual(testItemStarshipResponse);
   });
+  it('testing error response', async () => {
+    vi.mocked(axios.get).mockResolvedValue({
+      status: 404,
+    });
 
-  const result: CombinedTypeDetails = await getDetailsData({
-    card,
-    category,
+    try {
+      await getDetailsData({
+        card,
+        category,
+      });
+    } catch (error) {
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect((error as Error).message).toBe(
+        'something went wrong during getting data'
+      );
+    }
   });
-
-  expect(axios.get).toHaveBeenCalledTimes(1);
-  expect(result).toStrictEqual(testData);
 });

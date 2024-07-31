@@ -6,6 +6,7 @@ export {
   testItemPlanetsResponse,
   resultWithTwoItemDataType,
   dataTypeWithFiveResult,
+  testItemStarshipResponse,
 } from './data';
 
 export {

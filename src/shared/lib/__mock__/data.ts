@@ -97,4 +97,5 @@ export {
   testItemPlanetsResponse,
   resultWithTwoItemDataType,
   dataTypeWithFiveResult,
+  testItemStarshipResponse,
 };
