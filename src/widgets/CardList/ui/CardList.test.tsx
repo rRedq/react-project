@@ -23,9 +23,6 @@ const server = setupServer();
 
 beforeAll(() => {
   server.listen();
-  mockRouter.push({
-    query: { category: DEFAULT_CATEGORY },
-  });
 });
 
 beforeEach(() => {

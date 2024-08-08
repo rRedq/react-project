@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <CoreProvider>
       <html lang="en">
@@ -19,4 +19,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </html>
     </CoreProvider>
   );
-}
+};
+
+export default RootLayout;
