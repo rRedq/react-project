@@ -1,3 +1,4 @@
+'use client';
 import { FC } from 'react';
 import style from './Header.module.scss';
 import { useTheme } from 'shared/lib/hooks';

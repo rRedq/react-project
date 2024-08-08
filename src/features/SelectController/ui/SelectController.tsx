@@ -1,3 +1,4 @@
+'use client';
 import { FC } from 'react';
 import style from './SelectController.module.scss';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';

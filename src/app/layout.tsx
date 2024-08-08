@@ -1,6 +1,6 @@
 import { CoreProvider } from 'core/CoreProvider';
 import { Metadata } from 'next';
-import type { AppProps } from 'next/app';
+import { ReactNode } from 'react';
 import 'shared/styles/global.scss';
 
 export const metadata: Metadata = {
@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   },
 };
 
-const App = ({ Component, pageProps }: AppProps) => {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <CoreProvider>
-      <Component {...pageProps} />
+      <html lang="en">
+        <body>{children}</body>
+      </html>
     </CoreProvider>
   );
-};
-
-export default App;
+}

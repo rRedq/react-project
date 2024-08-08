@@ -1,56 +1,76 @@
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
-import { CategoriesType, SearchParams } from 'shared/types';
+'use client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { CategoriesType, Paths, SearchParams } from 'shared/types';
 
 type IsCategoryType<T> = T extends 'CATEGORY' ? CategoriesType : string;
 
 export const useAppSearchParams = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams?.toString());
 
   const getSearchParamsByKey = <T extends keyof typeof SearchParams>(
     key: T
   ): IsCategoryType<T> | undefined => {
-    let result: IsCategoryType<T> | undefined;
-    if (key === 'CATEGORY') {
-      result = router.query[SearchParams[key]] as IsCategoryType<T>;
-    } else {
-      result =
-        (searchParams?.get(SearchParams[key]) as IsCategoryType<T>) ||
-        undefined;
+    let result: string | undefined | null;
+
+    switch (key) {
+      case 'CATEGORY':
+        result = pathname?.split('/')[1];
+        break;
+      case 'DETAILS':
+        result = pathname?.split('/')[2];
+        break;
+      case 'PAGE':
+      case 'SEARCH':
+        result = searchParams?.get(SearchParams[key]);
+        break;
+      default:
+        result = null;
     }
 
-    return result;
+    return result ? (result as IsCategoryType<T>) : undefined;
   };
-
   const setSearchParamsByKey = (
     key: keyof typeof SearchParams,
     value: string | undefined
   ) => {
-    if (key === 'CATEGORY' && value) {
-      const search = getSearchParamsByKey('SEARCH');
-      if (search) {
-        router.push({ query: { [SearchParams[key]]: value, search } });
-      } else {
-        router.push({ query: { [SearchParams[key]]: value } });
-      }
-    } else if (key === 'DETAILS' && !value) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { details, ...rest } = router.query;
-      router.push({ query: { ...rest } });
-    } else if (key === 'SEARCH') {
-      if (value) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { page, ...rest } = router.query;
-        router.push({ query: { ...rest, [SearchParams[key]]: value } });
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { search, page, ...rest } = router.query;
-        router.push({ query: { ...rest } });
-      }
-    } else {
-      router.push({ query: { ...router.query, [SearchParams[key]]: value } });
+    let path: string;
+
+    switch (key) {
+      case 'CATEGORY':
+        path = `/${value}`;
+        break;
+      case 'DETAILS':
+        if (value)
+          path = `/${getSearchParamsByKey('CATEGORY')}/${value}?${params.toString()}`;
+        else path = `/${getSearchParamsByKey('CATEGORY')}?${params.toString()}`;
+        break;
+      case 'PAGE':
+        if (value) {
+          params.set(SearchParams[key], value);
+          path = `${pathname}?${params.toString()}`;
+        } else {
+          params.delete(SearchParams[key]);
+          path = `${pathname}?${params.toString()}`;
+        }
+        break;
+      case 'SEARCH':
+        if (value) {
+          params.delete(SearchParams.PAGE);
+          params.set(SearchParams[key], value);
+          path = `${pathname}?${params.toString()}`;
+        } else {
+          params.delete(SearchParams[key]);
+          path = `${pathname}?${params.toString()}`;
+        }
+        break;
+      default:
+        path = Paths.NOT_FOUND;
     }
+
+    router.push(path);
   };
 
   return { getSearchParamsByKey, setSearchParamsByKey };

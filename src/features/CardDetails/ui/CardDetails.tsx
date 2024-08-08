@@ -1,3 +1,4 @@
+'use client';
 import { FC } from 'react';
 import style from './CardDetails.module.scss';
 import { useAppSearchParams } from 'shared/lib/hooks';

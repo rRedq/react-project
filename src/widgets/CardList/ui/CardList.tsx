@@ -1,3 +1,4 @@
+'use client';
 import { FC, ReactNode } from 'react';
 import style from './CardList.module.scss';
 import { Card } from 'features/Card';

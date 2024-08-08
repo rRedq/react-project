@@ -1,6 +1,6 @@
+'use client';
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import style from './Search.module.scss';
-import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
 import { useAppSearchParams } from 'shared/lib/hooks';
@@ -44,7 +44,6 @@ export const Search: FC = () => {
 
   return (
     <form className={style.searchForm} onSubmit={onSubmit}>
-      <ErrorButton />
       <ToggleThemeButton />
       <div className={style.cover}>
         <input

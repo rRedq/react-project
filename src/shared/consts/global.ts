@@ -6,4 +6,6 @@ const DEFAULT_PAGE = '1';
 
 const DEFAULT_CATEGORY: CategoriesType = 'species';
 
-export { DEFAULT_PAGE, CARD_ON_PAGE, DEFAULT_CATEGORY };
+const VALID_CATEGORIES: CategoriesType[] = ['species', 'planets', 'starships'];
+
+export { DEFAULT_PAGE, CARD_ON_PAGE, DEFAULT_CATEGORY, VALID_CATEGORIES };

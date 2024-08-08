@@ -1,3 +1,4 @@
+'use client';
 import { FC, useEffect, useState } from 'react';
 import style from './CategoriesList.module.scss';
 import species from 'shared/assets/images/filters/species.jpg';
