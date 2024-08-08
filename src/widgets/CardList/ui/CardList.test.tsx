@@ -17,6 +17,7 @@ import {
 } from 'shared/lib/__mock__/data';
 
 import { CardList } from './CardList';
+import { Paths } from 'shared/types';
 
 const server = setupServer();
 
@@ -75,6 +76,6 @@ describe('testing CardList', () => {
 
     act(() => card.click());
 
-    expect(mockRouter.pathname).toBe(`/${DEFAULT_CATEGORY}/1`);
+    expect(mockRouter.pathname).toBe(`${Paths.MAIN}${DEFAULT_CATEGORY}/1`);
   });
 });

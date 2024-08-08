@@ -6,6 +6,7 @@ import { testItemSpaceResponse } from 'shared/lib/__mock__';
 import mockRouter from 'next-router-mock';
 import { CoreProvider } from 'core/CoreProvider';
 import { DEFAULT_CATEGORY } from 'shared/consts';
+import { Paths } from 'shared/types';
 
 describe('testing Card', () => {
   afterEach(() => {
@@ -50,6 +51,6 @@ describe('testing Card', () => {
       await userEvent.click(card);
     });
 
-    expect(mockRouter.pathname).toBe(`/${DEFAULT_CATEGORY}/1`);
+    expect(mockRouter.pathname).toBe(`${Paths.MAIN}${DEFAULT_CATEGORY}/1`);
   });
 });

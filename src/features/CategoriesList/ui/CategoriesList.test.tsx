@@ -2,7 +2,7 @@ import { act, render } from '@testing-library/react';
 import { CategoriesList } from './CategoriesList';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
-import { CategoriesType } from 'shared/types';
+import { CategoriesType, Paths } from 'shared/types';
 import style from './CategoriesList.module.scss';
 import { getLocalState } from 'shared/utils/localState';
 import { CoreProvider } from 'core/CoreProvider';
@@ -46,11 +46,11 @@ describe('testing CategoriesList', () => {
 
     await act(async () => await userEvent.click(planet));
 
-    expect(mockRouter.pathname).toBe(`/${planetsTest}`);
+    expect(mockRouter.pathname).toBe(`${Paths.MAIN}${planetsTest}`);
     expect(getLocalState('category')).toBe(planetsTest);
 
     await act(async () => await userEvent.click(starship));
-    expect(mockRouter.pathname).toBe(`/${starshipTest}`);
+    expect(mockRouter.pathname).toBe(`${Paths.MAIN}${starshipTest}`);
     expect(getLocalState('category')).toBe(starshipTest);
   });
 });

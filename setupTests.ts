@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { DEFAULT_CATEGORY } from 'shared/consts';
+import { Paths } from 'shared/types';
 import { vi } from 'vitest';
 
 beforeAll(() => {
@@ -10,7 +11,7 @@ beforeAll(() => {
         'next-router-mock'
       );
     const usePathname = vi.fn().mockImplementation(() => {
-      return `/${DEFAULT_CATEGORY}`;
+      return `${Paths.MAIN}${DEFAULT_CATEGORY}`;
     });
     return {
       ...actual,
