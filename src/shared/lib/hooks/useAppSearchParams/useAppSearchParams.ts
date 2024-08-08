@@ -17,10 +17,10 @@ export const useAppSearchParams = () => {
 
     switch (key) {
       case 'CATEGORY':
-        result = pathname?.split('/')[1];
+        result = pathname?.split('/')[2];
         break;
       case 'DETAILS':
-        result = pathname?.split('/')[2];
+        result = pathname?.split('/')[3];
         break;
       case 'PAGE':
       case 'SEARCH':
@@ -40,12 +40,13 @@ export const useAppSearchParams = () => {
 
     switch (key) {
       case 'CATEGORY':
-        path = `/${value}`;
+        path = `${Paths.MAIN}${value}`;
         break;
       case 'DETAILS':
         if (value)
-          path = `/${getSearchParamsByKey('CATEGORY')}/${value}?${params.toString()}`;
-        else path = `/${getSearchParamsByKey('CATEGORY')}?${params.toString()}`;
+          path = `${Paths.MAIN}${getSearchParamsByKey('CATEGORY')}/${value}?${params.toString()}`;
+        else
+          path = `${Paths.MAIN}${getSearchParamsByKey('CATEGORY')}?${params.toString()}`;
         break;
       case 'PAGE':
         if (value) {

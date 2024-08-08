@@ -1,13 +1,14 @@
 import { CategoriesList } from 'features/CategoriesList';
 import { Search } from 'features/Search';
 import { SelectController } from 'features/SelectController';
-import { DEFAULT_CATEGORY, VALID_CATEGORIES } from 'shared/consts';
+import { VALID_CATEGORIES } from 'shared/consts';
 import { getData, getDetailsData } from 'shared/lib/api';
 import {
   CategoriesType,
   BaseDataType,
   SearchParams,
   CombinedTypeDetails,
+  Paths,
 } from 'shared/types';
 import style from './Category.module.scss';
 import { CardList } from 'widgets/CardList';
@@ -49,7 +50,7 @@ const Category = async ({
       </div>
     );
   } catch {
-    redirect(`/${DEFAULT_CATEGORY}`);
+    redirect(Paths.NOT_FOUND);
   }
 };
 
