@@ -14,6 +14,7 @@ export default defineConfig({
         '**/src/entities/Items/model/types/**',
         '**/src/vite-env.d.ts',
         '**/src/shared/types/**',
+        '**/index.ts',
       ],
     },
     globals: true,
