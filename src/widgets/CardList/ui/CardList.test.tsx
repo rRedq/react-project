@@ -8,15 +8,15 @@ import {
 } from 'shared/lib/__mock__';
 import { act } from 'react';
 import mockRouter from 'next-router-mock';
-import Category from 'pages/[category]/[[...details]]';
 import { CoreProvider } from 'core/CoreProvider';
 import { DEFAULT_CATEGORY } from 'shared/consts';
 import {
   nullResult,
   resultWithFiveItems,
   resultWithOneItem,
-  testItemSpaceResponse,
 } from 'shared/lib/__mock__/data';
+
+import { CardList } from './CardList';
 
 const server = setupServer();
 
@@ -40,7 +40,7 @@ describe('testing CardList', () => {
     server.use(testDataWithFiveResult);
     const { findAllByTestId } = render(
       <CoreProvider>
-        <Category data={resultWithFiveItems} details={null} />
+        <CardList data={resultWithFiveItems} />
       </CoreProvider>
     );
 
@@ -52,7 +52,7 @@ describe('testing CardList', () => {
     server.use(testDataWithNullResult);
     const { findByText } = render(
       <CoreProvider>
-        <Category data={nullResult} details={null} />
+        <CardList data={nullResult} />
       </CoreProvider>
     );
 
@@ -66,7 +66,7 @@ describe('testing CardList', () => {
     server.use(testDataDetails);
     const { findByTestId } = render(
       <CoreProvider>
-        <Category data={resultWithOneItem} details={testItemSpaceResponse} />
+        <CardList data={resultWithOneItem} />
       </CoreProvider>
     );
 
@@ -75,6 +75,6 @@ describe('testing CardList', () => {
 
     act(() => card.click());
 
-    expect(mockRouter.query.details).toBe('1');
+    expect(mockRouter.pathname).toBe(`/${DEFAULT_CATEGORY}/1`);
   });
 });

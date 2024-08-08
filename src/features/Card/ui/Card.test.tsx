@@ -2,10 +2,10 @@ import { act, render } from '@testing-library/react';
 import { vi } from 'vitest';
 import { Card } from './Card';
 import userEvent from '@testing-library/user-event';
-import { store } from 'core/providers/storeProvider';
-import { Provider } from 'react-redux';
 import { testItemSpaceResponse } from 'shared/lib/__mock__';
 import mockRouter from 'next-router-mock';
+import { CoreProvider } from 'core/CoreProvider';
+import { DEFAULT_CATEGORY } from 'shared/consts';
 
 describe('testing Card', () => {
   afterEach(() => {
@@ -14,9 +14,9 @@ describe('testing Card', () => {
 
   it('testing component renders the relevant card data', () => {
     const { getByText } = render(
-      <Provider store={store}>
+      <CoreProvider>
         <Card {...testItemSpaceResponse} />
-      </Provider>
+      </CoreProvider>
     );
 
     const name = getByText(testItemSpaceResponse.name);
@@ -39,9 +39,9 @@ describe('testing Card', () => {
   });
   it('testing clicking on a card opens a detailed card component', async () => {
     const { getByTestId } = render(
-      <Provider store={store}>
+      <CoreProvider>
         <Card {...testItemSpaceResponse} />
-      </Provider>
+      </CoreProvider>
     );
 
     const card = getByTestId(/card/i);
@@ -50,6 +50,6 @@ describe('testing Card', () => {
       await userEvent.click(card);
     });
 
-    expect(mockRouter.query.details).toBe('1');
+    expect(mockRouter.pathname).toBe(`/${DEFAULT_CATEGORY}/1`);
   });
 });

@@ -1,21 +1,17 @@
 import { act, render } from '@testing-library/react';
 import { CoreProvider } from 'core/CoreProvider';
 import { setupServer } from 'msw/node';
-import Category from 'pages/[category]/[[...details]]';
-import { DEFAULT_CATEGORY } from 'shared/consts';
 import {
   resultWithTwoItem,
   testDataWithTwoDifferentItems,
 } from 'shared/lib/__mock__';
-import mockRouter from 'next-router-mock';
+import { CardList } from 'widgets/CardList';
+import { SelectController } from './SelectController';
 
 const server = setupServer();
 
 beforeAll(() => {
   server.listen();
-  mockRouter.push({
-    query: { category: DEFAULT_CATEGORY },
-  });
 });
 
 beforeEach(() => {
@@ -31,7 +27,8 @@ describe('testing SelectController', () => {
     server.use(testDataWithTwoDifferentItems);
     const { findAllByRole, findByTestId, findByText } = render(
       <CoreProvider>
-        <Category data={resultWithTwoItem} details={null} />
+        <SelectController />
+        <CardList data={resultWithTwoItem} />
       </CoreProvider>
     );
 
@@ -73,7 +70,8 @@ describe('testing SelectController', () => {
     server.use(testDataWithTwoDifferentItems);
     const { findByTestId, findByText } = render(
       <CoreProvider>
-        <Category data={resultWithTwoItem} details={null} />
+        <SelectController />
+        <CardList data={resultWithTwoItem} />
       </CoreProvider>
     );
     const firstCheckbox = await findByTestId(resultWithTwoItem.data[0].name);
