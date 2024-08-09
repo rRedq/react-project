@@ -9,7 +9,7 @@ export const ToggleThemeButton: FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className={style.wrapper} onClick={toggleTheme}>
+    <div className={`${style.wrapper} ${style[theme]}`} onClick={toggleTheme}>
       <Image
         className={style.img}
         src={theme === 'light' ? light : dark}

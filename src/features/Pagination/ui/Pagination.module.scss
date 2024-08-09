@@ -17,13 +17,37 @@
 
   &:hover:not(.active) {
     cursor: pointer;
-    color: var(--blue);
-    border: 1px solid var(--blue);
+  }
+
+  &-dark {
+    @extend .cell;
+    &:hover:not(.active) {
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+  }
+
+  &-light {
+    @extend .cell;
+    &:hover:not(.active) {
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
   }
 }
 
 .active {
-  color: var(--red);
-  border: 1px solid var(--red);
   pointer-events: none;
+
+  &-dark {
+    @extend .active;
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+
+  &-light {
+    @extend .active;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+  }
 }

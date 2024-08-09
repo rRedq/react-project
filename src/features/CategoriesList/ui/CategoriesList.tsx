@@ -7,13 +7,14 @@ import planets from 'shared/assets/images/filters/planets.jpg';
 import { convertUrlToLabel } from 'shared/lib/dataConverters';
 import { CategoriesType } from 'shared/types';
 import { setLocalState } from 'shared/utils/localState';
-import { useAppSearchParams } from 'shared/lib/hooks';
+import { useAppSearchParams, useTheme } from 'shared/lib/hooks';
 import Image, { StaticImageData } from 'next/image';
 import { DEFAULT_CATEGORY } from 'shared/consts';
 
 const categoriesImg: StaticImageData[] = [species, starships, planets];
 
 export const CategoriesList: FC = () => {
+  const { theme } = useTheme();
   const { getSearchParamsByKey, setSearchParamsByKey } = useAppSearchParams();
   const category = getSearchParamsByKey('CATEGORY') || DEFAULT_CATEGORY;
   const [value, setValue] = useState<CategoriesType>(category);
@@ -28,7 +29,7 @@ export const CategoriesList: FC = () => {
     <div className={style.wrapper}>
       {categoriesImg.map((img, index) => (
         <div
-          className={`${style.imgContainer} ${category === convertUrlToLabel(img.src || img) ? style.active : style.common}`}
+          className={`${style.imgContainer} ${category === convertUrlToLabel(img.src || img) ? style.active : style[`common-${theme}`]}`}
           key={index}
           data-testid={convertUrlToLabel(img.src || img)}
           onClick={() => setValue(convertUrlToLabel(img.src || img))}

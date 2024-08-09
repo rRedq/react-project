@@ -22,11 +22,8 @@
 
 .label {
   color: var(--main-color-1);
-
-  span {
-    color: var(--red);
-  }
 }
+
 .btnCover {
   @include flex(space-between, 20px);
 }
@@ -42,7 +39,34 @@
 
   &:hover {
     cursor: pointer;
-    background: var(--red);
     color: var(--main-color-1);
+  }
+}
+
+.dark {
+  .label {
+    span {
+      color: var(--red);
+    }
+  }
+
+  .btn {
+    &:hover {
+      background: var(--red);
+    }
+  }
+}
+
+.light {
+  .label {
+    span {
+      color: var(--blue);
+    }
+  }
+
+  .btn {
+    &:hover {
+      background: var(--blue);
+    }
   }
 }

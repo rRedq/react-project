@@ -17,7 +17,6 @@
   width: 100%;
   background: var(--main-color-4);
   color: var(--main-color-1);
-  border: 1px solid var(--red);
   position: relative;
   min-height: 100px;
   padding: 10px;
@@ -27,8 +26,22 @@
     overflow-wrap: break-word;
   }
 
-  span {
-    color: var(--red);
+  &-dark {
+    @extend .wrapper;
+    border: 1px solid var(--red);
+
+    span {
+      color: var(--red);
+    }
+  }
+
+  &-light {
+    @extend .wrapper;
+    border: 1px solid var(--blue);
+
+    span {
+      color: var(--blue);
+    }
   }
 }
 
@@ -41,9 +54,18 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: var(--red);
   position: absolute;
   right: 3%;
+
+  &-dark {
+    @extend .close;
+    background: var(--red);
+  }
+
+  &-light {
+    @extend .close;
+    background: var(--blue);
+  }
 
   &:hover {
     cursor: pointer;

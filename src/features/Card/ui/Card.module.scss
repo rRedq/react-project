@@ -10,7 +10,6 @@
 
   &:hover {
     cursor: pointer;
-    border: 1px solid var(--red);
 
     .img {
       transform: scale(1.1);
@@ -22,6 +21,42 @@
     font-size: 23px;
     font-family: 'Permanent Marker';
     color: var(--main-color-1);
+  }
+}
+
+.dark {
+  .rightSide {
+    span {
+      color: var(--red);
+    }
+  }
+
+  .label {
+    input {
+      accent-color: var(--red);
+    }
+  }
+
+  &:hover {
+    border: 1px solid var(--red);
+  }
+}
+
+.light {
+  .rightSide {
+    span {
+      color: var(--blue);
+    }
+  }
+
+  .label {
+    input {
+      accent-color: var(--blue);
+    }
+  }
+
+  &:hover {
+    border: 1px solid var(--blue);
   }
 }
 
@@ -44,10 +79,6 @@
   width: 55%;
   @include flex(center, $direction: column);
 
-  span {
-    color: var(--red);
-  }
-
   p {
     padding: 3px 0;
   }
@@ -66,7 +97,6 @@
 
   input {
     width: 18px;
-    accent-color: var(--red);
 
     &:hover {
       cursor: pointer;

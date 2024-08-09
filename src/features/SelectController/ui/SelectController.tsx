@@ -1,11 +1,12 @@
 'use client';
 import { FC } from 'react';
 import style from './SelectController.module.scss';
-import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
+import { useAppDispatch, useAppSelector, useTheme } from 'shared/lib/hooks';
 import { clearItems, getSelectedItems } from 'entities/Items';
 import { getItemsCsv, getItemsLength } from 'shared/utils/helpers';
 
 export const SelectController: FC = () => {
+  const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const selectedItems = useAppSelector(getSelectedItems);
   const itemsCount = getItemsLength(selectedItems);
@@ -17,7 +18,7 @@ export const SelectController: FC = () => {
   return (
     <div className={style.container}>
       {itemsCount > 0 && (
-        <div className={style.wrapper}>
+        <div className={`${style.wrapper} ${style[theme]}`}>
           <div className={style.label}>
             Selected items: <span data-testid="itemsCount">{itemsCount}</span>
           </div>

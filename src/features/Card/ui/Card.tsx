@@ -12,6 +12,7 @@ import {
   useAppDispatch,
   useAppSearchParams,
   useAppSelector,
+  useTheme,
 } from 'shared/lib/hooks';
 import { addItem, getOriginalItemsId, removeItem } from 'entities/Items';
 import Image from 'next/image';
@@ -26,6 +27,7 @@ const getId = (url: string) => {
 };
 
 export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
+  const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
   const category = getSearchParamsByKey('CATEGORY') || DEFAULT_CATEGORY;
@@ -47,7 +49,11 @@ export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   };
 
   return (
-    <div className={style.card} onClick={openDetails} data-testid="card">
+    <div
+      className={`${style.card} ${style[theme]}`}
+      onClick={openDetails}
+      data-testid="card"
+    >
       <div className={style.label}>
         <h2>{name}</h2>
         <input
