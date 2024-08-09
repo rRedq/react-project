@@ -7,6 +7,7 @@ import {
   BaseDataType,
   CategoriesType,
   CombinedTypeDetails,
+  Paths,
   SearchParams,
 } from 'shared/types';
 import { getData, getDetailsData } from 'shared/lib/api';
@@ -23,27 +24,31 @@ export const getServerSideProps: GetServerSideProps<{
   data: BaseDataType;
   details: CombinedTypeDetails | null;
 }> = async (context: GetServerSidePropsContext) => {
-  const { query } = context;
-  const category = query[SearchParams.CATEGORY] as CategoriesType;
-  const categories: CategoriesType[] = ['species', 'starships', 'planets'];
+  try {
+    const { query } = context;
+    const category = query[SearchParams.CATEGORY] as CategoriesType;
+    const categories: CategoriesType[] = ['species', 'starships', 'planets'];
 
-  if (!categories.includes(category)) {
+    if (!categories.includes(category)) {
+      throw new Error('Invalid category');
+    }
+
+    const page = (query[SearchParams.PAGE] as string) || undefined;
+    const search = (query[SearchParams.SEARCH] as string) || undefined;
+    const data: BaseDataType = await getData({ category, page, search });
+
+    let card = query[SearchParams.DETAILS];
+    let details: CombinedTypeDetails | null = null;
+    if (card) {
+      card = card[0];
+      details = await getDetailsData({ category, card });
+    }
+    return { props: { data, details } };
+  } catch {
     return {
-      redirect: { destination: '/404', permanent: false },
+      redirect: { destination: Paths.NOT_FOUND, permanent: false },
     };
   }
-
-  const page = (query[SearchParams.PAGE] as string) || undefined;
-  const search = (query[SearchParams.SEARCH] as string) || undefined;
-  const data: BaseDataType = await getData({ category, page, search });
-
-  let card = query[SearchParams.DETAILS];
-  let details: CombinedTypeDetails | null = null;
-  if (card) {
-    card = card[0];
-    details = await getDetailsData({ category, card });
-  }
-  return { props: { data, details } };
 };
 
 const Category = ({

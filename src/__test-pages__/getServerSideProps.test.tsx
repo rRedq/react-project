@@ -5,6 +5,7 @@ import {
   testItemPlanetsResponse,
 } from 'shared/lib/__mock__/data';
 import { getData, getDetailsData } from 'shared/lib/api';
+import { Paths } from 'shared/types';
 import { vi } from 'vitest';
 
 vi.mock('shared/lib/api', () => ({
@@ -28,7 +29,7 @@ describe('testing getServerSideProps', () => {
     expect(getDetailsData).not.toHaveBeenCalled();
 
     expect(result).toEqual({
-      redirect: { destination: '/404', permanent: false },
+      redirect: { destination: Paths.NOT_FOUND, permanent: false },
     });
   });
   it('testing return data and details', async () => {
