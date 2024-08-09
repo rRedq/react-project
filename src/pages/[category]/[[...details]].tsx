@@ -19,6 +19,7 @@ import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Category.module.scss';
 import { CardDetails } from 'features/CardDetails';
+import { VALID_CATEGORIES } from 'shared/consts';
 
 export const getServerSideProps: GetServerSideProps<{
   data: BaseDataType;
@@ -27,9 +28,8 @@ export const getServerSideProps: GetServerSideProps<{
   try {
     const { query } = context;
     const category = query[SearchParams.CATEGORY] as CategoriesType;
-    const categories: CategoriesType[] = ['species', 'starships', 'planets'];
 
-    if (!categories.includes(category)) {
+    if (!VALID_CATEGORIES.includes(category)) {
       throw new Error('Invalid category');
     }
 
