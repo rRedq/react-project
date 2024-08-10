@@ -4,9 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
     "deploy": "npm run build && npx gh-pages -d dist",
     "lint": "eslint . --ext ts,tsx",
     "lint-fix": "eslint . --ext ts,tsx --fix",
@@ -18,7 +17,13 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",
+    "@remix-run/express": "^2.11.1",
+    "@remix-run/node": "^2.11.1",
+    "@remix-run/react": "^2.11.1",
     "axios": "^1.7.2",
+    "cross-env": "^7.0.3",
+    "express": "^4.19.2",
+    "isbot": "^4.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
@@ -27,6 +32,7 @@
     "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
+    "@remix-run/dev": "^2.11.1",
     "@testing-library/dom": "^10.3.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
@@ -52,7 +58,7 @@
     "prettier": "^3.3.2",
     "sass": "^1.77.6",
     "typescript": "^5.5.2",
-    "vite": "^5.3.2",
+    "vite": "^5.4.0",
     "vitest": "^2.0.1",
     "vitest-fetch-mock": "^0.2.2"
   }
