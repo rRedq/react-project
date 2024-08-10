@@ -1,10 +1,10 @@
-import { vi } from 'vitest';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { CoreProvider } from 'core/App';
-import { BrowserRouter } from 'react-router-dom';
+import { CoreProvider } from 'core';
+import { Search } from './Search';
+import { MemoryRouter } from 'react-router-dom';
 
 const testStr = 'test';
 const anotherStr = 'cr';
@@ -14,15 +14,13 @@ beforeAll(() => {
   setLocalState('search', anotherStr);
 });
 
-afterEach(() => {
-  vi.clearAllMocks();
-});
-
 test('testing Search component', async () => {
   const { getByPlaceholderText, getByText, getByAltText } = render(
-    <BrowserRouter>
-      <CoreProvider />
-    </BrowserRouter>
+    <CoreProvider>
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    </CoreProvider>
   );
 
   const searchInput: HTMLElement = getByPlaceholderText(/search/i);

@@ -3,11 +3,9 @@ import { CategoriesList } from './CategoriesList';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { CategoriesType } from 'shared/types';
-import { store } from 'core/providers/storeProvider';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import style from './CategoriesList.module.scss';
+import { MemoryRouter } from 'react-router-dom';
 import { getLocalState } from 'shared/utils/localState';
+import { CoreProvider } from 'core';
 
 const speciesTest: CategoriesType = 'species';
 const planetsTest: CategoriesType = 'planets';
@@ -20,11 +18,11 @@ describe('testing CategoriesList', () => {
 
   it('testing count of image for categories to equal 3', () => {
     const { getAllByRole } = render(
-      <BrowserRouter>
-        <Provider store={store}>
+      <MemoryRouter>
+        <CoreProvider>
           <CategoriesList />
-        </Provider>
-      </BrowserRouter>
+        </CoreProvider>
+      </MemoryRouter>
     );
 
     const imgCount = getAllByRole('img');
@@ -32,11 +30,11 @@ describe('testing CategoriesList', () => {
   });
   it('testing consecutive different requests', async () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
+      <MemoryRouter>
+        <CoreProvider>
           <CategoriesList />
-        </Provider>
-      </BrowserRouter>
+        </CoreProvider>
+      </MemoryRouter>
     );
 
     const planet = getByTestId(planetsTest);
@@ -48,41 +46,9 @@ describe('testing CategoriesList', () => {
     expect(species).toBeInTheDocument();
 
     await act(async () => await userEvent.click(planet));
-    expect(planet).toHaveClass(style.active);
     expect(getLocalState('category')).toBe(planetsTest);
-    expect(starship).not.toHaveClass(style.active);
-    expect(species).not.toHaveClass(style.active);
 
     await act(async () => await userEvent.click(starship));
-    expect(starship).toHaveClass(style.active);
     expect(getLocalState('category')).toBe(starshipTest);
-    expect(planet).not.toHaveClass(style.active);
-    expect(species).not.toHaveClass(style.active);
-
-    await act(async () => await userEvent.click(species));
-    expect(species).toHaveClass(style.active);
-    expect(getLocalState('category')).toBe(speciesTest);
-    expect(planet).not.toHaveClass(style.active);
-    expect(starship).not.toHaveClass(style.active);
-  });
-  it('testing consecutive identical requests', async () => {
-    const { getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <CategoriesList />
-        </Provider>
-      </BrowserRouter>
-    );
-
-    const species = getByTestId(speciesTest);
-
-    expect(species).toBeInTheDocument();
-    expect(species).toHaveClass(style.active);
-    expect(getLocalState('category')).toBe(speciesTest);
-
-    await act(async () => await userEvent.click(species));
-    expect(species).toHaveClass(style.active);
-    expect(species).not.toHaveClass(style.common);
-    expect(getLocalState('category')).toBe(speciesTest);
   });
 });

@@ -1,5 +1,10 @@
+import { DEFAULT_CATEGORY } from 'shared/consts';
+import { Paths } from 'shared/types';
+
 const basePath = '?page=1';
 
 const detailsPath = '?page=1&details=1';
 
-export { basePath, detailsPath };
+const path = `${Paths.MAIN}${DEFAULT_CATEGORY}`;
+
+export { basePath, detailsPath, path };

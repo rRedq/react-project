@@ -14,7 +14,7 @@ import {
 } from 'shared/lib/hooks';
 import { addItem, getOriginalItemsId, removeItem } from 'entities/Items';
 
-type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
+export type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
 
 const getId = (url: string) => {
   const parse = url.split('/');
