@@ -5,9 +5,21 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
-    remix({
-      appDirectory: 'src/app',
-    }),
+    !process.env.VITEST &&
+      remix({
+        appDirectory: 'src/app',
+      }),
     tsconfigPaths(),
   ],
+  test: {
+    coverage: {
+      provider: 'v8',
+      reporter: ['text'],
+      include: ['**/src/**'],
+      exclude: ['**/src/vite-env.d.ts', '**/index.ts'],
+    },
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./setupTests.ts'],
+  },
 });
