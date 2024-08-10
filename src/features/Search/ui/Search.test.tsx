@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import style from './Search.module.scss';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 import { BrowserRouter } from 'react-router-dom';
 
 const testStr = 'test';
@@ -21,7 +21,7 @@ afterEach(() => {
 test('testing Search component', async () => {
   const { getByPlaceholderText, getByText, getByAltText } = render(
     <BrowserRouter>
-      <App />
+      <CoreProvider />
     </BrowserRouter>
   );
 

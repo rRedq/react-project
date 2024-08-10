@@ -2,16 +2,17 @@ import { FC, ReactNode } from 'react';
 import style from './CardList.module.scss';
 import { Card } from 'features/Card';
 import { Spinner } from 'shared/lib/ui/Spinner';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 import { Pagination } from 'features/Pagination';
-import { useSearchQuery } from './hoook/useSearchQuery';
-import { useGetDataQuery } from 'shared/lib/api';
 import { useAppSearchParams } from 'shared/lib/hooks';
+import { useLoaderData } from '@remix-run/react';
+import { BaseDataType } from 'shared/types';
 
 export const CardList: FC = () => {
-  const searchQuery = useSearchQuery();
-  const { data, isFetching } = useGetDataQuery(searchQuery);
-  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
+  const data: BaseDataType = useLoaderData();
+  const { state } = useNavigation();
+  const isLoading = state === 'loading';
+  const { setSearchParamsByKey } = useAppSearchParams();
 
   const closeDetails = () => {
     setSearchParamsByKey('DETAILS', undefined);
@@ -19,7 +20,7 @@ export const CardList: FC = () => {
 
   let content: ReactNode;
 
-  if (isFetching) {
+  if (isLoading) {
     content = <Spinner />;
   } else if (data && data.data.length > 0) {
     content = (
@@ -41,9 +42,9 @@ export const CardList: FC = () => {
         <div className={style.cover} data-testid="cover" onClick={closeDetails}>
           <div className={style.wrapper}>{content}</div>
         </div>
-        <div>{getSearchParamsByKey('DETAILS') && <Outlet />}</div>
+        <div>{!isLoading && <Outlet />}</div>
       </div>
-      {!isFetching && data && data.count && <Pagination count={data.count} />}
+      {data && data.count && <Pagination count={data.count} />}
     </>
   );
 };

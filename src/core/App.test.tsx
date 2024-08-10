@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react';
-import { App } from './App';
+import { CoreProvider } from './CoreProvider';
 import { BrowserRouter } from 'react-router-dom';
 
 test('testing App', async () => {
   const { getByText } = render(
     <BrowserRouter>
-      <App />
+      <CoreProvider />
     </BrowserRouter>
   );
 

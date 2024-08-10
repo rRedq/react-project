@@ -1,9 +1,9 @@
 import { BrowserRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { setupServer } from 'msw/node';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 import { swapi } from 'shared/lib/api/swApi';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { testDataWithFiveResult } from 'shared/lib/__mock__';
 
 const server = setupServer();
@@ -27,7 +27,7 @@ describe('testing Main', () => {
 
     const { getByText, getByAltText, getAllByTestId, getByTestId } = render(
       <BrowserRouter>
-        <App />
+        <CoreProvider />
       </BrowserRouter>
     );
 
@@ -51,7 +51,7 @@ describe('testing Main', () => {
 
     const { findAllByTestId } = render(
       <BrowserRouter>
-        <App />
+        <CoreProvider />
       </BrowserRouter>
     );
 

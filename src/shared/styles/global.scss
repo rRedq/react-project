@@ -31,3 +31,8 @@
   flex-direction: column;
   color: var(--main-color-4);
 }
+
+[data-theme='light'] {
+  --red: #0353a4;
+  --blue: #e45545;
+}

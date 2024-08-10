@@ -1,12 +1,12 @@
 import { BrowserRouter } from 'react-router-dom';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 
 test('testing ErrorBoundary', async () => {
   const { getByText, getByTestId } = render(
     <BrowserRouter>
-      <App />
+      <CoreProvider />
     </BrowserRouter>
   );
 

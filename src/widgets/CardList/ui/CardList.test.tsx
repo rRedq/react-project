@@ -1,14 +1,14 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 import { swapi } from 'shared/lib/api/swApi';
 import {
   testDataDetails,
   testDataWithNullResult,
   testDataWithOneItem,
 } from 'shared/lib/__mock__';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { act } from 'react';
 import { CardList } from './CardList';
 import { Provider } from 'react-redux';
@@ -53,7 +53,7 @@ describe('testing CardList', () => {
     server.use(testDataDetails);
     const { findByTestId } = render(
       <BrowserRouter>
-        <App />
+        <CoreProvider />
       </BrowserRouter>
     );
 

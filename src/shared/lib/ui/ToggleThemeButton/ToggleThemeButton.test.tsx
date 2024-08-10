@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 import { act } from 'react';
 
 test('testing ToggleThemeButton', async () => {
   const { getByAltText } = render(
     <BrowserRouter>
-      <App />
+      <CoreProvider />
     </BrowserRouter>
   );
 

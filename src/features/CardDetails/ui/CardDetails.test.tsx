@@ -2,9 +2,9 @@ import { act, render } from '@testing-library/react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { CardDetails } from './CardDetails';
 import { setupServer } from 'msw/node';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { Provider } from 'react-redux';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 import { testDataDetails, testDataWithOneItem } from 'shared/lib/__mock__';
 import { swapi } from 'shared/lib/api/swApi';
 import { testItemSpaceResponse } from 'shared/lib/__mock__/data';
@@ -55,7 +55,7 @@ describe('testing CardDetails', () => {
     server.use(testDataDetails);
     const { findByTestId } = render(
       <BrowserRouter>
-        <App />
+        <CoreProvider />
       </BrowserRouter>
     );
 

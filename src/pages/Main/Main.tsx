@@ -4,12 +4,12 @@ import { FC } from 'react';
 import { CardList } from 'widgets/CardList';
 import { Header } from 'widgets/Header';
 import style from './Main.module.scss';
-import { getSearchProps } from 'entities/Search';
-import { useAppSelector, useTheme } from 'shared/lib/hooks';
+import { useAppSearchParams, useTheme } from 'shared/lib/hooks';
 import { SelectController } from 'features/SelectController';
 
 export const Main: FC = () => {
-  const { category } = useAppSelector(getSearchProps);
+  const { getSearchParamsByKey } = useAppSearchParams();
+  const category = getSearchParamsByKey('CATEGORY');
   const { theme } = useTheme();
 
   return (

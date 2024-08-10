@@ -6,19 +6,18 @@ import planets from 'shared/assets/images/filters/planets.jpg';
 import { convertUrlToLabel } from 'shared/lib/dataConverters';
 import { CategoriesType } from 'shared/types';
 import { setLocalState } from 'shared/utils/localState';
-import { useAppDispatch, useAppSelector } from 'shared/lib/hooks';
-import { getSearchProps, setCategory } from 'entities/Search';
+import { useAppSearchParams } from 'shared/lib/hooks';
 
 const categoriesImg: string[] = [species, starships, planets];
 
 export const CategoriesList: FC = () => {
-  const dispatch = useAppDispatch();
-  const { category } = useAppSelector(getSearchProps);
+  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
+  const category = getSearchParamsByKey('CATEGORY');
   const [value, setValue] = useState<CategoriesType>(category);
 
   useEffect(() => {
     if (value === category) return;
-    dispatch(setCategory(value));
+    setSearchParamsByKey('CATEGORY', value);
     setLocalState('category', value);
   }, [value]);
 

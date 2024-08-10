@@ -1,4 +1,4 @@
-@import '../../../app/styles/common.scss';
+@import '../../../shared/styles/common.scss';
 
 .cover {
   @include flex(center, $alignItems: center);

@@ -3,7 +3,7 @@ import { CategoriesList } from './CategoriesList';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { CategoriesType } from 'shared/types';
-import { store } from 'app/providers/storeProvider';
+import { store } from 'core/providers/storeProvider';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import style from './CategoriesList.module.scss';

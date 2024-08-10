@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react';
-import { App } from 'app/App';
+import { CoreProvider } from 'core/App';
 import { setupServer } from 'msw/node';
 import { BrowserRouter } from 'react-router-dom';
 import {
@@ -22,7 +22,7 @@ describe('testing SelectController', () => {
     server.use(testDataWithTwoDifferentItems);
     const { findAllByRole, findByTestId, findByText } = render(
       <BrowserRouter>
-        <App />
+        <CoreProvider />
       </BrowserRouter>
     );
 
@@ -65,7 +65,7 @@ describe('testing SelectController', () => {
     server.use(testDataWithTwoDifferentItems);
     const { findByTestId, findByText } = render(
       <BrowserRouter>
-        <App />
+        <CoreProvider />
       </BrowserRouter>
     );
     const firstCheckbox = await findByTestId(resultWithTwoItem.results[0].name);
