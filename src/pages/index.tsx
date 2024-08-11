@@ -7,7 +7,9 @@ const Home = () => {
   const router = useRouter();
   useEffect(() => {
     const category = getLocalState('category') || DEFAULT_CATEGORY;
-    router.replace(category);
+    const search = getLocalState('search');
+    if (search) router.replace(`${category}?search=${search}`);
+    else router.replace(category);
   }, []);
   return <></>;
 };

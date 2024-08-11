@@ -20,7 +20,7 @@ test('testing Search component', async () => {
   const searchBtn: HTMLElement = getByAltText(/search/i);
 
   expect(searchInput).toBeInTheDocument();
-  expect(getLocalState('search')).toBe(emptyStr);
+  expect(getLocalState('search')).toBeUndefined();
   expect(searchInput).toHaveValue(emptyStr);
   expect(searchInput).toHaveClass(style.search);
   expect(searchBtn).toBeDefined();

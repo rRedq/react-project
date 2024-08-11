@@ -1,19 +1,16 @@
 import { CoreProvider } from 'core/CoreProvider';
-import { Metadata } from 'next';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import 'shared/styles/global.scss';
-
-export const metadata: Metadata = {
-  title: 'react project',
-  description: 'Star Wars project',
-  icons: {
-    icon: '/icon.svg',
-  },
-};
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <CoreProvider>
+      <Head>
+        <title>Star Wars DB</title>
+        <meta name="description" content="Star Wars DB" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
       <Component {...pageProps} />
     </CoreProvider>
   );
