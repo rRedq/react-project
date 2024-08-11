@@ -1,5 +1,4 @@
 export enum Paths {
-  MAIN = '/',
-  DETAILS = 'details',
+  MAIN = '/home/',
   NOT_FOUND = '*',
 }

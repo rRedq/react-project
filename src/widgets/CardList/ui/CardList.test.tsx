@@ -1,72 +1,70 @@
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { setupServer } from 'msw/node';
-import { App } from 'app/App';
-import { swapi } from 'shared/lib/api/swApi';
-import {
-  testDataDetails,
-  testDataWithNullResult,
-  testDataWithOneItem,
-} from 'shared/lib/__mock__';
-import { store } from 'app/providers/storeProvider';
+import { path, testBaseData, testItemSpaceResponse } from 'shared/lib/__mock__';
 import { act } from 'react';
 import { CardList } from './CardList';
-import { Provider } from 'react-redux';
-
-const server = setupServer();
-
-beforeAll(() => {
-  server.listen();
-});
-
-beforeEach(() => {
-  server.resetHandlers();
-  store.dispatch(swapi.util.resetApiState());
-});
-
-afterAll(() => {
-  server.close();
-});
+import { CoreProvider } from 'core';
+import { createRemixStub } from '@remix-run/testing';
+import { loader } from 'app/routes/home.$category';
+import { json } from '@remix-run/node';
+import { CardDetails } from 'features/CardDetails';
+import { loader as detailsLoader } from 'app/routes/home.$category.$details';
 
 describe('testing CardList', () => {
   it('testing number of cards should be equal 0', async () => {
-    server.use(testDataWithNullResult);
-    const { findByText, getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <CardList />
-        </Provider>
-      </BrowserRouter>
+    const MockCardList = createRemixStub([
+      {
+        path,
+        Component: CardList,
+        loader(): Awaited<ReturnType<typeof loader>> {
+          return json({ data: [] });
+        },
+      },
+    ]);
+    const { findByText } = render(
+      <CoreProvider>
+        <MockCardList initialEntries={[path]} />
+      </CoreProvider>
     );
-
-    const spinner = getByTestId(/spinner/i);
-    expect(spinner).toBeInTheDocument();
 
     const placeholderText = await findByText(
       /We have been able to find nothing/i
     );
-    expect(spinner).not.toBeInTheDocument();
     expect(placeholderText).toBeInTheDocument();
   });
   it('testing click to close details', async () => {
-    server.use(testDataWithOneItem);
-    server.use(testDataDetails);
-    const { findByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+    const MockCardList = createRemixStub([
+      {
+        path,
+        Component: CardList,
+        loader(): Awaited<ReturnType<typeof loader>> {
+          return json(testBaseData);
+        },
+      },
+      {
+        path: `${path}/1`,
+        Component: CardDetails,
+        loader(): Awaited<ReturnType<typeof detailsLoader>> {
+          return json(testItemSpaceResponse);
+        },
+      },
+    ]);
+    const { findAllByTestId, findByTestId } = render(
+      <CoreProvider>
+        <MockCardList initialEntries={[path]} />
+      </CoreProvider>
     );
 
-    const card = await findByTestId(/card/i);
-    expect(card).toBeInTheDocument();
+    const cards = await findAllByTestId(/card/i);
+    expect(cards).toHaveLength(5);
 
-    act(() => card.click());
+    await act(() => cards[0].click());
+
     const details = await findByTestId(/details/i);
-    const cover = await findByTestId(/cover/i);
     expect(details).toBeInTheDocument();
-    expect(cover).toBeInTheDocument();
 
-    act(() => cover.click());
+    const close = await findByTestId(/close/i);
+    await act(() => close.click());
+
     expect(details).not.toBeInTheDocument();
   });
 });

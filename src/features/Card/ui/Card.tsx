@@ -13,9 +13,8 @@ import {
   useAppSelector,
 } from 'shared/lib/hooks';
 import { addItem, getOriginalItemsId, removeItem } from 'entities/Items';
-import { getSearchProps } from 'entities/Search';
 
-type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
+export type CardProps = SpeciesResponse | StarshipsResponse | PlanetsResponse;
 
 const getId = (url: string) => {
   const parse = url.split('/');
@@ -25,10 +24,10 @@ const getId = (url: string) => {
 
 export const Card: FC<CardProps> = ({ url, name, ...rest }) => {
   const dispatch = useAppDispatch();
-  const { category } = useAppSelector(getSearchProps);
   const selectedItems = useAppSelector(getOriginalItemsId);
   const [imgSrc, setImgSrc] = useState<string>(getImageUrl(url));
-  const { setSearchParamsByKey } = useAppSearchParams();
+  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
+  const category = getSearchParamsByKey('CATEGORY');
   const id = getId(url);
   const isChecked = selectedItems[category].includes(id);
   const keys: string[] = Object.keys(rest);

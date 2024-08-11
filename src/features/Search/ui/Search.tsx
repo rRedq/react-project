@@ -1,18 +1,14 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import style from './Search.module.scss';
-import { ErrorButton } from 'shared/lib/ui/ErrorButton';
 import searchIcon from 'shared/assets/images/images/search.svg';
 import { getLocalState, setLocalState } from 'shared/utils/localState';
-import { useAppDispatch, useAppSearchParams } from 'shared/lib/hooks';
-import { setSearch } from 'entities/Search';
-import { DEFAULT_PAGE } from 'shared/consts';
+import { useAppSearchParams } from 'shared/lib/hooks';
 import { ToggleThemeButton } from 'shared/lib/ui/ToggleThemeButton';
 
 export const Search: FC = () => {
   const [value, setValue] = useState<string>('');
   const [submitValue, setSubmitValue] = useState<string>();
-  const dispatch = useAppDispatch();
-  const { setSearchParamsByKey } = useAppSearchParams();
+  const { setSearchParamsByKey, getSearchParamsByKey } = useAppSearchParams();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,18 +23,24 @@ export const Search: FC = () => {
   useEffect(() => {
     if (submitValue === undefined) return;
     setLocalState('search', submitValue);
-    setSearchParamsByKey('PAGE', DEFAULT_PAGE);
-    dispatch(setSearch(submitValue));
+    setSearchParamsByKey('SEARCH', submitValue);
   }, [submitValue]);
 
   useEffect(() => {
-    const getValue: string | undefined = getLocalState('search');
-    if (getValue) setValue(getValue);
+    const search = getSearchParamsByKey('SEARCH');
+    if (!search) {
+      const getValue: string | undefined = getLocalState('search');
+      if (getValue) {
+        setValue(getValue);
+        setSubmitValue(getValue);
+      }
+    } else {
+      setValue(search);
+    }
   }, []);
 
   return (
     <form className={style.searchForm} onSubmit={onSubmit}>
-      <ErrorButton />
       <ToggleThemeButton />
       <div className={style.cover}>
         <input

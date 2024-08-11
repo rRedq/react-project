@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { App } from 'app/App';
 import { act } from 'react';
+import { CoreProvider } from 'core';
+import { ToggleThemeButton } from './ToggleThemeButton';
 
 test('testing ToggleThemeButton', async () => {
   const { getByAltText } = render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <CoreProvider>
+      <ToggleThemeButton />
+    </CoreProvider>
   );
 
   const darkTheme = await getByAltText('dark');

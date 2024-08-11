@@ -1,24 +1,17 @@
-import { act, render } from '@testing-library/react';
-import { vi } from 'vitest';
-import { BrowserRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { Card } from './Card';
-import userEvent from '@testing-library/user-event';
-import { store } from 'app/providers/storeProvider';
-import { Provider } from 'react-redux';
 import { testItemSpaceResponse } from 'shared/lib/__mock__';
+import { CoreProvider } from 'core';
 
 describe('testing Card', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('testing component renders the relevant card data', () => {
     const { getByText } = render(
-      <BrowserRouter>
-        <Provider store={store}>
+      <MemoryRouter>
+        <CoreProvider>
           <Card {...testItemSpaceResponse} />
-        </Provider>
-      </BrowserRouter>
+        </CoreProvider>
+      </MemoryRouter>
     );
 
     const name = getByText(testItemSpaceResponse.name);
@@ -38,23 +31,5 @@ describe('testing Card', () => {
 
     const skin = getByText(testItemSpaceResponse.skin_colors);
     expect(skin).toBeInTheDocument();
-  });
-  it('testing clicking on a card opens a detailed card component', async () => {
-    const { getByTestId } = render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Card {...testItemSpaceResponse} />
-        </Provider>
-      </BrowserRouter>
-    );
-
-    const card = getByTestId(/card/i);
-    expect(card).toBeInTheDocument();
-    await act(async () => {
-      await userEvent.click(card);
-    });
-
-    const expectedUrl = '?details=1';
-    expect(location.search).toBe(expectedUrl);
   });
 });

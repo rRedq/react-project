@@ -3,6 +3,7 @@ import {
   BaseResponse,
   StarshipsResponse,
   PlanetsResponse,
+  BaseDataType,
 } from 'shared/types';
 
 const testItemSpaceResponse: SpeciesResponse = {
@@ -42,6 +43,21 @@ const testItemPlanetsResponse: PlanetsResponse = {
   gravity: '1 standard',
   population: '200000',
   terrain: 'desert',
+};
+
+const testBaseData: BaseDataType = {
+  count: 5,
+  data: new Array(5).fill(testItemSpaceResponse),
+};
+
+const testBaseDataWithTwoResults: BaseDataType = {
+  count: 2,
+  data: [testItemSpaceResponse, testItem2SpaceResponse],
+};
+
+const testSpaceBaseDataType = {
+  count: 1,
+  data: [testItemSpaceResponse],
 };
 
 const testData: SpeciesResponse[] = new Array(5).fill(testItemSpaceResponse);
@@ -96,4 +112,8 @@ export {
   resultWithTwoItem,
   resultStarshipResponse,
   resultPlanetsResponse,
+  testBaseData,
+  testItemStarshipResponse,
+  testSpaceBaseDataType,
+  testBaseDataWithTwoResults,
 };
