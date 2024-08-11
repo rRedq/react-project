@@ -35,17 +35,18 @@ export const useAppSearchParams = () => {
         router.push({ query: { [SearchParams[key]]: value } });
       }
     } else if (key === 'DETAILS' && !value) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { details, ...rest } = router.query;
+      details;
       router.push({ query: { ...rest } });
     } else if (key === 'SEARCH') {
       if (value) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { page, ...rest } = router.query;
+        page;
         router.push({ query: { ...rest, [SearchParams[key]]: value } });
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { search, page, ...rest } = router.query;
+        search;
+        page;
         router.push({ query: { ...rest } });
       }
     } else {
