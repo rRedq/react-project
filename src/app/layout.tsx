@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+const RootLayout = ({ children }: { children?: ReactNode }) => {
   return (
     <CoreProvider>
       <html lang="en">
