@@ -2,7 +2,7 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import style from './Search.module.scss';
 import searchIcon from 'shared/assets/images/images/search.svg';
-import { getLocalState, setLocalState } from 'shared/utils/localState';
+import { setLocalState } from 'shared/utils/localState';
 import { useAppSearchParams } from 'shared/lib/hooks';
 import { ToggleThemeButton } from 'shared/lib/ui/ToggleThemeButton';
 import Image from 'next/image';
@@ -15,12 +15,12 @@ export const Search: FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitValue(value);
+    setSubmitValue(value || '');
   };
 
   const crossClick = () => {
-    setValue(undefined);
-    setSubmitValue(undefined);
+    setValue('');
+    setSubmitValue('');
   };
 
   useEffect(() => {
@@ -30,17 +30,10 @@ export const Search: FC = () => {
   }, [search]);
 
   useEffect(() => {
+    if (submitValue === undefined) return;
     setLocalState('search', submitValue || '');
     setSearchParamsByKey('SEARCH', submitValue);
   }, [submitValue]);
-
-  useEffect(() => {
-    const search: string | undefined = getLocalState('search');
-    if (search) {
-      setValue(search);
-      setSearchParamsByKey('SEARCH', search);
-    }
-  }, []);
 
   return (
     <form className={style.searchForm} onSubmit={onSubmit}>
