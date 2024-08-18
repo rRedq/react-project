@@ -1,5 +1,6 @@
 import { ControlledPage } from 'pages/ControlledPage/ControlledPage';
 import { Main } from 'pages/Main/Main';
+import { NotFound } from 'pages/NotFound/NotFound';
 import { UncontrolledPage } from 'pages/UncontrolledPage/UncontrolledPage';
 import { createBrowserRouter } from 'react-router-dom';
 import { Paths } from 'shared/types';
@@ -23,5 +24,9 @@ export const router = createBrowserRouter([
         element: <ControlledPage />,
       },
     ],
+  },
+  {
+    path: Paths.NOT_FOUND,
+    element: <NotFound />,
   },
 ]);
