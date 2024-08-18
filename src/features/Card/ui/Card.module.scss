@@ -8,10 +8,10 @@
   padding: 5px;
   font-size: 15px;
   height: 250px;
+}
 
-  &:first-child {
-    animation: wink 1s 5;
-  }
+.animate {
+  animation: wink 1s 5;
 }
 
 @keyframes wink {

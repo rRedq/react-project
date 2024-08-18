@@ -4,7 +4,7 @@ import { ValidationError } from 'yup';
 import { schema } from 'shared/const';
 import { BaseDataType, Paths } from 'shared/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard, getCountries } from 'entities/Cards';
+import { addCard, changeAnimateStatus, getCountries } from 'entities/Cards';
 import { useNavigate } from 'react-router-dom';
 import { convertImage } from 'shared/utils';
 import { PasswordProgress } from 'shared/lib/ui';
@@ -56,6 +56,7 @@ export const UncontrolledForm: FC = () => {
 
       const cards: BaseDataType = { ...result, image: img64 };
       dispatch(addCard(cards));
+      setTimeout(() => dispatch(changeAnimateStatus()), 5000);
       navigate(Paths.MAIN);
     } catch (e) {
       const error = e as ValidationError;
@@ -72,46 +73,56 @@ export const UncontrolledForm: FC = () => {
   return (
     <form className={style.wrapper} onSubmit={submitHandler} autoComplete="off">
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="name">
           Name:
-          <input ref={name} type="text" />
+          <input ref={name} id="name" type="text" />
         </label>
         <p className={style.error}>{errors?.get('name')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="age">
           Age:
-          <input ref={age} type="number" />
+          <input ref={age} type="number" id="age" />
         </label>
         <p className={style.error}>{errors?.get('age')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="email">
           Email:
-          <input ref={email} type="email" />
+          <input ref={email} type="email" id="email" />
         </label>
         <p className={style.error}>{errors?.get('email')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="password">
           Password:
-          <input ref={password} type="password" autoComplete="true" />
+          <input
+            ref={password}
+            type="password"
+            autoComplete="true"
+            id="password"
+          />
         </label>
         <PasswordProgress password={password.current?.value} />
         <p className={style.error}>{errors?.get('password')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="confirm">
           <div>
             <p>Confirm</p>
             <p>password:</p>
           </div>
-          <input ref={passwordConfirm} type="password" autoComplete="true" />
+          <input
+            ref={passwordConfirm}
+            type="password"
+            autoComplete="true"
+            id="confirm"
+          />
         </label>
         <p className={style.error}>{errors?.get('passwordConfirm')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="country">
           Country:
           <input ref={country} list="country" type="text" />
           <datalist id="country">
@@ -123,9 +134,9 @@ export const UncontrolledForm: FC = () => {
         <p className={style.error}>{errors?.get('country')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="gender">
           Gender:
-          <select ref={gender}>
+          <select ref={gender} id="gender">
             <option>Male</option>
             <option>Female</option>
             <option>Helicopter</option>
@@ -134,13 +145,14 @@ export const UncontrolledForm: FC = () => {
         <p className={style.error}>{errors?.get('gender')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="image">
           Image:
           <label className="commonBtn">
             <input
               ref={image}
               type="file"
               accept="image/png, image/jpeg, image/jpg"
+              id="image"
             />
             Upload
           </label>
@@ -148,9 +160,9 @@ export const UncontrolledForm: FC = () => {
         <p className={style.error}>{errors?.get('image')}</p>
       </div>
       <div className={style.ceil}>
-        <label className={style.label}>
+        <label className={style.label} htmlFor="term">
           I agree with T&C:
-          <input ref={termRef} type="checkbox" />
+          <input ref={termRef} type="checkbox" id="term" />
         </label>
         <p className={style.error}>{errors?.get('term')}</p>
       </div>

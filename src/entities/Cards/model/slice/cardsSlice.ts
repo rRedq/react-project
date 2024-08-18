@@ -6,6 +6,7 @@ import { countries } from 'shared/const';
 const initialState: CardsSchema = {
   cards: [],
   countries: countries,
+  animate: false,
 };
 
 export const cardsSlice = createSlice({
@@ -14,10 +15,14 @@ export const cardsSlice = createSlice({
   reducers: {
     addCard(state: CardsSchema, { payload }: PayloadAction<BaseDataType>) {
       state.cards.push(payload);
+      state.animate = true;
+    },
+    changeAnimateStatus(state: CardsSchema) {
+      state.animate = false;
     },
   },
 });
 
 export const { reducer: cardsReducer } = cardsSlice;
 
-export const { addCard } = cardsSlice.actions;
+export const { addCard, changeAnimateStatus } = cardsSlice.actions;

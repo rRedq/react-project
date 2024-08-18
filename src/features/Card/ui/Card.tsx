@@ -4,15 +4,16 @@ import style from './Card.module.scss';
 
 interface CardProps {
   card: BaseDataType;
+  animate: boolean;
 }
 
-export const Card: FC<CardProps> = ({ card }) => {
+export const Card: FC<CardProps> = ({ card, animate }) => {
   const { image } = card;
   const keys = Object.keys(card) as (keyof BaseDataType)[];
   const values = Object.values(card);
 
   return (
-    <div className={style.wrapper}>
+    <div className={`${style.wrapper} ${animate && style.animate}`}>
       <div className={style.leftSide}>
         <img src={image} alt="image" />
       </div>

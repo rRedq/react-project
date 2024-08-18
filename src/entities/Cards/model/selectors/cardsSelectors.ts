@@ -4,4 +4,6 @@ const getCards = (state: RootState) => state.cards.cards;
 
 const getCountries = (state: RootState) => state.cards.countries;
 
-export { getCards, getCountries };
+const getAnimation = (state: RootState) => state.cards.animate;
+
+export { getCards, getCountries, getAnimation };
