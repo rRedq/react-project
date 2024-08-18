@@ -1,0 +1,13 @@
+@import '../../app/styles/common.scss';
+
+.wrapper {
+  @include flex($flexDirection: column, $gap: 20px, $flexGrow: 1);
+  padding: 1%;
+}
+
+.container {
+  padding: 1%;
+  margin: auto;
+  border: 1px solid var(--main-color-1);
+  border-radius: 4px;
+}
