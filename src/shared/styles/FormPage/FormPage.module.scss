@@ -1,0 +1,5 @@
+@import '../../../app/styles/common.scss';
+
+.formContainer {
+  @include flex($flexDirection: column, $gap: 20px, $alignItems: center);
+}
