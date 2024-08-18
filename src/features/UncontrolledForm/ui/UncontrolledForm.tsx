@@ -63,8 +63,6 @@ export const UncontrolledForm: FC = () => {
 
       error.inner.forEach((item) => {
         const key = item.path as keyof DataType;
-        console.log('key = ', key);
-        console.log('item.message = ', item.message);
         if (item.path && !newErrors.has(key)) newErrors.set(key, item.message);
       });
       setErrors(newErrors);

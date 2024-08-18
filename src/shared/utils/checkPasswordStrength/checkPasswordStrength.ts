@@ -19,7 +19,6 @@ export const checkPasswordStrength = async (password?: string) => {
     else return MIN_WIDTH;
   } catch (e) {
     const errors = (e as ValidationError).inner.map((item) => item.message);
-    console.log('password = ', errors);
     return (
       MAX_WIDTH - (MAX_WIDTH / MAX_ERROR_COUNT) * errors.length ||
       A_BIT_MORE_THEN_MIN_WIDTH
