@@ -1,0 +1,11 @@
+@import '../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex(center);
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}

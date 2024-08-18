@@ -1,0 +1,28 @@
+@import '../../../app/styles/common.scss';
+
+.wrapper {
+  @include flex(center, $gap: 30%, $alignItems: center);
+  margin: 0 auto;
+
+  h1 {
+    font-family: 'Alfa Slab One';
+    font-size: 30px;
+    pointer-events: none;
+  }
+}
+
+.buttonCover {
+  @include flex($gap: 15px);
+}
+
+.btn {
+  &:hover {
+    color: var(--blue);
+  }
+}
+
+.active {
+  @extend .btn;
+  color: var(--red);
+  pointer-events: none;
+}
